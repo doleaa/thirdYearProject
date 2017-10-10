@@ -23,6 +23,10 @@ public class DBConnectionsUtil {
         return factory.getRepository(NoteRepository.class);
     }
 
+    public static NoteRepository getRepository(Map<String, String> givenMap) {
+        return getRepository(getEntityManager(givenMap));
+    }
+
     public static EntityManager getEntityManager(Map<String, String> givenMap) {
         return Persistence
                 .createEntityManagerFactory("thirdYearProject", getHibernateMap(givenMap))

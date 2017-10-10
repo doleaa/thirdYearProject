@@ -15,8 +15,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/hi")
 @Produces(MediaType.APPLICATION_JSON)
-//@RequiredArgsConstructor(onConstructor = @__(@Inject))
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class HelloWorldResource extends BaseBackEndResource {
     private final String myName;
 

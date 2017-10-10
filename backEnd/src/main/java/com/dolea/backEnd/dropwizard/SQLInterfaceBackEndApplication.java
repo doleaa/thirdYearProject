@@ -2,16 +2,16 @@ package com.dolea.backEnd.dropwizard;
 
 import com.dolea.backEnd.guice.SQLInterfaceBackEndModule;
 import com.dolea.backEnd.resources.BaseBackEndResource;
+import com.dolea.backEnd.util.PackageScanner;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import com.google.inject.util.Types;
 import io.dropwizard.Application;
 import io.dropwizard.Configuration;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by alex on 27/09/2017.
@@ -31,26 +31,15 @@ public class SQLInterfaceBackEndApplication extends Application<Configuration> {
 
     }
 
-//    @Override
-//    public void run(Configuration configuration,
-//                    final Environment environment) {
-//        Injector injector = Guice.createInjector(new SQLInterfaceBackEndModule());
-//        Collection<BaseBackEndResource> resources = (Collection<BaseBackEndResource>)
-//                injector.getInstance(Key.get(Types.newParameterizedType(Collection.class, BaseBackEndResource.class)));
-//
-//        resources.forEach(resource -> environment.jersey().register(resource));
-//    }
-
     @Override
     public void run(Configuration configuration,
                     final Environment environment) {
         Injector injector = Guice.createInjector(new SQLInterfaceBackEndModule());
 
-//        Reflections reflections
+        List<Class<?>> resourceClasses = PackageScanner.getClassesInPackage("com.dolea.backEnd.resources");
 
-        Collection<BaseBackEndResource> resources = (Collection<BaseBackEndResource>)
-                injector.getInstance(Key.get(Types.newParameterizedType(Collection.class, BaseBackEndResource.class)));
-
-        resources.forEach(resource -> environment.jersey().register(resource));
+        resourceClasses.stream()
+                .filter(resourceClass -> resourceClass.getSuperclass().equals(BaseBackEndResource.class))
+                .forEach(resourceClass -> environment.jersey().register(injector.getInstance(Key.get(resourceClass))));
     }
 }
