@@ -1,5 +1,6 @@
 package com.dolea.backEnd.db.util;
 
+import com.dolea.backEnd.db.dao.NoteDao;
 import com.dolea.backEnd.db.repositories.NoteRepository;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -14,8 +15,17 @@ import java.util.Map;
 import static com.dolea.backEnd.db.util.DBMapsUtil.getConnectionMap;
 import static com.dolea.backEnd.db.util.DBMapsUtil.getHibernateMap;
 
+
 @UtilityClass
 public class DBConnectionsUtil {
+
+    public static NoteDao getDao(Map<String, String> givenMap) {
+        return new NoteDao(getEntityManager(givenMap));
+    }
+
+    public static NoteDao getDao(EntityManager entityManager) {
+        return new NoteDao(entityManager);
+    }
 
     public static NoteRepository getRepository(EntityManager entityManager) {
         JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);

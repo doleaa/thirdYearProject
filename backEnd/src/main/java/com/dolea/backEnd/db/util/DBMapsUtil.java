@@ -8,14 +8,14 @@ import java.util.Map;
 @UtilityClass
 public class DBMapsUtil {
 
-    public Map<String, String> getConnectionMap(Map<String, String> givenMap) {
+    public static Map<String, String> getConnectionMap(Map<String, String> givenMap) {
         return ImmutableMap.<String, String>builder()
                 .put("driver", getDriver())
                 .putAll(givenMap)
                 .build();
     }
 
-    public Map<String, String> getHibernateMap(Map<String, String> givenMap) {
+    public static Map<String, String> getHibernateMap(Map<String, String> givenMap) {
         return ImmutableMap.<String, String>builder()
                 .put("hibernate.connection.driver_class", getDriver())
                 .putAll(givenMapToHibernateFormat(givenMap))
@@ -25,7 +25,7 @@ public class DBMapsUtil {
                 .build();
     }
 
-    private Map<String, String> givenMapToHibernateFormat(Map<String, String> map) {
+    private static Map<String, String> givenMapToHibernateFormat(Map<String, String> map) {
         return ImmutableMap.<String, String>builder()
                 .put("hibernate.connection.url", map.get("url"))
                 .put("hibernate.connection.username", map.get("username"))

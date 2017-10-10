@@ -1,5 +1,6 @@
 package com.dolea.backEnd.db.util;
 
+import com.dolea.backEnd.db.dao.NoteDao;
 import com.dolea.backEnd.db.entities.Execution;
 import com.dolea.backEnd.db.entities.Note;
 import com.dolea.backEnd.db.repositories.NoteRepository;
@@ -14,15 +15,12 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.dolea.backEnd.db.util.DBConnectionsUtil.getConnection;
-import static com.dolea.backEnd.db.util.DBConnectionsUtil.getEntityManager;
-import static com.dolea.backEnd.db.util.DBConnectionsUtil.getRepository;
+import static com.dolea.backEnd.db.util.DBConnectionsUtil.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DBConnectionsUtilTest {
@@ -58,6 +56,7 @@ public class DBConnectionsUtilTest {
         }
     }
 
+    @Ignore
     @Test
     public void getRepository_whenCalledForInserting_returnsRepositoryInstance() {
         EntityManager entityManager = getEntityManager(givenMap);
@@ -82,6 +81,7 @@ public class DBConnectionsUtilTest {
         assertThat(notes).isNotEmpty();
     }
 
+    @Ignore
     @Test
     public void getRepository_forQuerying_worksForNow() {
         NoteRepository repository = getRepository(getEntityManager(givenMap));
@@ -114,6 +114,7 @@ public class DBConnectionsUtilTest {
         entityManager.getTransaction().commit();
     }
 
+    @Ignore
     @Test
     public void getRepository_forAnExecutionAddingUpdate_thenCelebrate() {
         EntityManager entityManager = getEntityManager(givenMap);
@@ -128,5 +129,19 @@ public class DBConnectionsUtilTest {
         entityManager.getTransaction().begin();
         repository.save(note);
         entityManager.getTransaction().commit();
+    }
+
+    @Ignore
+    @Test
+    public void getEntityManager_forAnExecutionAddingUpdate_thenCelebrate() {
+        NoteDao noteDao = getDao(givenMap);
+
+        List<Note> notes = noteDao.findByUserName(USERNAME);
+
+        Note note = notes.get(0);
+
+        note.getExecutions().add(Execution.builder().date(LocalDate.now()).build());
+
+        noteDao.persist(note);
     }
 }
