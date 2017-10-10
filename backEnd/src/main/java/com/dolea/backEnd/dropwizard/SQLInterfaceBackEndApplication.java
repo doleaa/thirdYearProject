@@ -27,8 +27,7 @@ public class SQLInterfaceBackEndApplication extends Application<Configuration> {
     }
 
     @Override
-    public void initialize(Bootstrap<Configuration> bootstrap) {
-    }
+    public void initialize(Bootstrap<Configuration> bootstrap) {}
 
     @Override
     public void run(Configuration configuration,
