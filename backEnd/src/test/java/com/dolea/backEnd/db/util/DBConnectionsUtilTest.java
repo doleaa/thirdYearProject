@@ -1,5 +1,6 @@
 package com.dolea.backEnd.db.util;
 
+import com.dolea.backEnd.db.dao.ExecutionDao;
 import com.dolea.backEnd.db.dao.NoteDao;
 import com.dolea.backEnd.db.entities.Execution;
 import com.dolea.backEnd.db.entities.Note;
@@ -58,10 +59,10 @@ public class DBConnectionsUtilTest {
 
     @Ignore
     @Test
-    public void getRepository_whenCalledForInserting_returnsRepositoryInstance() {
+    public void getNoteRepository_whenCalledForInserting_returnsRepositoryInstance() {
         EntityManager entityManager = getEntityManager(givenMap);
 
-        NoteRepository repository = getRepository(entityManager);
+        NoteRepository repository = getNoteRepository(entityManager);
 
         entityManager.getTransaction().begin();
         repository.save(
@@ -83,8 +84,8 @@ public class DBConnectionsUtilTest {
 
     @Ignore
     @Test
-    public void getRepository_forQuerying_worksForNow() {
-        NoteRepository repository = getRepository(getEntityManager(givenMap));
+    public void getNoteRepository_forQuerying_worksForNow() {
+        NoteRepository repository = getNoteRepository(getEntityManager(givenMap));
 
         List<Note> notes = repository.findByUserName(USERNAME);
 
@@ -97,9 +98,9 @@ public class DBConnectionsUtilTest {
 
     @Ignore
     @Test
-    public void getRepository_forAnExecutionRemovalUpdate_thenCelebrate() {
+    public void getNoteRepository_forAnExecutionRemovalUpdate_thenCelebrate() {
         EntityManager entityManager = getEntityManager(givenMap);
-        NoteRepository repository = getRepository(entityManager);
+        NoteRepository repository = getNoteRepository(entityManager);
 
         List<Note> notes = repository.findByUserName(USERNAME);
 
@@ -116,9 +117,9 @@ public class DBConnectionsUtilTest {
 
     @Ignore
     @Test
-    public void getRepository_forAnExecutionAddingUpdate_thenCelebrate() {
+    public void getNoteRepository_forAnExecutionAddingUpdate_thenCelebrate() {
         EntityManager entityManager = getEntityManager(givenMap);
-        NoteRepository repository = getRepository(entityManager);
+        NoteRepository repository = getNoteRepository(entityManager);
 
         List<Note> notes = repository.findByUserName(USERNAME);
 
@@ -134,7 +135,7 @@ public class DBConnectionsUtilTest {
     @Ignore
     @Test
     public void getEntityManager_forAnExecutionAddingUpdate_thenCelebrate() {
-        NoteDao noteDao = getDao(givenMap);
+        NoteDao noteDao = getNoteDao(givenMap);
 
         List<Note> notes = noteDao.findByUserName(USERNAME);
 
@@ -143,5 +144,56 @@ public class DBConnectionsUtilTest {
         note.getExecutions().add(Execution.builder().date(LocalDate.now()).build());
 
         noteDao.persist(note);
+    }
+
+    @Ignore
+    @Test
+    public void getExecutionRepository_forAddingAnOrphanExecution_thenCelebrate() {
+        ExecutionDao executionDao = getExecutionDao(givenMap);
+
+        Execution execution = Execution.builder()
+                .userName(USERNAME)
+                .date(LocalDate.now()).build();
+
+        executionDao.persist(execution);
+
+        List<Execution> executions = executionDao.findByUserName(USERNAME);
+
+        assertThat(executions).isNotEmpty();
+    }
+
+    @Ignore
+    @Test
+    public void getNoteRepository_forAdoptingAnOrphanExecution_thenCelebrate() {
+        ExecutionDao executionDao = getExecutionDao(givenMap);
+        NoteDao noteDao = getNoteDao(givenMap);
+
+        Note newNote = Note.builder().userName(USERNAME).comments(COMMENTS).date(LocalDate.now()).build();
+
+        newNote = noteDao.persist(newNote);
+
+        Note sameNote = noteDao.findOne(newNote.getId());
+        Execution execution = executionDao.findByUserName(USERNAME).get(0);
+
+        sameNote.setExecutions(ImmutableSet.of(
+                execution,
+                Execution.builder()
+                        .userName(USERNAME)
+                        .date(LocalDate.now())
+                        .query("queryNo2")
+                        .build())
+        );
+
+        List<Execution> executions = executionDao.persistAllOf(sameNote);
+    }
+
+    @Ignore
+    @Test
+    public void getNoteRepository_forInspection_thenCelebrate() {
+        NoteDao noteDao = getNoteDao(givenMap);
+
+        Note note = noteDao.findByUserName(USERNAME).get(0);
+
+        assertThat(note.getExecutions()).isNotEmpty();
     }
 }

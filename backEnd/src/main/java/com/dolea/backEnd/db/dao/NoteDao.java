@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
-import static com.dolea.backEnd.db.util.DBConnectionsUtil.getRepository;
+import static com.dolea.backEnd.db.util.DBConnectionsUtil.getNoteRepository;
 
 public class NoteDao {
     @Getter
@@ -17,13 +17,14 @@ public class NoteDao {
 
     public NoteDao (EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.repository = getRepository(entityManager);
+        this.repository = getNoteRepository(entityManager);
     }
 
-    public void persist(Note note) {
+    public Note persist(Note note) {
         entityManager.getTransaction().begin();
-        repository.save(note);
+        Note persistedNote = repository.save(note);
         entityManager.getTransaction().commit();
+        return persistedNote;
     }
 
     public List<Note> findByUserName(String userName) {

@@ -1,6 +1,8 @@
 package com.dolea.backEnd.db.util;
 
+import com.dolea.backEnd.db.dao.ExecutionDao;
 import com.dolea.backEnd.db.dao.NoteDao;
+import com.dolea.backEnd.db.repositories.ExecutionRepository;
 import com.dolea.backEnd.db.repositories.NoteRepository;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -19,22 +21,40 @@ import static com.dolea.backEnd.db.util.DBMapsUtil.getHibernateMap;
 @UtilityClass
 public class DBConnectionsUtil {
 
-    public static NoteDao getDao(Map<String, String> givenMap) {
+    public static NoteDao getNoteDao(Map<String, String> givenMap) {
         return new NoteDao(getEntityManager(givenMap));
     }
 
-    public static NoteDao getDao(EntityManager entityManager) {
+    public static ExecutionDao getExecutionDao(Map<String, String> givenMap) {
+        return new ExecutionDao(getEntityManager(givenMap));
+    }
+
+    public static ExecutionDao getExecutionDao(EntityManager entityManager) {
+        return new ExecutionDao(entityManager);
+    }
+
+    public static NoteDao getNoteDao(EntityManager entityManager) {
         return new NoteDao(entityManager);
     }
 
-    public static NoteRepository getRepository(EntityManager entityManager) {
+    public static NoteRepository getNoteRepository(EntityManager entityManager) {
         JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
 
         return factory.getRepository(NoteRepository.class);
     }
 
-    public static NoteRepository getRepository(Map<String, String> givenMap) {
-        return getRepository(getEntityManager(givenMap));
+    public static ExecutionRepository getExecutionRepository(EntityManager entityManager) {
+        JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
+
+        return factory.getRepository(ExecutionRepository.class);
+    }
+
+    public static NoteRepository getNoteRepository(Map<String, String> givenMap) {
+        return getNoteRepository(getEntityManager(givenMap));
+    }
+
+    public static ExecutionRepository getExecutionRepository(Map<String, String> givenMap) {
+        return getExecutionRepository(getEntityManager(givenMap));
     }
 
     public static EntityManager getEntityManager(Map<String, String> givenMap) {
