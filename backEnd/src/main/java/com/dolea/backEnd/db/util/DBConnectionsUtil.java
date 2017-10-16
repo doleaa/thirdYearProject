@@ -1,6 +1,7 @@
 package com.dolea.backEnd.db.util;
 
 import com.dolea.backEnd.db.dao.ExecutionDao;
+import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.db.dao.NoteDao;
 import com.dolea.backEnd.db.repositories.ExecutionRepository;
 import com.dolea.backEnd.db.repositories.NoteRepository;
@@ -20,6 +21,14 @@ import static com.dolea.backEnd.db.util.DBMapsUtil.getHibernateMap;
 
 @UtilityClass
 public class DBConnectionsUtil {
+
+    public static Executor getExecutor(Map<String, String> givenMap) {
+        return getExecutor(getConnection(givenMap));
+    }
+
+    private static Executor getExecutor(Connection connection) {
+        return new Executor(connection);
+    }
 
     public static NoteDao getNoteDao(Map<String, String> givenMap) {
         return new NoteDao(getEntityManager(givenMap));
