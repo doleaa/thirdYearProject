@@ -1,0 +1,24 @@
+<!doctype html>
+<html ng-app="ui.bootstrap.demo">
+  <head>
+      <script src="/node_modules/angular/angular.js"></script>
+      <script src="/node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
+      <script src="javascripts/example.js"></script>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+  <div ng-controller="ModalDemoCtrl as $ctrl">
+      <ul class="topnav">
+          <li><a class="active">Home</a></li>
+          <li ng-click="$ctrl.selectedPage = '/views/execute.html'"><a>Execute</a></li>
+          <li><a>History</a></li>
+          <li class="right" ng-click="$ctrl.open()"><a>About</a></li>
+      </ul>
+
+      <div ng-include="$ctrl.selectedPage">
+      </div>
+      <!--<button type="button" class="btn btn-default" ng-click="$ctrl.open()">Large modal</button>-->
+  </div>
+  </body>
+</html>
