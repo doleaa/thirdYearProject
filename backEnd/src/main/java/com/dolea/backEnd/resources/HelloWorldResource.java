@@ -14,12 +14,12 @@ import javax.ws.rs.core.MediaType;
  * Created by alex on 27/09/2017.
  */
 @Path("/hi")
-@Produces(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class HelloWorldResource extends BaseBackEndResource {
     private final String myName;
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
     public String sayHiAndGiveName(@QueryParam("name") Optional<String> userName) {
         if (userName.isPresent()) {
             return "Hi " + userName.get() + ". " +

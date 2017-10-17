@@ -1,13 +1,15 @@
 package com.dolea.backEnd.service;
 
-import com.dolea.backEnd.dto.ExecutionDto;
-import com.dolea.backEnd.dto.NoteDto;
+import com.dolea.backEnd.dto.ExecutionInfo;
+import com.dolea.backEnd.dto.NoteInfo;
+
+import java.util.Map;
 
 public interface AuditService {
 
-    void recordExecution(ExecutionDto executionDto);
+    void recordExecution(ExecutionInfo executionInfo, Map<String, String> requestMap);
 
-    void createNote(NoteDto noteDto);
+    void createNote(NoteInfo noteInfo, Map<String, String> requestMap);
 
-    void updateNote(NoteDto noteDto);
+    void updateNote(Integer noteId, NoteInfo noteInfo, Map<String, String> requestMap);
 }

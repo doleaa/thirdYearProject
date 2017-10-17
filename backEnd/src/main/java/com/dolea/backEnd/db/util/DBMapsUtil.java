@@ -5,6 +5,10 @@ import lombok.experimental.UtilityClass;
 
 import java.util.Map;
 
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_PASSWORD_STRING;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_URL_STRING;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
+
 @UtilityClass
 public class DBMapsUtil {
 
@@ -27,9 +31,9 @@ public class DBMapsUtil {
 
     private static Map<String, String> givenMapToHibernateFormat(Map<String, String> map) {
         return ImmutableMap.<String, String>builder()
-                .put("hibernate.connection.url", map.get("url"))
-                .put("hibernate.connection.username", map.get("username"))
-                .put("hibernate.connection.password", map.get("password"))
+                .put("hibernate.connection.url", map.get(DB_URL_STRING))
+                .put("hibernate.connection.username", map.get(DB_USERNAME_STRING))
+                .put("hibernate.connection.password", map.get(DB_PASSWORD_STRING))
                 .build();
     }
 

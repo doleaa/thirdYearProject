@@ -17,6 +17,9 @@ import java.util.Map;
 
 import static com.dolea.backEnd.db.util.DBMapsUtil.getConnectionMap;
 import static com.dolea.backEnd.db.util.DBMapsUtil.getHibernateMap;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_PASSWORD_STRING;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_URL_STRING;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 
 
 @UtilityClass
@@ -80,9 +83,9 @@ public class DBConnectionsUtil {
 
         return DriverManager
                 .getConnection(
-                        connectionMap.get("url"),
-                        connectionMap.get("username"),
-                        connectionMap.get("password")
+                        connectionMap.get(DB_URL_STRING),
+                        connectionMap.get(DB_USERNAME_STRING),
+                        connectionMap.get(DB_PASSWORD_STRING)
                 );
     }
 }

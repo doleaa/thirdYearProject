@@ -41,6 +41,8 @@ public class ExecutionDao {
 
     public List<Execution> findAll() { return repository.findAll(); }
 
+    public List<Execution> findAll(Iterable<Integer> ids) { return repository.findAll(ids); }
+
     public Execution findOne(Integer id) { return repository.findOne(id); }
 
     public void delete(Execution execution) {

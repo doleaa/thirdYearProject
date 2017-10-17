@@ -3,14 +3,12 @@ package com.dolea.backEnd.db.dao;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 public class Executor {
@@ -30,7 +28,7 @@ public class Executor {
     }
 
     @SneakyThrows
-    private List<Map<String, String>> resultSetToListOfRows(ResultSet rs) {
+    private List<Map<String, String>> resultSetToListOfRows(ResultSet rs){
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();
 
@@ -38,9 +36,13 @@ public class Executor {
 
         while (rs.next()){
             Map<String, String> row = new HashMap<>(columns);
-            for(int i=1; i<=columns; ++i){
-                row.put(md.getColumnName(i),rs.getString(i));
-            }
+
+            IntStream.range(1, columns).forEach(i -> {
+                try {
+                    row.put(md.getColumnName(i),rs.getString(i));
+                } catch (SQLException e) {}
+            });
+
             list.add(row);
         }
 
