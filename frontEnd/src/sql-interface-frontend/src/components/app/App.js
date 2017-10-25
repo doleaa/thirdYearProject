@@ -4,9 +4,11 @@ import ActivityView from './../activityView/ActivityView'
 import './App.css'
 
 const App = () => (
-    <div className="row App">
-      <Menu/>
-      <ActivityView/>
+    <div id="container" className="container">
+        <div className="row App">
+          <Menu/>
+          <ActivityView/>
+        </div>
     </div>
 )
 

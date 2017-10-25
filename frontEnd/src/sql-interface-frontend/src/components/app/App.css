@@ -6,6 +6,12 @@
   height:100%;
 }
 
+.container{
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
 .App-menu {
   text-align: center;
   background-color: #222;

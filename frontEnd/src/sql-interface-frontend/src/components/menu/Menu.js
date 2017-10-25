@@ -16,9 +16,20 @@ const mapDispatchToProps = dispatch => {
 
 const DisconnectedMenu = ({ setMode }) => (
     <div className="col-md-2 Menu">
-        <MenuItem name="Executor" onMenuItemClick={() => setMode("EXECUTOR")} />
-        <MenuItem name="History" onMenuItemClick={() => setMode("HISTORY")} />
-        <MenuItem name="Notes" onMenuItemClick={() => setMode("NOTES")} />
+        <div className="row">
+            <MenuItem
+                name="Executor"
+                onMenuItemClick={() => setMode("EXECUTOR")}
+            />
+            <MenuItem
+                name="History"
+                onMenuItemClick={() => setMode("HISTORY")}
+            />
+            <MenuItem
+                name="Notes"
+                onMenuItemClick={() => setMode("NOTES")}
+            />
+        </div>
     </div>
 )
 
