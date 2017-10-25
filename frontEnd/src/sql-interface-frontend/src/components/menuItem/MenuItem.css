@@ -1,0 +1,12 @@
+.MenuItem {
+  margin-bottom: 2px;
+  padding-bottom: 2px;
+  font-size:40px;
+  text-align: center;
+  background-color: #222;
+  color: white;
+}
+
+.MenuItem:hover {
+    background-color: #c825f0;
+}

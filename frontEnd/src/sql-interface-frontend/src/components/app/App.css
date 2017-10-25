@@ -1,0 +1,14 @@
+.Spinner {
+  animation: App-logo-spin infinite 20s linear;
+}
+
+.App {
+  height:100%;
+}
+
+.App-menu {
+  text-align: center;
+  background-color: #222;
+  color: white;
+  height: 100%;
+}
