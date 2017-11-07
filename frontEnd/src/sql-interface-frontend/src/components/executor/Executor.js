@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Editor from './../editor/Editor'
 import ExecutionButtons from './../executionButtons/ExecutionButtons'

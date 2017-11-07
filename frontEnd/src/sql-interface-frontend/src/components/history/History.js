@@ -1,9 +1,12 @@
 import React from 'react'
 import './History.css'
+import ExecutionList from './../executionList/ExecutionList'
 
 const History = () => (
     <div className="col-md-10 ContainerView">
-        HISTORY. Continue by editing <code>src/App.js</code>.
+        <div className='row'>
+            <ExecutionList/>
+        </div>
     </div>
 )
 

@@ -6,7 +6,7 @@ const ExecutionButtons = ({executeQuery}) => (
     <div className="col-md-12">
         <button
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={executeQuery}
         >
             Execute

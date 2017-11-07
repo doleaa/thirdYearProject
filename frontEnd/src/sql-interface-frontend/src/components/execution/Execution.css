@@ -1,0 +1,51 @@
+.execution {
+    width: 50%;
+    outline: 0;
+    padding: 9px;
+    border: initial solid;
+    border-width: 3px;
+    border-radius: 18px;
+    border-color: black;
+    border-style: solid;
+    min-height: 50px;
+    margin: 5px auto;
+    overflow: hidden;
+}
+
+.execution:hover {
+    border-right: solid;
+    border-right-width: 3px;
+    border-color: black;
+    border-color: #c825f0;
+}
+
+.execution-date {
+    height: 100%;
+    text-align: center;
+}
+
+.comments-preview {
+    height: 100%;
+    border-left: solid;
+    border-left-width: 1.5px;
+    border-color: black;
+    text-align: center;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.comments {
+    height: 100%;
+    border-top: solid;
+    border-top-width: 1.5px;
+    border-color: black;
+    text-align: center;
+}
+
+.query{
+    height: 100%;
+    border-top: dashed;
+    border-top-width: 1.5px;
+    border-color: black;
+    text-align: center;
+}

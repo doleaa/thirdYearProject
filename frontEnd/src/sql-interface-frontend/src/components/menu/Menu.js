@@ -14,7 +14,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 const DisconnectedMenu = ({ setMode }) => (
-    <div className="col-md-2 Menu">
+    <div className="col-md-2 fixed-tope Menu">
         <div className="row">
             <img
                 src={spinner}

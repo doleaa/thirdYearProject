@@ -1,9 +1,9 @@
 .Spinner {
-  animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 20s linear;
 }
 
 .App {
-  height:100%;
+    height:100%;
 }
 
 .container{
@@ -13,8 +13,8 @@
 }
 
 .App-menu {
-  text-align: center;
-  background-color: #222;
-  color: white;
-  height: 100%;
+    text-align: center;
+    background-color: #222;
+    color: white;
+    height: 100%;
 }
