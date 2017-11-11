@@ -57,3 +57,10 @@ export const executeQuery = query => {
         http.send(JSON.stringify(requestBody))
     }
 }
+
+export const changePreviewState = id => {
+    return {
+        type: "CHANGE_PREVIEW_STATE",
+        executionId: id
+    }
+}
