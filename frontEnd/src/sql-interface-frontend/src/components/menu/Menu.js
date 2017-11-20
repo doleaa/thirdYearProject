@@ -33,6 +33,10 @@ const DisconnectedMenu = ({ setMode }) => (
                 name="Notes"
                 onMenuItemClick={() => setMode("NOTES")}
             />
+            <MenuItem
+                name="Scripts"
+                onMenuItemClick={() => setMode("SCRIPTS")}
+            />
         </div>
     </div>
 )

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import History from './../history/History'
 import Notes from './../notes/Notes'
 import Executor from './../executor/Executor'
+import Scripts from './../scripts/Scripts'
 import './ActivityView.css'
 
 const mapStateToProps = state => {
@@ -17,6 +18,8 @@ const DisconnectedActivityView = ({ mode }) => {
     if (mode === "HISTORY") { return ( <History/> ) }
 
     if (mode === "NOTES") { return ( <Notes/> ) }
+
+    if (mode === "SCRIPTS") { return ( <Scripts/> ) }
 
     return ( <Executor/> )
 }

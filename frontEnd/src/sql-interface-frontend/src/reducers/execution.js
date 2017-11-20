@@ -5,7 +5,7 @@ const initialState = {
 }
 
 const execution = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case "SET_QUERY":
             return Object.assign({}, state, {
                 query: action.query
