@@ -3,8 +3,6 @@ package com.dolea.backEnd.db.entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -12,8 +10,8 @@ import java.util.Set;
 @Setter
 @Builder
 @Entity
-@Table(name = "note")
-public class Note implements Serializable {
+@Table(name = "script")
+public class Script {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,11 +27,9 @@ public class Note implements Serializable {
     String userName;
 
     @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "note_execution",
-        joinColumns = { @JoinColumn(name = "note_id") },
-        inverseJoinColumns = { @JoinColumn(name = "execution_id") }
+    @JoinTable(name = "script_execution",
+            joinColumns = { @JoinColumn(name = "script_id") },
+            inverseJoinColumns = { @JoinColumn(name = "execution_id") }
     )
-    Set<Execution> executions;
-
-    public Note() {}
+    Set<Execution> scriptExecutions;
 }

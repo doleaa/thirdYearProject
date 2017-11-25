@@ -2,13 +2,16 @@ package com.dolea.backEnd.db.util;
 
 import com.dolea.backEnd.db.dao.ExecutionDao;
 import com.dolea.backEnd.db.dao.NoteDao;
+import com.dolea.backEnd.db.dao.ScriptDao;
 import com.dolea.backEnd.db.entities.Execution;
 import com.dolea.backEnd.db.entities.Note;
+import com.dolea.backEnd.db.entities.Script;
 import com.dolea.backEnd.db.repositories.NoteRepository;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import lombok.SneakyThrows;
+import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,7 +19,7 @@ import org.junit.Test;
 import javax.persistence.EntityManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -68,11 +71,11 @@ public class DBConnectionsUtilTest {
         entityManager.getTransaction().begin();
         repository.save(
             Note.builder()
-                .date(LocalDate.now())
+                .date(DateTime.now().toString())
                 .userName(USERNAME)
                 .comments(COMMENTS)
                 .executions(ImmutableSet.<Execution>builder()
-                        .add(Execution.builder().date(LocalDate.now()).build())
+                        .add(Execution.builder().date(DateTime.now().toString()).build())
                         .build())
                 .build()
         );
@@ -126,7 +129,7 @@ public class DBConnectionsUtilTest {
 
         Note note = notes.get(0);
 
-        note.getExecutions().add(Execution.builder().date(LocalDate.now()).build());
+        note.getExecutions().add(Execution.builder().date(DateTime.now().toString()).build());
 
         entityManager.getTransaction().begin();
         repository.save(note);
@@ -142,7 +145,7 @@ public class DBConnectionsUtilTest {
 
         Note note = notes.get(0);
 
-        note.getExecutions().add(Execution.builder().date(LocalDate.now()).build());
+        note.getExecutions().add(Execution.builder().date(DateTime.now().toString()).build());
 
         noteDao.persist(note);
     }
@@ -154,7 +157,7 @@ public class DBConnectionsUtilTest {
 
         Execution execution = Execution.builder()
                 .userName(USERNAME)
-                .date(LocalDate.now()).build();
+                .date(DateTime.now().toString()).build();
 
         executionDao.persist(execution);
 
@@ -168,24 +171,29 @@ public class DBConnectionsUtilTest {
     public void getNoteRepository_forAdoptingAnOrphanExecution_thenCelebrate() {
         ExecutionDao executionDao = getExecutionDao(givenMap);
         NoteDao noteDao = getNoteDao(givenMap);
+        ScriptDao scriptDao = getScriptDao(givenMap);
 
-        Note newNote = Note.builder().userName(USERNAME).comments(COMMENTS).date(LocalDate.now()).build();
+        Note newNote = Note.builder().userName(USERNAME).comments(COMMENTS).date(DateTime.now().toString()).build();
+        Script newScript = Script.builder().userName(USERNAME).comments(COMMENTS).date(DateTime.now().toString()).build();
 
         newNote = noteDao.persist(newNote);
+        newScript = scriptDao.persist(newScript);
 
         Note sameNote = noteDao.findOne(newNote.getId());
+        Script sameScript = scriptDao.findOne(newScript.getId());
         Execution execution = executionDao.findByUserName(USERNAME).get(0);
 
-        sameNote.setExecutions(ImmutableSet.of(
-                execution,
-                Execution.builder()
-                        .userName(USERNAME)
-                        .date(LocalDate.now())
-                        .query("queryNo2")
-                        .build())
-        );
+        sameNote.setExecutions(new HashSet<>());
+        sameScript.setScriptExecutions(new HashSet<>());
 
-        List<Execution> executions = executionDao.persistAllOf(sameNote);
+
+        sameNote.getExecutions().add(execution);
+        sameScript.getScriptExecutions().add(execution);
+
+        Note note = noteDao.persist(sameNote);
+        Script script = scriptDao.persist(sameScript);
+        assertThat(note).isNotNull();
+        assertThat(script).isNotNull();
     }
 
     @Ignore

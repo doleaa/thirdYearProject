@@ -21,7 +21,7 @@ const execution = (state = initialState, action) => {
                     loading: false,
                     result: {
                         ok: true,
-                        data: response.text()
+                        data: response.responseText
                     }
                 })
             } else {

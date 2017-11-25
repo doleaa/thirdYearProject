@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 @Builder
 @Entity
-@Table(name = "logbook_note_execution")
+@Table(name = "execution")
 public class Execution implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +26,16 @@ public class Execution implements Serializable {
     String comments;
 
     @Column(name = "date")
-    LocalDate date;
+    String date;
 
     @Column(name = "username")
     String userName;
 
-    @ManyToOne
-    @JoinColumn(name = "logbook_note_execution_id")
-    Note note;
+    @ManyToMany(mappedBy = "executions")
+    Set<Note> notes;
+
+    @ManyToMany(mappedBy = "scriptExecutions")
+    Set<Script> scripts;
 
     public Execution() {}
 }

@@ -7,8 +7,8 @@ import com.dolea.backEnd.db.entities.Note;
 import com.dolea.backEnd.dto.ExecutionInfo;
 import com.dolea.backEnd.dto.NoteInfo;
 import com.google.common.collect.ImmutableSet;
+import org.joda.time.DateTime;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class AuditServiceImpl implements AuditService {
                 .query(executionInfo.getQuery())
                 .userName(executionInfo.getUsername())
                 .comments(executionInfo.getComments())
-                .date(LocalDate.now())
+                .date(DateTime.now().toString())
                 .build();
 
         executionDao.persist(newExecution);
@@ -41,7 +41,7 @@ public class AuditServiceImpl implements AuditService {
                 .executions(ImmutableSet.<Execution>builder()
                         .addAll(executions)
                         .build())
-                .date(LocalDate.now())
+                .date(DateTime.now().toString())
                 .build();
 
         executionDao.persistAllOf(newNote);

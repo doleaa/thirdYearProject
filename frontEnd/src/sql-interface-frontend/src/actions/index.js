@@ -50,7 +50,7 @@ export const executeQuery = query => {
 
         http.onreadystatechange = () => {
             if ( http.status === 200 ) {
-                dispatch(interpretResponse(JSON.parse(http.responseText)))
+                dispatch(interpretResponse(http))
             }
         }
 

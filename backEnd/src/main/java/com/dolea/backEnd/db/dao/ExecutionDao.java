@@ -30,7 +30,7 @@ public class ExecutionDao {
     }
 
     public List<Execution> persistAllOf(Note note) {
-        note.getExecutions().forEach(execution -> execution.setNote(note));
+        note.getExecutions().forEach(execution -> execution.getNotes().add(note));
 
         return note.getExecutions().stream()
                 .map(this::persist)
