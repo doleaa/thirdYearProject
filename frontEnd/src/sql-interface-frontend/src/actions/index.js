@@ -42,7 +42,7 @@ export const executeQuery = query => {
         }
 
         const http = new XMLHttpRequest()
-        const url = "http://127.0.0.1:8090/command"
+        const url = "http://127.0.0.1:8090/execution"
         const method = "POST"
 
         http.open(method, url, true)

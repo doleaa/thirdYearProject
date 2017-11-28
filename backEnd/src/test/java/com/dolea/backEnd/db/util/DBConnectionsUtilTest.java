@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.*;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_PASSWORD_STRING;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_URL_STRING;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DBConnectionsUtilTest {
@@ -38,9 +41,9 @@ public class DBConnectionsUtilTest {
     public static void setUp() {
         givenMap = new ImmutableMap.Builder<String, String>()
 //                .put("url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")
-                .put("url", "jdbc:h2:/tmp/bam/test;AUTO_SERVER=TRUE")
-                .put("username", "sa")
-                .put("password", "")
+                .put(DB_URL_STRING, "jdbc:h2:/tmp/bam/test;AUTO_SERVER=TRUE")
+                .put(DB_USERNAME_STRING, "sa")
+                .put(DB_PASSWORD_STRING, "")
                 .build();
     }
 

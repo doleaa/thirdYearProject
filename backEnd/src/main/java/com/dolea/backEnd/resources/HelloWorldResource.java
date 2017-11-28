@@ -13,12 +13,13 @@ import javax.ws.rs.core.MediaType;
 /**
  * Created by alex on 27/09/2017.
  */
-@Path("/hi")
+@Path("/")
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class HelloWorldResource extends BaseBackEndResource {
     private final String myName;
 
     @GET
+    @Path("hi")
     @Produces(MediaType.APPLICATION_JSON)
     public String sayHiAndGiveName(@QueryParam("name") Optional<String> userName) {
         if (userName.isPresent()) {

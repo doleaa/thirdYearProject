@@ -16,7 +16,7 @@ import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRIN
 public class ActionManager {
     private final AuditService auditService;
 
-    public List<Map<String, String>> runCommand(CommandDto commandDto) {
+    public List<Map<String, String>> executeCommand(CommandDto commandDto) {
         Executor executor = getExecutor(commandDto.getDbMap());
 
         Optional<List<Map<String, String>>> translatedResulSet = Optional
