@@ -30,7 +30,7 @@ public class Executor {
     @SneakyThrows
     private List<Map<String, String>> resultSetToListOfRows(ResultSet rs){
         ResultSetMetaData md = rs.getMetaData();
-        int columns = md.getColumnCount();
+        int columns = md.getColumnCount() + 1;
 
         List<Map<String, String>> list = new ArrayList<>();
 

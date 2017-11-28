@@ -1,5 +1,5 @@
 .execution {
-    width: 50%;
+    width: 80%;
     outline: 0;
     padding: 9px;
     border: initial solid;
@@ -36,6 +36,8 @@
 .execution-date {
     height: 100%;
     text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .comments-preview {
@@ -54,6 +56,7 @@
     border-top-width: 1.5px;
     border-color: black;
     text-align: center;
+    white-space: nowrap;
 }
 
 .query{
