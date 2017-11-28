@@ -34,6 +34,10 @@ const history = ( state = initialState, action ) => {
     switch (action.type) {
         case "SET_INITIAL_EXECUTION_LIST_STATE":
             return initialState
+        case "SET_EXECUTION_MODE":
+            return Object.assign({}, state, {
+                mode: action.mode
+            })
         case "CHANGE_PREVIEW_STATE":
             return Object.assign({}, state, {
                 executionsList:
@@ -64,6 +68,42 @@ const history = ( state = initialState, action ) => {
                     state.executionsList.map((execution) => {
                         if (execution.id === action.executionId) {
                             execution.isLoading = false
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "START_EDITING_EXECUTION":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.executionId) {
+                            execution.editing = true
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "STOP_EDITING_EXECUTION":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.executionId) {
+                            execution.editing = false
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "UPDATE_EXECUTION_COMMENTS":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.id) {
+                            execution.comments = action.comments
                             return execution
                         } else {
                             return execution

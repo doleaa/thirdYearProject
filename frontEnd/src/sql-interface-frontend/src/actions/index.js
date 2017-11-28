@@ -83,6 +83,7 @@ export const getExecutionList = () => {
                 .map(item => {
                     item.isInPreview = true
                     item.isLoading = false
+                    item.editing = false
                     return item
                 })
             dispatch(mapResponseList(list))
@@ -95,6 +96,42 @@ export const changePreviewState = id => {
     return {
         type: "CHANGE_PREVIEW_STATE",
         executionId: id
+    }
+}
+
+export const startEditingExecution = id => {
+    return {
+        type: "START_EDITING_EXECUTION",
+        executionId: id
+    }
+}
+
+export const stopEditingExecution = id => {
+    return {
+        type: "STOP_EDITING_EXECUTION",
+        executionId: id
+    }
+}
+
+export const setExecutionListToEditMode = mode => {
+    return {
+        type: "SET_EXECUTION_MODE",
+        mode: "EDIT"
+    }
+}
+
+export const setExecutionListToViewMode = mode => {
+    return {
+        type: "SET_EXECUTION_MODE",
+        mode: "VIEW"
+    }
+}
+
+export const updateExecutionComments = (id, comments) => {
+    return {
+        type: "UPDATE_EXECUTION_COMMENTS",
+        id,
+        comments
     }
 }
 
