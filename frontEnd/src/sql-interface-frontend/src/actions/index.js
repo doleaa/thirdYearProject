@@ -25,15 +25,15 @@ const interpretResponse = response => {
     }
 }
 
+const dbMap = {
+    "url": "jdbc:h2:/tmp/bam/test;AUTO_SERVER=TRUE",
+    "username": "sa",
+    "password": ""
+}
+
 export const executeQuery = query => {
     return dispatch => {
         dispatch(initiateExecution())
-
-        const dbMap = {
-            "url": "jdbc:h2:/tmp/bam/test;AUTO_SERVER=TRUE",
-            "username": "sa",
-            "password": ""
-        }
 
         const requestBody = {
             "sqlCommand" : query,
@@ -58,9 +58,48 @@ export const executeQuery = query => {
     }
 }
 
+const mapResponseList = list => {
+    return {
+        type: "MAP_RESPONSE_LIST",
+        executionsList: list
+    }
+}
+
+export const getExecutionList = () => {
+    return dispatch => {
+        const url = "http://127.0.0.1:8090/executions"
+        const headers = new Headers(dbMap)
+
+        const request = new Request(url, {
+            headers
+        })
+
+        fetch(request)
+        .then(response => {
+            return response.json()
+        })
+        .then(json => {
+            const list = json
+                .map(item => {
+                    item.isInPreview = true
+                    item.isLoading = false
+                    return item
+                })
+            dispatch(mapResponseList(list))
+        })
+        .catch( error => console.log(error) )
+    }
+}
+
 export const changePreviewState = id => {
     return {
         type: "CHANGE_PREVIEW_STATE",
         executionId: id
+    }
+}
+
+export const setInitialExecutionListState = () => {
+    return {
+        type: "SET_INITIAL_EXECUTION_LIST_STATE"
     }
 }

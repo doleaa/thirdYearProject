@@ -12,6 +12,16 @@
     overflow: hidden;
 }
 
+.executionSpinner {
+    width: 50%;
+    padding: 9px;
+    margin: 5px auto;
+}
+
+.spinner {
+    height: 50px;
+}
+
 .execution:hover {
     border-right: solid;
     border-right-width: 3px;

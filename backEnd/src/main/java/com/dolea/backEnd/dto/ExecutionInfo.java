@@ -17,5 +17,6 @@ public class ExecutionInfo implements Serializable {
     private String query;
     private String comments;
     private String username;
+    private String date;
     private List<Map<String, String>> result;
 }

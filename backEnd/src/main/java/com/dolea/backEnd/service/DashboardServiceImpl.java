@@ -2,6 +2,7 @@ package com.dolea.backEnd.service;
 
 import com.dolea.backEnd.db.entities.Note;
 import com.dolea.backEnd.dto.ExecutionInfo;
+import org.joda.time.DateTime;
 
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,11 @@ public class DashboardServiceImpl implements DashboardService {
                         .username(execution.getUserName())
                         .comments(execution.getComments())
                         .query(execution.getQuery())
+                        .date(execution.getDate())
                         .build())
+                .sorted((a, b) ->
+                        DateTime.parse(b.getDate()).compareTo(DateTime.parse(a.getDate()))
+                )
                 .collect(Collectors.toList());
     }
 }

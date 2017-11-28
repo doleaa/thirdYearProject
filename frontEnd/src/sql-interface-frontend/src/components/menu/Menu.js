@@ -1,6 +1,6 @@
 import React from 'react'
 import spinner from './../../spinner.svg'
-import { setMode } from './../../actions'
+import { setMode,  setInitialExecutionListState } from './../../actions'
 import { connect } from 'react-redux'
 import MenuItem from './../menuItem/MenuItem'
 import './Menu.css'
@@ -9,11 +9,14 @@ const mapDispatchToProps = dispatch => {
     return {
         setMode: mode => {
             dispatch(setMode(mode))
+        },
+        setInitialExecutionListState: () => {
+            dispatch(setInitialExecutionListState())
         }
     }
 }
 
-const DisconnectedMenu = ({ setMode }) => (
+const DisconnectedMenu = ({ setMode, setInitialExecutionListState }) => (
     <div className="col-md-2 fixed-tope Menu">
         <div className="row">
             <img
@@ -23,7 +26,10 @@ const DisconnectedMenu = ({ setMode }) => (
             />
             <MenuItem
                 name="Executor"
-                onMenuItemClick={() => setMode("EXECUTOR")}
+                onMenuItemClick={() => {
+                    setMode("EXECUTOR")
+                    setInitialExecutionListState()
+                }}
             />
             <MenuItem
                 name="History"
@@ -31,11 +37,17 @@ const DisconnectedMenu = ({ setMode }) => (
             />
             <MenuItem
                 name="Notes"
-                onMenuItemClick={() => setMode("NOTES")}
+                onMenuItemClick={() => {
+                    setMode("NOTES")
+                    setInitialExecutionListState()
+                }}
             />
             <MenuItem
                 name="Scripts"
-                onMenuItemClick={() => setMode("SCRIPTS")}
+                onMenuItemClick={() => {
+                    setMode("SCRIPTS")
+                    setInitialExecutionListState()
+                }}
             />
         </div>
     </div>
