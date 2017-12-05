@@ -3,7 +3,7 @@ import './History.css'
 import ExecutionList from './../executionList/ExecutionList'
 
 const History = () => (
-    <div className="col-md-10 ContainerView">
+    <div className="ContainerView">
         <div className='row'>
             <ExecutionList/>
         </div>

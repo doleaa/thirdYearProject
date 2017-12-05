@@ -2,6 +2,7 @@ import React from 'react'
 import spinner from './../../spinner.svg'
 import PropTypes from 'prop-types'
 import './Execution.css'
+import Editor from './../editor/Editor'
 
 const Execution = ({
     id,
@@ -9,6 +10,9 @@ const Execution = ({
     isLoading,
     mode,
     editing,
+    selected,
+    select,
+    unselect,
     date,
     comments,
     query,
@@ -35,7 +39,7 @@ const Execution = ({
     } else if ( mode ==="EDIT" && editing ) {
         return (
             <div
-            className="row execution"
+            className="row execution mousable"
             onDoubleClick = {() => stopEdit()}
             >
                 <div className="col-md-12 execution-date">
@@ -44,19 +48,18 @@ const Execution = ({
                 <div className="col-md-12 comments">
                     { query }
                 </div>
-                <textarea
-                    className="commentEditor"
-                    rows="5"
+                <Editor
+                    rows={5}
+                    initialValue={comments}
+                    updateValue={updateExecComments}
                     placeholder="TYPE YOUR COMMENTS HERE"
-                    defaultValue={comments}
-                    onChange={updateExecComments}
                 />
             </div>
         )
     } else if ( mode ==="EDIT" ) {
         return (
             <div
-            className="row execution"
+            className="row execution mousable"
             onDoubleClick = {() => startEdit()}
             >
                 <div className="col-md-12 execution-date">
@@ -70,10 +73,60 @@ const Execution = ({
                 </div>
             </div>
         )
-    }else if ( isInPreview && mode ==="VIEW") {
+    } else if ( mode ==="REPORT_FORM" ) {
+        return (
+            <div
+            className="row reportFormMode"
+            >
+                <div className="col-md-12 execution-date">
+                    { date }
+                </div>
+                <div className="col-md-12 comments">
+                    { query }
+                </div>
+                <div className="col-md-12 query">
+                    { comments }
+                </div>
+            </div>
+        )
+    } else if ( mode ==="SELECT" && selected ) {
+        return (
+            <div
+            className="row selected"
+            onClick = {() => unselect()}
+            >
+                <div className="col-md-12 execution-date">
+                    { date }
+                </div>
+                <div className="col-md-12 comments">
+                    { query }
+                </div>
+                <div className="col-md-12 query">
+                    { comments }
+                </div>
+            </div>
+        )
+    } else if ( mode ==="SELECT" ) {
         return (
             <div
             className="row execution"
+            onClick = {() => select()}
+            >
+                <div className="col-md-12 execution-date">
+                    { date }
+                </div>
+                <div className="col-md-12 comments">
+                    { query }
+                </div>
+                <div className="col-md-12 query">
+                    { comments }
+                </div>
+            </div>
+        )
+    } else if ( isInPreview && mode ==="VIEW") {
+        return (
+            <div
+            className="row execution mousable"
             onClick = {() => changePreviewState()}
             >
                 <div className="col-md-4 execution-date">
@@ -87,7 +140,7 @@ const Execution = ({
     } else if (mode ==="VIEW") {
         return (
             <div
-            className="row execution"
+            className="row execution mousable"
             onClick = {() => changePreviewState()}
             >
                 <div className="col-md-12 execution-date">
@@ -108,7 +161,10 @@ Execution.propTypes = {
     isInPreview: PropTypes.bool,
     isLoading: PropTypes.bool,
     mode: PropTypes.string,
-    editing: PropTypes.string,
+    editing: PropTypes.bool,
+    selected: PropTypes.bool,
+    select: PropTypes.func,
+    unselect: PropTypes.func,
     date: PropTypes.string,
     query: PropTypes.string,
     changePreviewState: PropTypes.func,

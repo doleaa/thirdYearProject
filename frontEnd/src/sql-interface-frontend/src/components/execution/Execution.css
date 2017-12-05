@@ -26,10 +26,9 @@
     margin-top: 6px;
 }
 
-.execution:hover {
+.mousable:hover {
     border-right: solid;
     border-right-width: 3px;
-    border-color: black;
     border-color: #c825f0;
 }
 
@@ -59,10 +58,38 @@
     white-space: nowrap;
 }
 
-.query{
+.query {
     height: 100%;
-    border-top: dashed;
+    border-top: solid;
     border-top-width: 1.5px;
     border-color: black;
     text-align: center;
+}
+
+.selected {
+    width: 80%;
+    outline: 0;
+    padding: 9px;
+    border: initial solid;
+    border-width: 3px;
+    border-radius: 18px;
+    border-style: solid;
+    min-height: 50px;
+    margin: 5px auto;
+    overflow: hidden;
+    border-color: #c825f0;
+}
+
+.reportFormMode {
+    width: 80%;
+    outline: 0;
+    padding: 9px;
+    border: initial solid;
+    border-width: 3px;
+    border-radius: 18px;
+    border-style: solid;
+    min-height: 50px;
+    margin: 5px auto;
+    overflow: hidden;
+    border-color: black;
 }

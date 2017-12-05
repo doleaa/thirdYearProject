@@ -21,7 +21,12 @@ const DisconnectedActivityView = ({ mode }) => {
 
     if (mode === "SCRIPTS") { return ( <Scripts/> ) }
 
-    return ( <Executor/> )
+    return (
+        <div>
+            <Executor/>
+            <History/>
+        </div>
+    )
 }
 
 DisconnectedActivityView.propTypes = {

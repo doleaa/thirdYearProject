@@ -32,6 +32,12 @@ const execution = (state = initialState, action) => {
                     }
                 })
             }
+        case "HIDE_ERROR_RESPONSE":
+            return Object.assign({}, state, {
+                result: {
+                    ok: true
+                }
+            })
         default:
             return state
     }

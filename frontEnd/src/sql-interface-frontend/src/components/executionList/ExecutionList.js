@@ -3,14 +3,23 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './ExecutionList.css'
 import Execution from './../execution/Execution'
+import ReportForm from './../reportForm/ReportForm'
 import {
     changePreviewState,
     getExecutionList,
     setExecutionListToEditMode,
     setExecutionListToViewMode,
+    setExecutionListToSelectMode,
     startEditingExecution,
     stopEditingExecution,
-    updateExecutionComments
+    addReportNoteToExecution,
+    deleteReportNoteFromExecution,
+    selectExecution,
+    unSelectExecution,
+    unSelectAllExecutions,
+    updateExecutionComments,
+    updateExecutionReportNote,
+    setExecutionListToReportForm
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -26,25 +35,51 @@ const mapDispatchToProps = dispatch => {
         getExecutionList: () => { dispatch(getExecutionList()) },
         setListEditMode: () => { dispatch(setExecutionListToEditMode()) },
         setListViewMode: () => { dispatch(setExecutionListToViewMode()) },
+        setListSelectMode: () => { dispatch(setExecutionListToSelectMode()) },
         startEditingExecution: id => { dispatch(startEditingExecution(id)) },
         stopEditingExecution: id => { dispatch(stopEditingExecution(id)) },
-        updateExecutionComments: ( id, comments ) => { dispatch(updateExecutionComments(id, comments)) }
+        addReportNoteToExecution: id => { dispatch(addReportNoteToExecution(id)) },
+        deleteReportNoteFromExecution: id => { dispatch(deleteReportNoteFromExecution(id)) },
+        selectExecution: id => { dispatch(selectExecution(id)) },
+        unSelectExecution: id => { dispatch(unSelectExecution(id)) },
+        unSelectAllExecutions: id => { dispatch(unSelectAllExecutions()) },
+        updateExecutionComments: ( id, comments ) => { dispatch(updateExecutionComments(id, comments)) },
+        updateExecutionReportNote: ( id, comments ) => { dispatch(updateExecutionReportNote(id, comments)) },
+        setExecutionListToReportForm: ( id, comments ) => { dispatch(setExecutionListToReportForm(id, comments)) }
 
     }
 }
 
-const ExecutionListButtons = ({ mode, setEdit, setView }) => {
+const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect, unselectAll }) => {
     if ( mode === "VIEW") {
         return (
             <div className="row">
                 <div className="col-md-12">
-                    <button
-                        type="button"
-                        className="btn btn-primary pull-right"
-                        onClick = { setEdit }
-                    >
-                        Edit
-                    </button>
+                    <div className="pull-left">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick = { () => {} }
+                        >
+                            Reports
+                        </button>
+                    </div>
+                    <div className="pull-right">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick = { setEdit }
+                        >
+                            Edit
+                        </button>
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick={ setSelect }
+                        >
+                            Select
+                        </button>
+                    </div>
                 </div>
             </div>
         )
@@ -62,10 +97,70 @@ const ExecutionListButtons = ({ mode, setEdit, setView }) => {
                 </div>
             </div>
         )
+    } else if ( mode === "SELECT" ) {
+        return (
+            <div className="row">
+                <div className="col-md-12">
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-right"
+                        onClick={ () => {
+                            setView()
+                            unselectAll()
+                        } }
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-right"
+                        onClick={ setReportForm }
+                    >
+                        Create Report
+                    </button>
+                </div>
+            </div>
+        )
+    } else if ( mode === "REPORT_FORM" ) {
+        return (
+            <div className="row buttgr">
+                <div className="col-md-12">
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-right"
+                        onClick={ () => {
+                            setView()
+                            unselectAll()
+                        } }
+                    >
+                        Save
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-right"
+                        onClick={ () => {
+                            setView()
+                            unselectAll()
+                        } }
+                    >
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        )
     }
 }
 
-const ExecutionHistoryList = ({ executionList, listMode, changeState, startEdit, stopEdit, updateExecutionComments }) => (
+const ExecutionHistoryList = ({
+    executionList,
+    listMode,
+    changeState,
+    startEdit,
+    stopEdit,
+    updateExecutionComments,
+    select,
+    unselect
+}) => (
     <div className="row">
         <div className="col-md-12">
             {executionList.map(item => (
@@ -76,6 +171,9 @@ const ExecutionHistoryList = ({ executionList, listMode, changeState, startEdit,
                     isLoading = { item.isLoading }
                     mode = { listMode }
                     editing = { item.editing }
+                    selected = { item.selected }
+                    select = { () => select(item.id) }
+                    unselect = { () => unselect(item.id) }
                     date = { item.date }
                     comments = { item.comments }
                     query = { item.query }
@@ -96,12 +194,40 @@ const DisconnectedExecutionList = ({
     getExecutionList,
     setListEditMode,
     setListViewMode,
+    setListSelectMode,
     startEditingExecution,
     stopEditingExecution,
-    updateExecutionComments
+    addReportNoteToExecution,
+    deleteReportNoteFromExecution,
+    selectExecution,
+    unSelectExecution,
+    unSelectAllExecutions,
+    updateExecutionComments,
+    updateExecutionReportNote,
+    setExecutionListToReportForm
 }) => {
     if (executionList.length ===0) {
         getExecutionList()
+    }
+    if ( listMode === "REPORT_FORM" ) {
+        return (
+            <div className="col-md-12">
+                <ExecutionListButtons
+                        mode = { listMode }
+                        setEdit = { setListEditMode }
+                        setView = { setListViewMode }
+                        setReportForm = { setExecutionListToReportForm }
+                        setSelect = { setListSelectMode }
+                        unselectAll = { unSelectAllExecutions }
+                    />
+                <ReportForm
+                    executions={executionList}
+                    addReportNote={addReportNoteToExecution}
+                    deleteReportNote={deleteReportNoteFromExecution}
+                    updateReportNote={updateExecutionReportNote}
+                />
+            </div>
+        )
     }
     return (
         <div className="col-md-12">
@@ -109,6 +235,9 @@ const DisconnectedExecutionList = ({
                 mode = { listMode }
                 setEdit = { setListEditMode }
                 setView = { setListViewMode }
+                setReportForm = { setExecutionListToReportForm }
+                setSelect = { setListSelectMode }
+                unselectAll = { unSelectAllExecutions }
             />
             <ExecutionHistoryList
                 executionList = { executionList }
@@ -117,6 +246,8 @@ const DisconnectedExecutionList = ({
                 startEdit = { startEditingExecution }
                 stopEdit = { stopEditingExecution }
                 updateExecutionComments = { updateExecutionComments }
+                select = { selectExecution }
+                unselect = { unSelectExecution }
             />
         </div>
     )

@@ -2,11 +2,7 @@
     animation: App-logo-spin infinite 20s linear;
 }
 
-.App {
-    height:100%;
-}
-
-.container{
+.App{
     margin: 0;
     height: 100%;
     width: 100%;

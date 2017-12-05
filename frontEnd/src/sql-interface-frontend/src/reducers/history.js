@@ -98,12 +98,84 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+        case "ADD_REPORT_NOTE_TO_EXECUTION":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.executionId) {
+                            execution.reportNote = ""
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "DELETE_REPORT_NOTE_FROM_EXECUTION":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.executionId) {
+                            execution.reportNote = undefined
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "UNSELECT_ALL_EXECUTIONS":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.selected) {
+                            execution.selected = false
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "UNSELECT_EXECUTION":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.executionId) {
+                            execution.selected = false
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "SELECT_EXECUTION":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.executionId) {
+                            execution.selected = true
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
         case "UPDATE_EXECUTION_COMMENTS":
             return Object.assign({}, state, {
                 executionsList:
                     state.executionsList.map((execution) => {
                         if (execution.id === action.id) {
                             execution.comments = action.comments
+                            return execution
+                        } else {
+                            return execution
+                        }
+                    })
+            })
+        case "UPDATE_EXECUTION_REPORT_NOTE":
+            return Object.assign({}, state, {
+                executionsList:
+                    state.executionsList.map((execution) => {
+                        if (execution.id === action.id) {
+                            execution.reportNote = action.reportNote
                             return execution
                         } else {
                             return execution

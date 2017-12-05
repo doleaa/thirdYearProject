@@ -12,12 +12,6 @@
     overflow: hidden;
 }
 
-.execution:hover {
-    border-right: solid;
-    border-right-width: 3px;
-    border-color: black;
-    border-color: #c825f0;
-}
 
 .execution-date {
     height: 100%;
@@ -42,10 +36,18 @@
     text-align: center;
 }
 
-.query{
+.query {
     height: 100%;
     border-top: dashed;
     border-top-width: 1.5px;
     border-color: black;
     text-align: center;
+}
+
+button {
+    margin: 2px;
+}
+
+.buttgr {
+    margin-bottom: 6px;
 }

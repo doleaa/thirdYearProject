@@ -41,7 +41,7 @@ public class DBConnectionsUtilTest {
     public static void setUp() {
         givenMap = new ImmutableMap.Builder<String, String>()
 //                .put("url", "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1")
-                .put(DB_URL_STRING, "jdbc:h2:/tmp/bam/test;AUTO_SERVER=TRUE")
+                .put(DB_URL_STRING, "jdbc:h2:/tmp/bang/test;AUTO_SERVER=TRUE")
                 .put(DB_USERNAME_STRING, "sa")
                 .put(DB_PASSWORD_STRING, "")
                 .build();

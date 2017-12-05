@@ -1,4 +1,7 @@
 .ContainerView {
   font-size: large;
-  padding-top: 15px;
+  background-color: #ebf2f9;
+  padding: 3%;
+  margin: 1%;
+  border-radius: 18px;
 }

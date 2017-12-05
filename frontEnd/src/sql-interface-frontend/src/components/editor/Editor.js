@@ -2,20 +2,21 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Editor.css'
 
-const Editor = ({query, updateQuery}) => (
+const Editor = ({initialValue, updateValue, placeholder, rows}) => (
     <div className="col-md-12">
         <textarea
-            rows="10"
-            placeholder="TYPE SQL IN HERE"
-            defaultValue={query}
-            onChange={updateQuery}
+            rows={rows}
+            placeholder={placeholder}
+            defaultValue={initialValue}
+            onChange={updateValue}
         />
     </div>
 )
 
 Editor.propTypes = {
-    query: PropTypes.string.isRequired,
-    updateQuery: PropTypes.func
+    initialValue: PropTypes.string.isRequired,
+    updateValue: PropTypes.func.isRequired,
+    placeholder: PropTypes.string.isRequired
 }
 
 export default Editor

@@ -26,7 +26,7 @@ const interpretResponse = response => {
 }
 
 const dbMap = {
-    "url": "jdbc:h2:/tmp/bam/test;AUTO_SERVER=TRUE",
+    "url": "jdbc:h2:/tmp/bang/test;AUTO_SERVER=TRUE",
     "username": "sa",
     "password": ""
 }
@@ -49,8 +49,9 @@ export const executeQuery = query => {
         http.setRequestHeader("Content-type", "application/json")
 
         http.onreadystatechange = () => {
-            if ( http.status === 200 ) {
                 dispatch(interpretResponse(http))
+            if ( http.status === 200 ) {
+                dispatch(getExecutionList())
             }
         }
 
@@ -84,6 +85,7 @@ export const getExecutionList = () => {
                     item.isInPreview = true
                     item.isLoading = false
                     item.editing = false
+                    item.selected = false
                     return item
                 })
             dispatch(mapResponseList(list))
@@ -113,10 +115,58 @@ export const stopEditingExecution = id => {
     }
 }
 
+export const addReportNoteToExecution = id => {
+    return {
+        type: "ADD_REPORT_NOTE_TO_EXECUTION",
+        executionId: id
+    }
+}
+
+export const deleteReportNoteFromExecution = id => {
+    return {
+        type: "DELETE_REPORT_NOTE_FROM_EXECUTION",
+        executionId: id
+    }
+}
+
+export const selectExecution = id => {
+    return {
+        type: "SELECT_EXECUTION",
+        executionId: id
+    }
+}
+
+export const unSelectExecution = id => {
+    return {
+        type: "UNSELECT_EXECUTION",
+        executionId: id
+    }
+}
+
+export const unSelectAllExecutions = () => {
+    return {
+        type: "UNSELECT_ALL_EXECUTIONS"
+    }
+}
+
 export const setExecutionListToEditMode = mode => {
     return {
         type: "SET_EXECUTION_MODE",
         mode: "EDIT"
+    }
+}
+
+export const setExecutionListToSelectMode = mode => {
+    return {
+        type: "SET_EXECUTION_MODE",
+        mode: "SELECT"
+    }
+}
+
+export const setExecutionListToReportForm = mode => {
+    return {
+        type: "SET_EXECUTION_MODE",
+        mode: "REPORT_FORM"
     }
 }
 
@@ -135,8 +185,22 @@ export const updateExecutionComments = (id, comments) => {
     }
 }
 
+export const updateExecutionReportNote = (id, reportNote) => {
+    return {
+        type: "UPDATE_EXECUTION_REPORT_NOTE",
+        id,
+        reportNote
+    }
+}
+
 export const setInitialExecutionListState = () => {
     return {
         type: "SET_INITIAL_EXECUTION_LIST_STATE"
+    }
+}
+
+export const hideErrorExecutionResponse = () => {
+    return {
+        type: "HIDE_ERROR_RESPONSE"
     }
 }
