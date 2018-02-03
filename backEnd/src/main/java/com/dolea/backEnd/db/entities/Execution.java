@@ -1,11 +1,10 @@
 package com.dolea.backEnd.db.entities;
 
 import lombok.*;
+import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.util.Set;
 
 @AllArgsConstructor
 @Getter
@@ -19,23 +18,23 @@ public class Execution implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "query")
-    String query;
+    @OneToOne(cascade = CascadeType.ALL)
+    Statement statement;
 
-    @Column(name = "comments")
-    String comments;
+    @OneToOne(cascade = CascadeType.ALL)
+    Result result;
 
-    @Column(name = "date")
-    String date;
+    @Column(name = "executed_by")
+    String executedBy;
 
-    @Column(name = "username")
-    String userName;
+    @Column(name = "ran_at")
+    DateTime ranAt;
 
-    @ManyToMany(mappedBy = "executions")
-    Set<Note> notes;
+    @Column(name = "duration")
+    Integer duration;
 
-    @ManyToMany(mappedBy = "scriptExecutions")
-    Set<Script> scripts;
+    @OneToOne(cascade = CascadeType.ALL)
+    Comment comment;
 
     public Execution() {}
 }
