@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ExecutionRepository extends JpaRepository<Execution, Integer> {
 
-    List<Execution> findByUserName(String userName);
+    List<Execution> findByExecutedBy(String executedBy);
 }

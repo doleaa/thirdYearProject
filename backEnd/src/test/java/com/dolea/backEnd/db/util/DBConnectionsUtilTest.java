@@ -1,12 +1,7 @@
 package com.dolea.backEnd.db.util;
 
 import com.dolea.backEnd.db.dao.ExecutionDao;
-import com.dolea.backEnd.db.dao.NoteDao;
-import com.dolea.backEnd.db.dao.ScriptDao;
 import com.dolea.backEnd.db.entities.Execution;
-import com.dolea.backEnd.db.entities.Note;
-import com.dolea.backEnd.db.entities.Script;
-import com.dolea.backEnd.db.repositories.NoteRepository;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;

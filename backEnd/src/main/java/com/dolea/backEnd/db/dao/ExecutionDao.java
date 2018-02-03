@@ -1,14 +1,12 @@
 package com.dolea.backEnd.db.dao;
 
 import com.dolea.backEnd.db.entities.Execution;
-import com.dolea.backEnd.db.entities.Note;
 import com.dolea.backEnd.db.repositories.ExecutionRepository;
 import lombok.Getter;
 
 import javax.persistence.EntityManager;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutionRepository;
 
@@ -29,15 +27,7 @@ public class ExecutionDao {
         return persistedExecution;
     }
 
-    public List<Execution> persistAllOf(Note note) {
-        note.getExecutions().forEach(execution -> execution.getNotes().add(note));
-
-        return note.getExecutions().stream()
-                .map(this::persist)
-                .collect(Collectors.toList());
-    }
-
-    public List<Execution> findByUserName(String userName) { return repository.findByUserName(userName); }
+    public List<Execution> findByExecutedBy(String executedBy) { return repository.findByExecutedBy(executedBy); }
 
     public List<Execution> findAll() { return repository.findAll(); }
 
