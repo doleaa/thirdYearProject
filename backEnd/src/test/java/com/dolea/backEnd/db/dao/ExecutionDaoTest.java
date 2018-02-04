@@ -8,12 +8,14 @@ import com.dolea.backEnd.db.entities.Statement;
 import com.google.common.collect.ImmutableMap;
 import lombok.SneakyThrows;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+import static com.dolea.backEnd.db.util.DBConnectionsUtil.getCommentDao;
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutionDao;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_PASSWORD_STRING;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_URL_STRING;
@@ -38,6 +40,7 @@ public class ExecutionDaoTest {
         underTest = getExecutionDao(givenMap);
     }
 
+    @Ignore
     @Test
     public void persist_whenCalled_thenPersistsEverything() {
         Statement statement = Statement.builder()
@@ -70,10 +73,36 @@ public class ExecutionDaoTest {
         assertThat(persistedExecution).isEqualTo(execution);
     }
 
+    @Ignore
     @Test
     public void findAll_whenCalled_thenFindsAll() {
         List<Execution> existingExecutions = underTest.findAll();
 
         assertThat(existingExecutions).isNotEmpty();
+    }
+
+    @Test
+    public void findAll_whenCommentUpdatedExternally_thenStillReturnsRightMapping() {
+        CommentDao commentDao = getCommentDao(givenMap);
+
+        List<Execution> executions = underTest.findAll();
+        Comment comment = executions.get(0).getComment();
+        comment.setText("some random text");
+        commentDao.persist(comment);
+
+        Execution execution = underTest.findAll().get(0);
+        assertThat(execution.getComment().getText()).isEqualTo("some random text");
+    }
+
+    @Ignore
+    @Test
+    public void delete_whenCalled_thenDeletesWithCascade() {
+        Execution existingExecution = underTest.findOne(2);
+
+        underTest.delete(existingExecution);
+
+        List<Execution> allRemainingExecutions = underTest.findAll();
+
+        assertThat(allRemainingExecutions).isEmpty();
     }
 }
