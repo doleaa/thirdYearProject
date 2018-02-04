@@ -1,10 +1,10 @@
 package com.dolea.backEnd.db.entities;
 
 import lombok.*;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -22,10 +22,10 @@ public class Comment implements Serializable {
     String text;
 
     @Column(name = "created_at")
-    DateTime createdAt;
+    LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    DateTime updatedAt;
+    LocalDateTime updatedAt;
 
     @Column(name = "created_by")
     String createdBy;

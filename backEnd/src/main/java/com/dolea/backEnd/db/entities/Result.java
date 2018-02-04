@@ -1,10 +1,10 @@
 package com.dolea.backEnd.db.entities;
 
 import lombok.*;
-import org.joda.time.DateTime;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -28,7 +28,7 @@ public class Result implements Serializable {
     String resultString;
 
     @Column(name = "created_at")
-    DateTime createdAt;
+    LocalDateTime createdAt;
 
     @Column(name = "created_by")
     String createdBy;

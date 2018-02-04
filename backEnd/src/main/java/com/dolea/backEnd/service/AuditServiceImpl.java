@@ -1,6 +1,5 @@
 package com.dolea.backEnd.service;
 
-import com.dolea.backEnd.db.dao.ExecutionDao;
 import com.dolea.backEnd.db.entities.Execution;
 import com.dolea.backEnd.dto.ExecutionInfo;
 import org.joda.time.DateTime;

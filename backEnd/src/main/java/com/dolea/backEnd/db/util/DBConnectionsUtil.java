@@ -1,5 +1,6 @@
 package com.dolea.backEnd.db.util;
 
+import com.dolea.backEnd.db.dao.CommentDao;
 import com.dolea.backEnd.db.dao.ExecutionDao;
 import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.db.repositories.CommentRepository;
@@ -40,12 +41,6 @@ public class DBConnectionsUtil {
         return new ExecutionDao(entityManager);
     }
 
-    public static CommentRepository getCommentRepository(EntityManager entityManager) {
-        JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
-
-        return factory.getRepository(CommentRepository.class);
-    }
-
     public static ExecutionRepository getExecutionRepository(EntityManager entityManager) {
         JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
 
@@ -54,6 +49,16 @@ public class DBConnectionsUtil {
 
     public static ExecutionRepository getExecutionRepository(Map<String, String> givenMap) {
         return getExecutionRepository(getEntityManager(givenMap));
+    }
+
+    public static CommentDao getCommentDao(Map<String, String> givenMap) {
+        return new CommentDao(getEntityManager(givenMap));
+    }
+
+    public static CommentRepository getCommentRepository(EntityManager entityManager) {
+        JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
+
+        return factory.getRepository(CommentRepository.class);
     }
 
     public static EntityManager getEntityManager(Map<String, String> givenMap) {
