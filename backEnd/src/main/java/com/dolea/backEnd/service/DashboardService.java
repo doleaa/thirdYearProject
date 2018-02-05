@@ -1,11 +1,11 @@
 package com.dolea.backEnd.service;
 
-import com.dolea.backEnd.dto.ExecutionInfo;
+import com.dolea.backEnd.db.entities.Execution;
 
 import java.util.List;
 import java.util.Map;
 
 public interface DashboardService {
 
-    List<ExecutionInfo> getAllExecutions(Map<String, String> requestMap);
+    List<Execution> getAllExecutions(Map<String, String> requestMap);
 }
