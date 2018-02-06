@@ -44,6 +44,7 @@ public class AuditServiceImpl implements AuditService {
                 .result(result)
                 .comment(comment)
                 .ranAt(LocalDateTime.now())
+                .executedBy(executionInfo.getUsername())
                 .build();
 
         getExecutionDao(requestMap).persist(execution);
