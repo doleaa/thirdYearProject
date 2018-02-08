@@ -163,7 +163,12 @@ const history = ( state = initialState, action ) => {
                 executionsList:
                     state.executionsList.map((execution) => {
                         if (execution.id === action.id) {
-                            execution.comments = action.comments
+                            if (execution.comment) {
+                                execution.comment.text = action.comments
+                            } else {
+                                execution.comment = {}
+                                execution.comment.text = action.comments
+                            }
                             return execution
                         } else {
                             return execution

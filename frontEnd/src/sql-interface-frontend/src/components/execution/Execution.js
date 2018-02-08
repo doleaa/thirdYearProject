@@ -43,7 +43,7 @@ const Execution = ({
             onDoubleClick = {() => stopEdit()}
             >
                 <div className="col-md-12 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-12 comments">
                     { query }
@@ -63,7 +63,7 @@ const Execution = ({
             onDoubleClick = {() => startEdit()}
             >
                 <div className="col-md-12 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-12 comments">
                     { query }
@@ -79,7 +79,7 @@ const Execution = ({
             className="row reportFormMode"
             >
                 <div className="col-md-12 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-12 comments">
                     { query }
@@ -96,7 +96,7 @@ const Execution = ({
             onClick = {() => unselect()}
             >
                 <div className="col-md-12 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-12 comments">
                     { query }
@@ -113,7 +113,7 @@ const Execution = ({
             onClick = {() => select()}
             >
                 <div className="col-md-12 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-12 comments">
                     { query }
@@ -130,7 +130,7 @@ const Execution = ({
             onClick = {() => changePreviewState()}
             >
                 <div className="col-md-4 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-8 comments-preview">
                     { query }
@@ -144,7 +144,7 @@ const Execution = ({
             onClick = {() => changePreviewState()}
             >
                 <div className="col-md-12 execution-date">
-                    { date }
+                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
                 <div className="col-md-12 query">
                     { query }

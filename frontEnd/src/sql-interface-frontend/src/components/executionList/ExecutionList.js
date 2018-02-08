@@ -174,9 +174,9 @@ const ExecutionHistoryList = ({
                     selected = { item.selected }
                     select = { () => select(item.id) }
                     unselect = { () => unselect(item.id) }
-                    date = { item.date }
-                    comments = { item.comments }
-                    query = { item.query }
+                    date = { item.ranAt }
+                    comments = { item.comment ? item.comment.text : item.comment }
+                    query = { item.statement.sql }
                     changePreviewState = { () => changeState(item.id) }
                     startEdit = { () => startEdit(item.id) }
                     stopEdit = { () => stopEdit(item.id) }
