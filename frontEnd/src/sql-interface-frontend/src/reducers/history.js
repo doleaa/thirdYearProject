@@ -34,7 +34,7 @@ const history = ( state = initialState, action ) => {
     switch (action.type) {
         case "SET_INITIAL_EXECUTION_LIST_STATE":
             return initialState
-        case "SET_EXECUTION_MODE":
+        case "SET_EXECUTION_LIST_MODE":
             return Object.assign({}, state, {
                 mode: action.mode
             })

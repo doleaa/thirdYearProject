@@ -151,28 +151,28 @@ export const unSelectAllExecutions = () => {
 
 export const setExecutionListToEditMode = mode => {
     return {
-        type: "SET_EXECUTION_MODE",
+        type: "SET_EXECUTION_LIST_MODE",
         mode: "EDIT"
     }
 }
 
 export const setExecutionListToSelectMode = mode => {
     return {
-        type: "SET_EXECUTION_MODE",
+        type: "SET_EXECUTION_LIST_MODE",
         mode: "SELECT"
     }
 }
 
 export const setExecutionListToReportForm = mode => {
     return {
-        type: "SET_EXECUTION_MODE",
+        type: "SET_EXECUTION_LIST_MODE",
         mode: "REPORT_FORM"
     }
 }
 
 export const setExecutionListToViewMode = mode => {
     return {
-        type: "SET_EXECUTION_MODE",
+        type: "SET_EXECUTION_LIST_MODE",
         mode: "VIEW"
     }
 }
