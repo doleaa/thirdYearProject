@@ -127,7 +127,7 @@ const Execution = ({
         return (
             <div
             className="row execution mousable"
-            onClick = {() => changePreviewState()}
+            onDoubleClick = {() => changePreviewState()}
             >
                 <div className="col-md-4 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
@@ -141,7 +141,7 @@ const Execution = ({
         return (
             <div
             className="row execution mousable"
-            onClick = {() => changePreviewState()}
+            onDoubleClick = {() => changePreviewState()}
             >
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }

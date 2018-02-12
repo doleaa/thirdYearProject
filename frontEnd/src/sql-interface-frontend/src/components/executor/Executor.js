@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Editor from './../editor/Editor'
 import ExecutionButtons from './../executionButtons/ExecutionButtons'
+import ResultTable from './../resultTable/ResultTable'
 import {
     setQuery,
     executeQuery,
@@ -71,6 +72,10 @@ const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql,
                         execute={executeQuery}
                         name={"Execute"}
                     />
+                    {/*<ResultTable
+                        columns={result.data.columns}
+                        rows={result.data.rows}
+                    />*/}
                 </div>
             </div>
         )
