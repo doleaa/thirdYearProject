@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutionDao;
+import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 
 public class AuditServiceImpl implements AuditService {
     @Override
@@ -62,5 +63,27 @@ public class AuditServiceImpl implements AuditService {
                 .build();
 
         getExecutionDao(requestMap).persist(execution);
+    }
+
+    @Override
+    public Comment updateExecutionComment(String newComment, Integer executionId, Map<String, String> requestMap) {
+        Execution execution = getExecutionDao(requestMap).findOne(executionId);
+
+        if(execution.getComment() != null) {
+            Comment existingComment = execution.getComment();
+
+            existingComment.setText(newComment);
+            existingComment.setUpdatedAt(LocalDateTime.now());
+            existingComment.setUpdatedBy(requestMap.get(DB_USERNAME_STRING));
+        } else {
+            Comment comment = Comment.builder()
+                    .text(newComment)
+                    .createdAt(LocalDateTime.now())
+                    .createdBy(requestMap.get(DB_USERNAME_STRING))
+                    .build();
+            execution.setComment(comment);
+        }
+
+        return getExecutionDao(requestMap).persist(execution).getComment();
     }
 }

@@ -3,16 +3,15 @@ package com.dolea.backEnd.dto;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
-@Getter
 @Builder
+@Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-public class ExecutionResponse implements Serializable {
-    private List<Map<String, String>> rows;
-    private List<String> columns;
+public class CommentDto implements Serializable {
+    private String newComment;
+    private Map<String, String> dbMap;
 }

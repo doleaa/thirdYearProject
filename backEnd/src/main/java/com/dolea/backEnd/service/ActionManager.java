@@ -1,7 +1,9 @@
 package com.dolea.backEnd.service;
 
 import com.dolea.backEnd.db.dao.Executor;
+import com.dolea.backEnd.db.entities.Comment;
 import com.dolea.backEnd.dto.CommandDto;
+import com.dolea.backEnd.dto.CommentDto;
 import com.dolea.backEnd.dto.ExecutionInfo;
 import com.dolea.backEnd.dto.ExecutionResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +39,11 @@ public class ActionManager {
             new ExecutionResponse(translatedResulSet.get(),
                     translatedResulSet.get().get(0).keySet().stream().collect(Collectors.toList())) :
             new ExecutionResponse(null, null);
+    }
+
+    public Comment putComment(CommentDto commentDto, Integer executionId) {
+        return auditService.updateExecutionComment(
+                commentDto.getNewComment(), executionId, commentDto.getDbMap()
+        );
     }
 }

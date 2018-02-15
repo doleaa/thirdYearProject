@@ -11,10 +11,16 @@ const ReportForm = ({ executions, addReportNote, deleteReportNote, updateReportN
         <div className="col-md-12">
             <div className="row description">
             <Editor
+                rows={1}
+                initialValue={""}
+                updateValue={""}
+                placeholder="Title"
+            />
+            <Editor
                 rows={3}
                 initialValue={""}
                 updateValue={""}
-                placeholder="Write Something about this report"
+                placeholder="Header"
             />
             </div>
             {executions
