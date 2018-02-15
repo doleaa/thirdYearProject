@@ -68,10 +68,14 @@ const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql,
                         updateValue={updateQuery}
                         placeholder="TYPE SQL IN HERE"
                     />
+                </div>
+                <div className='row'>
                     <ExecutionButtons
                         execute={executeQuery}
                         name={"Execute"}
                     />
+                </div>
+                <div className='row'>
                     <ResultTable
                         columns={
                             (result.data && result.data.columns) ?

@@ -1,0 +1,7 @@
+.tableOuter:hover {
+    overflow-x: auto;
+}
+
+.tableOuter {
+    overflow-x: hidden;
+}
