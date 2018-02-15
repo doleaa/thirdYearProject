@@ -3,11 +3,13 @@ package com.dolea.backEnd.service;
 import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.dto.CommandDto;
 import com.dolea.backEnd.dto.ExecutionInfo;
+import com.dolea.backEnd.dto.ExecutionResponse;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutor;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
@@ -16,7 +18,7 @@ import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRIN
 public class ActionManager {
     private final AuditService auditService;
 
-    public List<Map<String, String>> executeCommand(CommandDto commandDto) {
+    public ExecutionResponse executeCommand(CommandDto commandDto) {
         Executor executor = getExecutor(commandDto.getDbMap());
 
         Optional<List<Map<String, String>>> translatedResulSet = Optional
@@ -31,6 +33,9 @@ public class ActionManager {
 
         auditService.recordExecution(executionInfo, commandDto.getDbMap());
 
-        return translatedResulSet.orElse(null);
+        return translatedResulSet.isPresent() ?
+            new ExecutionResponse(translatedResulSet.get(),
+                    translatedResulSet.get().get(0).keySet().stream().collect(Collectors.toList())) :
+            new ExecutionResponse(null, null);
     }
 }

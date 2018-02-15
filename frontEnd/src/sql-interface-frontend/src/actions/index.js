@@ -41,21 +41,32 @@ export const executeQuery = query => {
             "comments": ""
         }
 
-        const http = new XMLHttpRequest()
         const url = "http://127.0.0.1:8090/execution"
         const method = "POST"
 
-        http.open(method, url, true)
-        http.setRequestHeader("Content-type", "application/json")
-
-        http.onreadystatechange = () => {
-                dispatch(interpretResponse(http))
-            if ( http.status === 200 ) {
-                dispatch(getExecutionList())
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
             }
-        }
-
-        http.send(JSON.stringify(requestBody))
+            dispatch(getExecutionList())
+            return response.json()
+        })
+        .then(json => {
+            json.status = 200;
+            dispatch(interpretResponse(json))
+        })
+        .catch(error => {
+            dispatch(interpretResponse({status: 500}))
+            console.log(error)
+        })
     }
 }
 

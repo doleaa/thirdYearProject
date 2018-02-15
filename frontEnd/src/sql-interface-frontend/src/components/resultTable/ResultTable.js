@@ -4,7 +4,7 @@ import './ResultTable.css'
 
 const ResultTable = ({columns, rows}) => (
     <div className="col-md-12">
-        <table class="table">
+        <table className="table">
             <thead>
                 <tr>
                     {columns.map(column => (

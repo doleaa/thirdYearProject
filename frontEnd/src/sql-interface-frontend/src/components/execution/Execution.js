@@ -165,7 +165,7 @@ Execution.propTypes = {
     selected: PropTypes.bool,
     select: PropTypes.func,
     unselect: PropTypes.func,
-    date: PropTypes.string,
+    date: PropTypes.object,
     query: PropTypes.string,
     changePreviewState: PropTypes.func,
     startEdit: PropTypes.func,

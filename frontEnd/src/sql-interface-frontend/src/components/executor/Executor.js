@@ -72,10 +72,16 @@ const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql,
                         execute={executeQuery}
                         name={"Execute"}
                     />
-                    {/*<ResultTable
-                        columns={result.data.columns}
-                        rows={result.data.rows}
-                    />*/}
+                    <ResultTable
+                        columns={
+                            (result.data && result.data.columns) ?
+                            result.data.columns : []
+                        }
+                        rows={
+                            (result.data && result.data.rows) ?
+                            result.data.rows : []
+                        }
+                    />
                 </div>
             </div>
         )

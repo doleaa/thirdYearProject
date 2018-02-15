@@ -24,7 +24,7 @@ public class Result implements Serializable {
     @Column(name = "error_message")
     String errorMessage;
 
-    @Column(name = "result_string")
+    @Column(name = "result_string", columnDefinition = "TEXT")
     String resultString;
 
     @Column(name = "created_at")
