@@ -3,6 +3,8 @@ import spinner from './../../spinner.svg'
 import PropTypes from 'prop-types'
 import './Execution.css'
 import Editor from './../editor/Editor'
+import ResultTable from './../resultTable/ResultTable'
+
 
 const Execution = ({
     id,
@@ -15,6 +17,7 @@ const Execution = ({
     unselect,
     date,
     comments,
+    resultTableData,
     query,
     changePreviewState,
     startEdit,
@@ -45,7 +48,7 @@ const Execution = ({
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
-                <div className="col-md-12 comments">
+                <div className="col-md-12 query">
                     { query }
                 </div>
                 <Editor
@@ -65,10 +68,10 @@ const Execution = ({
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
-                <div className="col-md-12 comments">
+                <div className="col-md-12 query">
                     { query }
                 </div>
-                <div className="col-md-12 query">
+                <div className="col-md-12 comments">
                     { comments }
                 </div>
             </div>
@@ -81,10 +84,10 @@ const Execution = ({
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
-                <div className="col-md-12 comments">
+                <div className="col-md-12 query">
                     { query }
                 </div>
-                <div className="col-md-12 query">
+                <div className="col-md-12 comments">
                     { comments }
                 </div>
             </div>
@@ -98,10 +101,10 @@ const Execution = ({
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
-                <div className="col-md-12 comments">
+                <div className="col-md-12 query">
                     { query }
                 </div>
-                <div className="col-md-12 query">
+                <div className="col-md-12 comments">
                     { comments }
                 </div>
             </div>
@@ -115,10 +118,10 @@ const Execution = ({
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
-                <div className="col-md-12 comments">
+                <div className="col-md-12 query">
                     { query }
                 </div>
-                <div className="col-md-12 query">
+                <div className="col-md-12 comments">
                     { comments }
                 </div>
             </div>
@@ -132,7 +135,7 @@ const Execution = ({
                 <div className="col-md-4 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
                 </div>
-                <div className="col-md-8 comments-preview">
+                <div className="col-md-8 query-preview">
                     { query }
                 </div>
             </div>
@@ -152,6 +155,12 @@ const Execution = ({
                 <div className="col-md-12 comments">
                     { comments }
                 </div>
+                {resultTableData &&
+                    <ResultTable
+                        columns={resultTableData.columns}
+                        rows={resultTableData.rows}
+                    />
+                }
             </div>
         )
     }

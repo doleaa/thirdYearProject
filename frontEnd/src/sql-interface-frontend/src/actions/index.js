@@ -215,3 +215,9 @@ export const hideErrorExecutionResponse = () => {
         type: "HIDE_ERROR_RESPONSE"
     }
 }
+
+export const clearExecutionResponseData = () => {
+    return {
+        type: "CLEAR_RESPONSE_DATA"
+    }
+}

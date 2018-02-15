@@ -6,7 +6,8 @@ import ResultTable from './../resultTable/ResultTable'
 import {
     setQuery,
     executeQuery,
-    hideErrorExecutionResponse
+    hideErrorExecutionResponse,
+    clearExecutionResponseData
 } from './../../actions'
 import './Executor.css'
 
@@ -22,12 +23,13 @@ const mapDispatchToProps = dispatch => {
     return {
         setSqlString: query => { dispatch(setQuery(query)) },
         executeSql: query => { dispatch(executeQuery(query)) },
-        hideErrorResult: () => { dispatch(hideErrorExecutionResponse()) }
+        hideErrorResult: () => { dispatch(hideErrorExecutionResponse()) },
+        clearResultData: () => { dispatch(clearExecutionResponseData()) }
     }
 }
 
 
-const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql, hideErrorResult}) => {
+const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql, hideErrorResult, clearResultData}) => {
     const updateQuery = event => {
         setSqlString(event.target.value)
     }
@@ -76,6 +78,11 @@ const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql,
                     />
                 </div>
                 <div className='row'>
+                    {result.data && result.data.columns && result.data.rows &&
+                        <div className="col-md-12">
+                            <a className="pull-right" onClick= {() => { clearResultData() }}>x</a>
+                        </div>
+                    }
                     <ResultTable
                         columns={
                             (result.data && result.data.columns) ?

@@ -70,7 +70,7 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect
                             className="btn btn-primary"
                             onClick = { setEdit }
                         >
-                            Edit
+                            Comment/Edit
                         </button>
                         <button
                             type="button"
@@ -176,6 +176,9 @@ const ExecutionHistoryList = ({
                     unselect = { () => unselect(item.id) }
                     date = { item.ranAt }
                     comments = { item.comment ? item.comment.text : item.comment }
+                    resultTableData = {
+                        item.result ? JSON.parse(item.result.resultString) : {columns: [], rows: []}
+                    }
                     query = { item.statement.sql }
                     changePreviewState = { () => changeState(item.id) }
                     startEdit = { () => startEdit(item.id) }

@@ -38,6 +38,12 @@ const execution = (state = initialState, action) => {
                     ok: true
                 }
             })
+        case "CLEAR_RESPONSE_DATA":
+            return Object.assign({}, state, {
+                result: {
+                    data: {}
+                }
+            })
         default:
             return state
     }

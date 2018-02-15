@@ -32,9 +32,9 @@ const ReportForm = ({ executions, addReportNote, deleteReportNote, updateReportN
                                     mode = { "REPORT_FORM" }
                                     editing = { item.editing }
                                     selected = { item.selected }
-                                    date = { item.date }
-                                    comments = { item.comments }
-                                    query = { item.query }
+                                    date = { item.ranAt }
+                                    comments = { item.comment ? item.comment.text : item.comment }
+                                    query = { item.statement.sql }
                                 />
                             </div>
                             <div className="row item">
@@ -57,9 +57,9 @@ const ReportForm = ({ executions, addReportNote, deleteReportNote, updateReportN
                                     mode = { "REPORT_FORM" }
                                     editing = { item.editing }
                                     selected = { item.selected }
-                                    date = { item.date }
-                                    comments = { item.comments }
-                                    query = { item.query }
+                                    date = { item.ranAt }
+                                    comments = { item.comment ? item.comment.text : item.comment }
+                                    query = { item.statement.sql }
                                 />
                                 <div className="row item">
                                     <Editor
