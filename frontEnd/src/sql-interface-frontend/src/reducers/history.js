@@ -92,6 +92,7 @@ const history = ( state = initialState, action ) => {
                     state.executionsList.map((execution) => {
                         if (execution.id === action.executionId) {
                             execution.editing = false
+                            execution.comment = action.comment
                             return execution
                         } else {
                             return execution

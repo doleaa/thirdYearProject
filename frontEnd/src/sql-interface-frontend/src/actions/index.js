@@ -119,9 +119,60 @@ export const startEditingExecution = id => {
     }
 }
 
-export const stopEditingExecution = id => {
+const startExecutionLoading = id => {
+    return {
+        type: "START_EXECUTION_LOADING",
+        executionId: id
+    }
+}
+
+export const saveExecutionComments = ( id, comments ) => {
+    return dispatch => {
+        dispatch(startExecutionLoading(id))
+
+        const requestBody = {
+            "dbMap": dbMap,
+            "newComment": comments
+        }
+
+        const url = `http://127.0.0.1:8090/execution/${id}/comment`
+        const method = "PUT"
+
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json()
+        })
+        .then(json => {
+            dispatch(stopEditingExecution(id, json))
+            dispatch(stopExecutionLoading(id))
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+}
+
+export const stopEditingExecution = ( id, comment ) => {
     return {
         type: "STOP_EDITING_EXECUTION",
+        executionId: id,
+        comment: comment
+    }
+}
+
+export const stopExecutionLoading = id => {
+    return {
+        type: "STOP_EXECUTION_LOADING",
         executionId: id
     }
 }

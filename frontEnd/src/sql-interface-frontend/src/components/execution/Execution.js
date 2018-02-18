@@ -43,7 +43,7 @@ const Execution = ({
         return (
             <div
             className="row execution mousable"
-            onDoubleClick = {() => stopEdit()}
+            onDoubleClick = {() => stopEdit(id, comments)}
             >
                 <div className="col-md-12 execution-date">
                     { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
@@ -155,11 +155,14 @@ const Execution = ({
                 <div className="col-md-12 comments">
                     { comments }
                 </div>
-                {resultTableData &&
-                    <ResultTable
-                        columns={resultTableData.columns}
-                        rows={resultTableData.rows}
-                    />
+                {resultTableData && resultTableData.columns && resultTableData.columns.length > 0 &&
+                    <div>
+                        <div className="col-md-12 above-result-table"/>
+                        <ResultTable
+                            columns={resultTableData.columns}
+                            rows={resultTableData.rows}
+                        />
+                    </div>
                 }
             </div>
         )

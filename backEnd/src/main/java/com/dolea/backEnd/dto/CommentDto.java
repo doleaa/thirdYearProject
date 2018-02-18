@@ -14,4 +14,6 @@ import java.util.Map;
 public class CommentDto implements Serializable {
     private String newComment;
     private Map<String, String> dbMap;
+
+    public CommentDto() {}
 }

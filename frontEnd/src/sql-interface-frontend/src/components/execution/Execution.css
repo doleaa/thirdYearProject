@@ -53,11 +53,16 @@
     height: 100%;
     border-top: solid;
     border-top-width: 1.5px;
-    border-bottom: solid;
-    border-bottom-width: 1.5px;
     border-color: black;
     text-align: center;
     white-space: nowrap;
+}
+
+.above-result-table {
+    border-top: solid;
+    border-top-width: 1.5px;
+    border-color: black;
+    text-align: center;
 }
 
 .query {

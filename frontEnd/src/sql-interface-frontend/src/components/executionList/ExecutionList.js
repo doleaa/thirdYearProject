@@ -11,7 +11,7 @@ import {
     setExecutionListToViewMode,
     setExecutionListToSelectMode,
     startEditingExecution,
-    stopEditingExecution,
+    saveExecutionComments,
     addReportNoteToExecution,
     deleteReportNoteFromExecution,
     selectExecution,
@@ -37,7 +37,7 @@ const mapDispatchToProps = dispatch => {
         setListViewMode: () => { dispatch(setExecutionListToViewMode()) },
         setListSelectMode: () => { dispatch(setExecutionListToSelectMode()) },
         startEditingExecution: id => { dispatch(startEditingExecution(id)) },
-        stopEditingExecution: id => { dispatch(stopEditingExecution(id)) },
+        stopEditingExecution: ( id, comments ) => { dispatch(saveExecutionComments(id, comments)) },
         addReportNoteToExecution: id => { dispatch(addReportNoteToExecution(id)) },
         deleteReportNoteFromExecution: id => { dispatch(deleteReportNoteFromExecution(id)) },
         selectExecution: id => { dispatch(selectExecution(id)) },
@@ -182,7 +182,7 @@ const ExecutionHistoryList = ({
                     query = { item.statement.sql }
                     changePreviewState = { () => changeState(item.id) }
                     startEdit = { () => startEdit(item.id) }
-                    stopEdit = { () => stopEdit(item.id) }
+                    stopEdit = { stopEdit }
                     updateComments = { updateExecutionComments }
                 />
             ))}
