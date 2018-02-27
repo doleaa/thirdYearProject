@@ -1,10 +1,3 @@
-export const setMode = mode => {
-    return {
-        type: "SET_MODE",
-        mode
-    }
-}
-
 export const setQuery = query => {
     return {
         type: "SET_QUERY",

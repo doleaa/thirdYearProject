@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import './ExecutionList.css'
 import Execution from './../execution/Execution'
 import ReportForm from './../reportForm/ReportForm'
+import ExecutionHistoryList from './../executionHistoryList/ExecutionHistoryList'
+import ExecutionListButtons from './../executionListButtons/ExecutionListButtons'
 import {
     changePreviewState,
     getExecutionList,
@@ -49,146 +51,6 @@ const mapDispatchToProps = dispatch => {
 
     }
 }
-
-const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect, unselectAll }) => {
-    if ( mode === "VIEW") {
-        return (
-            <div className="row">
-                <div className="col-md-12">
-                    <div className="pull-left">
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick = { () => {} }
-                        >
-                            Reports
-                        </button>
-                    </div>
-                    <div className="pull-right">
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick = { setEdit }
-                        >
-                            Comment/Edit
-                        </button>
-                        <button
-                            type="button"
-                            className="btn btn-primary"
-                            onClick={ setSelect }
-                        >
-                            Select
-                        </button>
-                    </div>
-                </div>
-            </div>
-        )
-    } else if ( mode === "EDIT" ) {
-        return (
-            <div className="row">
-                <div className="col-md-12">
-                    <button
-                        type="button"
-                        className="btn btn-primary pull-right"
-                        onClick={ setView }
-                    >
-                        Done
-                    </button>
-                </div>
-            </div>
-        )
-    } else if ( mode === "SELECT" ) {
-        return (
-            <div className="row">
-                <div className="col-md-12">
-                    <button
-                        type="button"
-                        className="btn btn-primary pull-right"
-                        onClick={ () => {
-                            setView()
-                            unselectAll()
-                        } }
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-primary pull-right"
-                        onClick={ setReportForm }
-                    >
-                        Create Report
-                    </button>
-                </div>
-            </div>
-        )
-    } else if ( mode === "REPORT_FORM" ) {
-        return (
-            <div className="row buttgr">
-                <div className="col-md-12">
-                    <button
-                        type="button"
-                        className="btn btn-primary pull-right"
-                        onClick={ () => {
-                            setView()
-                            unselectAll()
-                        } }
-                    >
-                        Save
-                    </button>
-                    <button
-                        type="button"
-                        className="btn btn-primary pull-right"
-                        onClick={ () => {
-                            setView()
-                            unselectAll()
-                        } }
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </div>
-        )
-    }
-}
-
-const ExecutionHistoryList = ({
-    executionList,
-    listMode,
-    changeState,
-    startEdit,
-    stopEdit,
-    updateExecutionComments,
-    select,
-    unselect
-}) => (
-    <div className="row">
-        <div className="col-md-12">
-            {executionList.map(item => (
-                <Execution
-                    key = { item.id }
-                    id = { item.id }
-                    isInPreview = { item.isInPreview }
-                    isLoading = { item.isLoading }
-                    mode = { listMode }
-                    editing = { item.editing }
-                    selected = { item.selected }
-                    select = { () => select(item.id) }
-                    unselect = { () => unselect(item.id) }
-                    date = { item.ranAt }
-                    comments = { item.comment ? item.comment.text : item.comment }
-                    resultTableData = {
-                        item.result ? JSON.parse(item.result.resultString) : {columns: [], rows: []}
-                    }
-                    query = { item.statement.sql }
-                    changePreviewState = { () => changeState(item.id) }
-                    startEdit = { () => startEdit(item.id) }
-                    stopEdit = { stopEdit }
-                    updateComments = { updateExecutionComments }
-                />
-            ))}
-        </div>
-    </div>
-)
 
 const DisconnectedExecutionList = ({
     executionList,
