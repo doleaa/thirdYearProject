@@ -27,7 +27,7 @@ import {
 const mapStateToProps = state => {
     return {
         executionList: state.history.executionsList,
-        listMode: state.history.mode
+        historyMode: state.history.mode
     }
 }
 
@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => {
 
 const DisconnectedHistory = ({
     executionList,
-    listMode,
+    historyMode,
     changeState,
     getExecutionList,
     setListEditMode,
@@ -74,11 +74,11 @@ const DisconnectedHistory = ({
     if (executionList.length ===0) {
         getExecutionList()
     }
-    if ( listMode === "REPORT_FORM" ) {
+    if ( historyMode === "REPORT_FORM" ) {
         return (
             <div className="col-md-12">
                 <ExecutionListButtons
-                        mode = { listMode }
+                        mode = { historyMode }
                         setEdit = { setListEditMode }
                         setView = { setListViewMode }
                         setReportForm = { setExecutionListToReportForm }
@@ -97,7 +97,7 @@ const DisconnectedHistory = ({
     return (
         <div className="col-md-12">
             <ExecutionListButtons
-                mode = { listMode }
+                mode = { historyMode }
                 setEdit = { setListEditMode }
                 setView = { setListViewMode }
                 setReportForm = { setExecutionListToReportForm }
@@ -106,7 +106,7 @@ const DisconnectedHistory = ({
             />
             <ExecutionHistoryList
                 executionList = { executionList }
-                listMode = { listMode }
+                listMode = { historyMode }
                 changeState = { changeState }
                 startEdit = { startEditingExecution }
                 stopEdit = { stopEditingExecution }
