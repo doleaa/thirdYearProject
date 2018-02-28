@@ -1,13 +1,13 @@
 import React from 'react'
 import './HistoryContainer.css'
-import ExecutionList from './../executionList/ExecutionList'
+import History from './../history/History'
 
-const History = () => (
+const HistoryContainer = () => (
     <div className="ContainerView">
         <div className='row'>
-            <ExecutionList/>
+            <History/>
         </div>
     </div>
 )
 
-export default History
+export default HistoryContainer

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import './ExecutionList.css'
+import './History.css'
 import Execution from './../execution/Execution'
 import ReportForm from './../reportForm/ReportForm'
 import ExecutionHistoryList from './../executionHistoryList/ExecutionHistoryList'
@@ -52,7 +52,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-const DisconnectedExecutionList = ({
+const DisconnectedHistory = ({
     executionList,
     listMode,
     changeState,
@@ -118,11 +118,11 @@ const DisconnectedExecutionList = ({
     )
 }
 
-DisconnectedExecutionList.propTypes = {
+DisconnectedHistory.propTypes = {
     executionList: PropTypes.array,
     changePreviewState: PropTypes.func
 }
 
-const ExecutionList = connect(mapStateToProps, mapDispatchToProps)(DisconnectedExecutionList)
+const History = connect(mapStateToProps, mapDispatchToProps)(DisconnectedHistory)
 
-export default ExecutionList
+export default History
