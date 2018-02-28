@@ -2,8 +2,14 @@ import React from 'react'
 import spinner from './../../spinner.svg'
 import PropTypes from 'prop-types'
 import './Execution.css'
-import Editor from './../editor/Editor'
-import ResultTable from './../resultTable/ResultTable'
+import {
+    EditingExecution,
+    EditableExecution,
+    PreviewExecution,
+    NormalViewExecution,
+    SelectableExecution,
+    SelectedExecution
+} from './ExecutionEnum'
 
 
 const Execution = ({
@@ -28,6 +34,9 @@ const Execution = ({
     const updateExecComments = event => {
         updateComments(id, event.target.value)
     }
+    const stopEditing = () => {
+        stopEdit(id, comments)
+    }
 
     if ( isLoading ) {
         return (
@@ -41,40 +50,23 @@ const Execution = ({
         )
     } else if ( mode ==="EDIT" && editing ) {
         return (
-            <div
-            className="row execution mousable"
-            onDoubleClick = {() => stopEdit(id, comments)}
-            >
-                <div className="col-md-12 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-12 query">
-                    { query }
-                </div>
-                <Editor
-                    rows={5}
-                    initialValue={comments}
-                    updateValue={updateExecComments}
-                    placeholder="TYPE YOUR COMMENTS HERE"
-                />
-            </div>
+            <EditingExecution
+                query={query}
+                date={date}
+                comments={comments}
+                updateExecComments={updateExecComments}
+                stopEdit={stopEditing}
+            />
         )
     } else if ( mode ==="EDIT" ) {
         return (
-            <div
-            className="row execution mousable"
-            onDoubleClick = {() => startEdit()}
-            >
-                <div className="col-md-12 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-12 query">
-                    { query }
-                </div>
-                <div className="col-md-12 comments">
-                    { comments }
-                </div>
-            </div>
+            <EditableExecution
+                query={query}
+                date={date}
+                comments={comments}
+                updateExecComments={updateExecComments}
+                startEdit={startEdit}
+            />
         )
     } else if ( mode ==="REPORT_FORM" ) {
         return (
@@ -94,77 +86,39 @@ const Execution = ({
         )
     } else if ( mode ==="SELECT" && selected ) {
         return (
-            <div
-            className="row selected"
-            onClick = {() => unselect()}
-            >
-                <div className="col-md-12 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-12 query">
-                    { query }
-                </div>
-                <div className="col-md-12 comments">
-                    { comments }
-                </div>
-            </div>
+            <SelectedExecution
+                date={date}
+                query={query}
+                comments={comments}
+                unselect={unselect}
+            />
         )
     } else if ( mode ==="SELECT" ) {
         return (
-            <div
-            className="row execution"
-            onClick = {() => select()}
-            >
-                <div className="col-md-12 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-12 query">
-                    { query }
-                </div>
-                <div className="col-md-12 comments">
-                    { comments }
-                </div>
-            </div>
+            <SelectableExecution
+                date={date}
+                query={query}
+                comments={comments}
+                select={select}
+            />
         )
     } else if ( isInPreview && mode ==="VIEW") {
         return (
-            <div
-            className="row execution mousable"
-            onDoubleClick = {() => changePreviewState()}
-            >
-                <div className="col-md-4 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-8 query-preview">
-                    { query }
-                </div>
-            </div>
+            <PreviewExecution
+                date={date}
+                query={query}
+                changePreviewState={changePreviewState}
+            />
         )
     } else if (mode ==="VIEW") {
         return (
-            <div
-            className="row execution mousable"
-            onDoubleClick = {() => changePreviewState()}
-            >
-                <div className="col-md-12 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-12 query">
-                    { query }
-                </div>
-                <div className="col-md-12 comments">
-                    { comments }
-                </div>
-                {resultTableData && resultTableData.columns && resultTableData.columns.length > 0 &&
-                    <div>
-                        <div className="col-md-12 above-result-table"/>
-                        <ResultTable
-                            columns={resultTableData.columns}
-                            rows={resultTableData.rows}
-                        />
-                    </div>
-                }
-            </div>
+            <NormalViewExecution
+                date={date}
+                query={query}
+                comments={comments}
+                changePreviewState={changePreviewState}
+                resultTableData={resultTableData}
+            />
         )
     }
 }
