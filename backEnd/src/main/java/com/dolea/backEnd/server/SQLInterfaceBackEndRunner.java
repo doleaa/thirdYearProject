@@ -10,7 +10,7 @@ public class SQLInterfaceBackEndRunner {
         SQLInterfaceBackEndApplication.main(
             new String[] {
                 "server",
-                new File("src/main/resources/Config.yaml").getAbsolutePath()
+                new File("backEnd/src/main/resources/Config.yaml").getAbsolutePath()
             }
         );
     }

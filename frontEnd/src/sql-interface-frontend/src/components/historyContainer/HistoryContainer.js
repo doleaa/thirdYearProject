@@ -1,5 +1,5 @@
 import React from 'react'
-import './History.css'
+import './HistoryContainer.css'
 import ExecutionList from './../executionList/ExecutionList'
 
 const History = () => (

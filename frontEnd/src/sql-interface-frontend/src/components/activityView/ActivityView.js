@@ -1,5 +1,5 @@
 import React from 'react'
-import History from './../history/History'
+import HistoryContainer from './../historyContainer/HistoryContainer'
 import Executor from './../executor/Executor'
 import './ActivityView.css'
 
@@ -8,7 +8,7 @@ const ActivityView = () => {
     return (
         <div>
             <Executor/>
-            <History/>
+            <HistoryContainer/>
         </div>
     )
 }
