@@ -100,8 +100,36 @@ export const getExecutionList = () => {
 
 export const changePreviewState = id => {
     return {
-        type: "CHANGE_PREVIEW_STATE",
+        type: "CHANGE_EXECUTION_PREVIEW_STATE",
         executionId: id
+    }
+}
+
+export const setScriptFormData = (title, header, elementList) => {
+    return {
+        type: "SET_SCRIPT_FORM_DATA",
+        title,
+        header,
+        elementList
+    }
+}
+
+export const deleteScriptFormData = () => {
+    return {
+        type: "DELETE_SCRIPT_FORM_DATA"
+    }
+}
+
+export const updateScriptFormTitle = title => {
+    return {
+        type: "UPDATE_SCRIPT_FORM_TITLE",
+        title
+    }
+}
+export const updateScriptFormHeader = header => {
+    return {
+        type: "UPDATE_SCRIPT_FORM_HEADER",
+        header
     }
 }
 
@@ -170,20 +198,6 @@ export const stopExecutionLoading = id => {
     }
 }
 
-export const addReportNoteToExecution = id => {
-    return {
-        type: "ADD_REPORT_NOTE_TO_EXECUTION",
-        executionId: id
-    }
-}
-
-export const deleteReportNoteFromExecution = id => {
-    return {
-        type: "DELETE_REPORT_NOTE_FROM_EXECUTION",
-        executionId: id
-    }
-}
-
 export const selectExecution = id => {
     return {
         type: "SELECT_EXECUTION",
@@ -218,7 +232,7 @@ export const setExecutionListToSelectMode = mode => {
     }
 }
 
-export const setExecutionListToReportForm = mode => {
+export const setExecutionListToScriptForm = () => {
     return {
         type: "SET_EXECUTION_LIST_MODE",
         mode: "REPORT_FORM"
@@ -237,14 +251,6 @@ export const updateExecutionComments = (id, comments) => {
         type: "UPDATE_EXECUTION_COMMENTS",
         id,
         comments
-    }
-}
-
-export const updateExecutionReportNote = (id, reportNote) => {
-    return {
-        type: "UPDATE_EXECUTION_REPORT_NOTE",
-        id,
-        reportNote
     }
 }
 

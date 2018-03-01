@@ -1,44 +1,27 @@
-const mockedExecutions = [
-    {
-        id: 1,
-        comments: "some comments, not many though",
-        date: "20-11-2017",
-        query: "create table book;",
-        isInPreview: true,
-        isLoading: false
-    },
-    {
-        id: 2,
-        comments: "some other comments, but still not too many",
-        date: "20-11-2017",
-        query: "drop table table book;",
-        isInPreview: true,
-        isLoading: false
-    },
-    {
-        id: 3,
-        comments: "some other comments, but still not too many",
-        date: "20-11-2017",
-        query: "drop table table book;",
-        isInPreview: true,
-        isLoading: false
-    }
-]
-
 const initialState = {
     executionsList: [],
-    mode: "VIEW"
+    mode: "VIEW",
+    scriptForm: {},
+    scriptsList: []
+}
+
+const newElement = {
+    position: "",
+    comment: {},
+    execution: {}
 }
 
 const history = ( state = initialState, action ) => {
     switch (action.type) {
         case "SET_INITIAL_EXECUTION_LIST_STATE":
             return initialState
+
         case "SET_EXECUTION_LIST_MODE":
             return Object.assign({}, state, {
                 mode: action.mode
             })
-        case "CHANGE_PREVIEW_STATE":
+
+        case "CHANGE_EXECUTION_PREVIEW_STATE":
             return Object.assign({}, state, {
                 executionsList:
                     state.executionsList.map((execution) => {
@@ -50,6 +33,37 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
+        case "SET_SCRIPT_FORM_DATA":
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: action.title,
+                    header: action.header,
+                    elementList: action.elementList
+                }
+            })
+
+        case "DELETE_SCRIPT_FORM_DATA":
+            return Object.assign({}, state, {scriptForm: {}})
+
+        case "UPDATE_SCRIPT_FORM_TITLE":
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: action.title,
+                    header: state.scriptForm.header,
+                    elementList: state.scriptForm.elementList
+                }
+            })
+
+        case "UPDATE_SCRIPT_FORM_HEADER":
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: state.scriptForm.title,
+                    header: action.header,
+                    elementList: state.scriptForm.elementList
+                }
+            })
+
         case "START_EXECUTION_LOADING":
             return Object.assign({}, state, {
                 executionsList:
@@ -62,6 +76,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
         case "STOP_EXECUTION_LOADING":
             return Object.assign({}, state, {
                 executionsList:
@@ -74,6 +89,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
         case "START_EDITING_EXECUTION":
             return Object.assign({}, state, {
                 executionsList:
@@ -86,6 +102,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
         case "STOP_EDITING_EXECUTION":
             return Object.assign({}, state, {
                 executionsList:
@@ -99,30 +116,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
-        case "ADD_REPORT_NOTE_TO_EXECUTION":
-            return Object.assign({}, state, {
-                executionsList:
-                    state.executionsList.map((execution) => {
-                        if (execution.id === action.executionId) {
-                            execution.reportNote = ""
-                            return execution
-                        } else {
-                            return execution
-                        }
-                    })
-            })
-        case "DELETE_REPORT_NOTE_FROM_EXECUTION":
-            return Object.assign({}, state, {
-                executionsList:
-                    state.executionsList.map((execution) => {
-                        if (execution.id === action.executionId) {
-                            execution.reportNote = undefined
-                            return execution
-                        } else {
-                            return execution
-                        }
-                    })
-            })
+
         case "UNSELECT_ALL_EXECUTIONS":
             return Object.assign({}, state, {
                 executionsList:
@@ -135,6 +129,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
         case "UNSELECT_EXECUTION":
             return Object.assign({}, state, {
                 executionsList:
@@ -147,6 +142,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
         case "SELECT_EXECUTION":
             return Object.assign({}, state, {
                 executionsList:
@@ -159,6 +155,7 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
+
         case "UPDATE_EXECUTION_COMMENTS":
             return Object.assign({}, state, {
                 executionsList:
@@ -176,22 +173,12 @@ const history = ( state = initialState, action ) => {
                         }
                     })
             })
-        case "UPDATE_EXECUTION_REPORT_NOTE":
-            return Object.assign({}, state, {
-                executionsList:
-                    state.executionsList.map((execution) => {
-                        if (execution.id === action.id) {
-                            execution.reportNote = action.reportNote
-                            return execution
-                        } else {
-                            return execution
-                        }
-                    })
-            })
+
         case "MAP_RESPONSE_LIST":
             return Object.assign({}, state, {
                 executionsList: action.executionsList
             })
+
         default:
             return state
     }

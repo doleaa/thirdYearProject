@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect, unselectAll }) => {
+const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect, deleteScriptFormData }) => {
     if ( mode === "VIEW") {
         return (
             <div className="row">
@@ -56,7 +56,6 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect
                         className="btn btn-primary pull-right"
                         onClick={ () => {
                             setView()
-                            unselectAll()
                         } }
                     >
                         Cancel
@@ -64,7 +63,7 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect
                     <button
                         type="button"
                         className="btn btn-primary pull-right"
-                        onClick={ setReportForm }
+                        onClick={ setScriptForm }
                     >
                         Create Script
                     </button>
@@ -80,7 +79,6 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect
                         className="btn btn-primary pull-right"
                         onClick={ () => {
                             setView()
-                            unselectAll()
                         } }
                     >
                         Save
@@ -90,7 +88,7 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setReportForm, setSelect
                         className="btn btn-primary pull-right"
                         onClick={ () => {
                             setView()
-                            unselectAll()
+                            deleteScriptFormData()
                         } }
                     >
                         Cancel

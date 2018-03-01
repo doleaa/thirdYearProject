@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './History.css'
-import Execution from './../execution/Execution'
-import ReportForm from './../reportForm/ReportForm'
+import ScriptForm from './../scriptForm/ScriptForm'
 import ExecutionHistoryList from './../executionHistoryList/ExecutionHistoryList'
 import ExecutionListButtons from './../executionListButtons/ExecutionListButtons'
 import {
@@ -14,20 +13,22 @@ import {
     setExecutionListToSelectMode,
     startEditingExecution,
     saveExecutionComments,
-    addReportNoteToExecution,
-    deleteReportNoteFromExecution,
     selectExecution,
     unSelectExecution,
     unSelectAllExecutions,
     updateExecutionComments,
-    updateExecutionReportNote,
-    setExecutionListToReportForm
+    setExecutionListToScriptForm,
+    setScriptFormData,
+    deleteScriptFormData,
+    updateScriptFormTitle,
+    updateScriptFormHeader
 } from './../../actions'
 
 const mapStateToProps = state => {
     return {
         executionList: state.history.executionsList,
-        historyMode: state.history.mode
+        historyMode: state.history.mode,
+        scriptForm: state.history.scriptForm
     }
 }
 
@@ -40,14 +41,15 @@ const mapDispatchToProps = dispatch => {
         setListSelectMode: () => { dispatch(setExecutionListToSelectMode()) },
         startEditingExecution: id => { dispatch(startEditingExecution(id)) },
         stopEditingExecution: ( id, comments ) => { dispatch(saveExecutionComments(id, comments)) },
-        addReportNoteToExecution: id => { dispatch(addReportNoteToExecution(id)) },
-        deleteReportNoteFromExecution: id => { dispatch(deleteReportNoteFromExecution(id)) },
         selectExecution: id => { dispatch(selectExecution(id)) },
         unSelectExecution: id => { dispatch(unSelectExecution(id)) },
         unSelectAllExecutions: id => { dispatch(unSelectAllExecutions()) },
         updateExecutionComments: ( id, comments ) => { dispatch(updateExecutionComments(id, comments)) },
-        updateExecutionReportNote: ( id, comments ) => { dispatch(updateExecutionReportNote(id, comments)) },
-        setExecutionListToReportForm: ( id, comments ) => { dispatch(setExecutionListToReportForm(id, comments)) }
+        setExecutionListToScriptForm: () => { dispatch(setExecutionListToScriptForm()) },
+        setScriptFormData: (title, header, elementList) => { dispatch(setScriptFormData(title, header, elementList)) },
+        deleteScriptFormData: () => { dispatch(deleteScriptFormData()) },
+        updateScriptFormTitle: title => { dispatch(updateScriptFormTitle(title)) },
+        updateScriptFormHeader: header => { dispatch(updateScriptFormHeader(header)) }
 
     }
 }
@@ -55,6 +57,7 @@ const mapDispatchToProps = dispatch => {
 const DisconnectedHistory = ({
     executionList,
     historyMode,
+    scriptForm,
     changeState,
     getExecutionList,
     setListEditMode,
@@ -68,9 +71,17 @@ const DisconnectedHistory = ({
     unSelectExecution,
     unSelectAllExecutions,
     updateExecutionComments,
-    updateExecutionReportNote,
-    setExecutionListToReportForm
+    setExecutionListToScriptForm,
+    setScriptFormData,
+    deleteScriptFormData,
+    updateScriptFormTitle,
+    updateScriptFormHeader
 }) => {
+    const setScriptFormBtn = () => {
+        setScriptFormData("", "", executionList.filter(item => item.selected))
+        setExecutionListToScriptForm()
+        unSelectAllExecutions()
+    }
     if (executionList.length ===0) {
         getExecutionList()
     }
@@ -81,15 +92,16 @@ const DisconnectedHistory = ({
                         mode = { historyMode }
                         setEdit = { setListEditMode }
                         setView = { setListViewMode }
-                        setReportForm = { setExecutionListToReportForm }
+                        setScriptForm = { setScriptFormBtn }
                         setSelect = { setListSelectMode }
-                        unselectAll = { unSelectAllExecutions }
+                        deleteScriptFormData = { deleteScriptFormData }
                     />
-                <ReportForm
-                    executions={executionList}
-                    addReportNote={addReportNoteToExecution}
-                    deleteReportNote={deleteReportNoteFromExecution}
-                    updateReportNote={updateExecutionReportNote}
+                <ScriptForm
+                    title={scriptForm.title}
+                    updateTitle={updateScriptFormTitle}
+                    header={scriptForm.header}
+                    updateHeader={updateScriptFormHeader}
+                    elementList={scriptForm.elementList}
                 />
             </div>
         )
@@ -100,9 +112,9 @@ const DisconnectedHistory = ({
                 mode = { historyMode }
                 setEdit = { setListEditMode }
                 setView = { setListViewMode }
-                setReportForm = { setExecutionListToReportForm }
+                setScriptForm = { setScriptFormBtn }
                 setSelect = { setListSelectMode }
-                unselectAll = { unSelectAllExecutions }
+                deleteScriptFormData = { deleteScriptFormData }
             />
             <ExecutionHistoryList
                 executionList = { executionList }
