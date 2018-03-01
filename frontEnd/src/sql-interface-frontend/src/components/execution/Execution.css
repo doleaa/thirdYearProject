@@ -73,6 +73,11 @@
     text-align: center;
 }
 
+.script-form-query {
+    height: 100%;
+    text-align: center;
+}
+
 .selected {
     width: 80%;
     outline: 0;

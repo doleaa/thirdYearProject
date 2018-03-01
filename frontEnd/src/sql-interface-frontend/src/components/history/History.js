@@ -19,6 +19,8 @@ import {
     updateExecutionComments,
     setExecutionListToScriptForm,
     updateScriptFormCommentElement,
+    startEditingScriptFormCommentElement,
+    stopEditingScriptFormCommentElement,
     setScriptFormData,
     deleteScriptFormData,
     updateScriptFormTitle,
@@ -51,6 +53,8 @@ const mapDispatchToProps = dispatch => {
         updateExecutionComments: ( id, comments ) => { dispatch(updateExecutionComments(id, comments)) },
         setExecutionListToScriptForm: () => { dispatch(setExecutionListToScriptForm()) },
         updateScriptFormCommentElement: (index, comment) => { dispatch(updateScriptFormCommentElement(index, comment)) },
+        startEditingScriptFormCommentElement: index => { dispatch(startEditingScriptFormCommentElement(index)) },
+        stopEditingScriptFormCommentElement: index => { dispatch(stopEditingScriptFormCommentElement(index)) },
         setScriptFormData: (title, header, elementList) => { dispatch(setScriptFormData(title, header, elementList)) },
         deleteScriptFormData: () => { dispatch(deleteScriptFormData()) },
         updateScriptFormTitle: title => { dispatch(updateScriptFormTitle(title)) },
@@ -82,6 +86,8 @@ const DisconnectedHistory = ({
     updateExecutionComments,
     setExecutionListToScriptForm,
     updateScriptFormCommentElement,
+    startEditingScriptFormCommentElement,
+    stopEditingScriptFormCommentElement,
     setScriptFormData,
     deleteScriptFormData,
     updateScriptFormTitle,
@@ -127,6 +133,8 @@ const DisconnectedHistory = ({
                     moveFromTo={moveScriptFormElementFromTo}
                     moveFrom={startMovingScriptFormElementFrom}
                     addCommentUnder={addScriptFormCommentElementUnder}
+                    stopEdit={stopEditingScriptFormCommentElement}
+                    startEdit={startEditingScriptFormCommentElement}
                 />
             </div>
         )

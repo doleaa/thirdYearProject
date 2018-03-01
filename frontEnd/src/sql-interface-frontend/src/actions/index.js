@@ -163,6 +163,20 @@ export const updateScriptFormCommentElement = (index, comment) => {
     }
 }
 
+export const startEditingScriptFormCommentElement = index => {
+    return {
+        type: "START_EDITING_SCRIPT_FORM_COMMENT_ELEMENT_TEXT",
+        index
+    }
+}
+
+export const stopEditingScriptFormCommentElement = index => {
+    return {
+        type: "STOP_EDITING_SCRIPT_FORM_COMMENT_ELEMENT_TEXT",
+        index
+    }
+}
+
 export const startEditingExecution = id => {
     return {
         type: "START_EDITING_EXECUTION",

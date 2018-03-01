@@ -89,7 +89,7 @@ const history = ( state = initialState, action ) => {
 
         case "ADD_SCRIPT_FORM_COMMENT_ELEMENT_UNDER":
             const currentScriptFormElementList = state.scriptForm.elementList
-            const newCommentElement = {comment: {text: ""}}
+            const newCommentElement = {comment: {text: "", editing: false}}
             currentScriptFormElementList.splice(action.under+1, 0, newCommentElement)
             return Object.assign({}, state, {
                scriptForm: {
@@ -107,6 +107,38 @@ const history = ( state = initialState, action ) => {
                     elementList: state.scriptForm.elementList.map((item, index) => {
                         if (index === action.index) {
                             item.comment.text = action.text
+                            return item
+                        }
+                        return item
+                    })
+                }
+            })
+
+
+        case "START_EDITING_SCRIPT_FORM_COMMENT_ELEMENT_TEXT":
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: state.scriptForm.title,
+                    header: state.scriptForm.header,
+                    elementList: state.scriptForm.elementList.map((item, index) => {
+                        if (index === action.index) {
+                            item.comment.editing = true
+                            return item
+                        }
+                        return item
+                    })
+                }
+            })
+
+
+        case "STOP_EDITING_SCRIPT_FORM_COMMENT_ELEMENT_TEXT":
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: state.scriptForm.title,
+                    header: state.scriptForm.header,
+                    elementList: state.scriptForm.elementList.map((item, index) => {
+                        if (index === action.index) {
+                            item.comment.editing = false
                             return item
                         }
                         return item

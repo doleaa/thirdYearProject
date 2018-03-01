@@ -3,13 +3,10 @@ import Editor from './../editor/Editor'
 import ResultTable from './../resultTable/ResultTable'
 import './../execution/Execution.css'
 
-export const ScriptFormExecution = ({ date, query, comments, resultTableData }) => {
+export const ScriptFormExecution = ({ query, comments, resultTableData }) => {
     return (
         <div className="row scriptFormExecution">
-            <div className="col-md-12 execution-date">
-                { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-            </div>
-            <div className="col-md-12 query">
+            <div className="col-md-12 script-form-query">
                 { query }
             </div>
             <div className="col-md-12 comments">
@@ -24,6 +21,16 @@ export const ScriptFormExecution = ({ date, query, comments, resultTableData }) 
                     />
                 </div>
             }
+        </div>
+    )
+}
+
+export const ExecutionLikeComment = ({ comments, startEdit }) => {
+    return (
+        <div className="row scriptFormExecution" onDoubleClick = {startEdit}>
+            <div className="col-md-12 script-form-query">
+                { comments }
+            </div>
         </div>
     )
 }

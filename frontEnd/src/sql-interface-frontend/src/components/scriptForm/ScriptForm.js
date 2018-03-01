@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './ScriptForm.css'
 import Editor from './../editor/Editor'
-import { ScriptFormExecution } from './../execution/ExecutionEnum'
+import ExecutionButtons from './../executionButtons/ExecutionButtons'
+import { ScriptFormExecution, ExecutionLikeComment } from './../execution/ExecutionEnum'
 import ScriptFormElementButtons from './../scriptFormElementButtons/ScriptFormElementButtons'
 
 
@@ -16,7 +17,9 @@ const ScriptForm = ({
         movingIndex,
         moveFromTo,
         moveFrom,
-        addCommentUnder }) => {
+        addCommentUnder,
+        startEdit,
+        stopEdit}) => {
     const updateScriptTitle = event => {
         updateTitle(event.target.value)
     }
@@ -51,7 +54,6 @@ const ScriptForm = ({
                                 <div className="col-md-11">
                                     {item.execution &&
                                         <ScriptFormExecution
-                                            date = { item.execution.ranAt }
                                             comments = { item.execution.comment ? item.execution.comment.text : item.execution.comment }
                                             query = { item.execution.statement.sql }
                                             resultTableData = {
@@ -59,15 +61,17 @@ const ScriptForm = ({
                                             }
                                         />
                                     }
-                                    {item.comment &&
+                                    {item.comment && item.comment.editing &&
                                         <div className="row">
-                                            <Editor
-                                                rows={3}
-                                                initialValue={item.comment.text}
-                                                updateValue={updateComment}
-                                                placeholder="Comment"
+                                            <EditingEditor
+                                                item={item}
+                                                updateComment={updateComment}
+                                                stopEdit={() => {stopEdit(index)}}
                                             />
                                         </div>
+                                    }
+                                    {item.comment && !item.comment.editing &&
+                                        <ExecutionLikeComment comments={item.comment.text} startEdit={() => {startEdit(index)}}/>
                                     }
                                 </div>
                                 <div className="col-md-1">
@@ -101,5 +105,17 @@ const ScriptForm = ({
         </div>
     )
 }
+
+const EditingEditor = ({item, updateComment, stopEdit}) => (
+    <div className="row">
+        <Editor
+            rows={3}
+            initialValue={item.comment.text}
+            updateValue={updateComment}
+            placeholder="Comment"
+        />
+        <ExecutionButtons execute={stopEdit} name="Save"/>
+    </div>
+)
 
 export default ScriptForm
