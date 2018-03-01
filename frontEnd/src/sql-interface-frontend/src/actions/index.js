@@ -133,6 +133,36 @@ export const updateScriptFormHeader = header => {
     }
 }
 
+export const moveScriptFormElementFromTo = (from, to) => {
+    return {
+        type: "MOVE_SCRIPT_FORM_ELEMENT_FROM_TO",
+        from,
+        to
+    }
+}
+
+export const startMovingScriptFormElementFrom = index => {
+    return {
+        type: "START_MOVING_SCRIPT_FORM_ELEMENT_FROM",
+        index
+    }
+}
+
+export const addScriptFormCommentElementUnder = under => {
+    return {
+        type: "ADD_SCRIPT_FORM_COMMENT_ELEMENT_UNDER",
+        under
+    }
+}
+
+export const updateScriptFormCommentElement = (index, comment) => {
+    return {
+        type: "UPDATE_SCRIPT_FORM_COMMENT_ELEMENT_TEXT",
+        text: comment,
+        index
+    }
+}
+
 export const startEditingExecution = id => {
     return {
         type: "START_EDITING_EXECUTION",
@@ -235,7 +265,7 @@ export const setExecutionListToSelectMode = mode => {
 export const setExecutionListToScriptForm = () => {
     return {
         type: "SET_EXECUTION_LIST_MODE",
-        mode: "REPORT_FORM"
+        mode: "SCRIPT_FORM"
     }
 }
 

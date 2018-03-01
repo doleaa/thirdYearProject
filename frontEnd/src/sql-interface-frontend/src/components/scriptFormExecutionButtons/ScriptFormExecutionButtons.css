@@ -1,0 +1,13 @@
+.scriptFormExecution {
+    width: 100%;
+    outline: 0;
+    padding: 9px;
+    border: initial solid;
+    border-width: 3px;
+    border-radius: 18px;
+    border-color: black;
+    border-style: solid;
+    min-height: 50px;
+    margin: 5px auto;
+    overflow: hidden;
+}

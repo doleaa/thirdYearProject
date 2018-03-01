@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './ScriptForm.css'
 import Editor from './../editor/Editor'
-import Execution from './../execution/Execution'
-import ExecutionButtons from './../executionButtons/ExecutionButtons'
+import { ScriptFormExecution } from './../execution/ExecutionEnum'
+import ScriptFormElementButtons from './../scriptFormElementButtons/ScriptFormElementButtons'
 
 
 const ScriptForm = ({
@@ -11,7 +11,12 @@ const ScriptForm = ({
         updateTitle,
         header,
         updateHeader,
-        elementList }) => {
+        elementList,
+        updateCommentText,
+        movingIndex,
+        moveFromTo,
+        moveFrom,
+        addCommentUnder }) => {
     const updateScriptTitle = event => {
         updateTitle(event.target.value)
     }
@@ -36,20 +41,59 @@ const ScriptForm = ({
                 />
                 </div>
                 {elementList
-                    .map(item => {
+                    .map((item, index) => {
+                        const updateComment = event => {
+                            updateCommentText(index, event.target.value)
+                        }
+
                         return (
-                            <Execution
-                                key = { item.id }
-                                id = { item.id }
-                                isInPreview = { item.isInPreview }
-                                isLoading = { item.isLoading }
-                                mode = { "REPORT_FORM" }
-                                editing = { item.editing }
-                                selected = { item.selected }
-                                date = { item.ranAt }
-                                comments = { item.comment ? item.comment.text : item.comment }
-                                query = { item.statement.sql }
-                            />
+                            <div key={index}>
+                                <div className="col-md-11">
+                                    {item.execution &&
+                                        <ScriptFormExecution
+                                            date = { item.execution.ranAt }
+                                            comments = { item.execution.comment ? item.execution.comment.text : item.execution.comment }
+                                            query = { item.execution.statement.sql }
+                                            resultTableData = {
+                                                item.execution.result ? JSON.parse(item.execution.result.resultString) : {columns: [], rows: []}
+                                            }
+                                        />
+                                    }
+                                    {item.comment &&
+                                        <div className="row">
+                                            <Editor
+                                                rows={3}
+                                                initialValue={item.comment.text}
+                                                updateValue={updateComment}
+                                                placeholder="Comment"
+                                            />
+                                        </div>
+                                    }
+                                </div>
+                                <div className="col-md-1">
+                                    {movingIndex && movingIndex !== index &&
+                                        <ScriptFormElementButtons
+                                            moveFromTo={() => {moveFromTo(movingIndex, index)}}
+                                        />
+                                    }
+                                    {!movingIndex && index !== 0 &&
+                                        <ScriptFormElementButtons
+                                            moveFrom={() => {moveFrom(index)}}
+                                            addCommentUnder={() => {addCommentUnder(index)}}
+                                        />
+                                    }
+                                    {!movingIndex && index === 0 &&
+                                        <ScriptFormElementButtons
+                                            addCommentUnder={() => {addCommentUnder(index)}}
+                                        />
+                                    }
+                                    {!movingIndex && elementList.length === 1 &&
+                                        <ScriptFormElementButtons
+                                            addCommentUnder={() => {addCommentUnder(index)}}
+                                        />
+                                    }
+                                </div>
+                            </div>
                         )
                     })
                 }

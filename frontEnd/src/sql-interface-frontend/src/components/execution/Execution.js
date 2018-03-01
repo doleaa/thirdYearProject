@@ -68,22 +68,6 @@ const Execution = ({
                 startEdit={startEdit}
             />
         )
-    } else if ( mode ==="REPORT_FORM" ) {
-        return (
-            <div
-            className="row reportFormMode"
-            >
-                <div className="col-md-12 execution-date">
-                    { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
-                </div>
-                <div className="col-md-12 query">
-                    { query }
-                </div>
-                <div className="col-md-12 comments">
-                    { comments }
-                </div>
-            </div>
-        )
     } else if ( mode ==="SELECT" && selected ) {
         return (
             <SelectedExecution

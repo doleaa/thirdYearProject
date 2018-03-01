@@ -70,7 +70,7 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect
                 </div>
             </div>
         )
-    } else if ( mode === "REPORT_FORM" ) {
+    } else if ( mode === "SCRIPT_FORM" ) {
         return (
             <div className="row buttgr">
                 <div className="col-md-12">

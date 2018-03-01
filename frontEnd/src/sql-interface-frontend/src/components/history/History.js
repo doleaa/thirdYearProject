@@ -18,10 +18,14 @@ import {
     unSelectAllExecutions,
     updateExecutionComments,
     setExecutionListToScriptForm,
+    updateScriptFormCommentElement,
     setScriptFormData,
     deleteScriptFormData,
     updateScriptFormTitle,
-    updateScriptFormHeader
+    updateScriptFormHeader,
+    moveScriptFormElementFromTo,
+    startMovingScriptFormElementFrom,
+    addScriptFormCommentElementUnder
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -46,13 +50,18 @@ const mapDispatchToProps = dispatch => {
         unSelectAllExecutions: id => { dispatch(unSelectAllExecutions()) },
         updateExecutionComments: ( id, comments ) => { dispatch(updateExecutionComments(id, comments)) },
         setExecutionListToScriptForm: () => { dispatch(setExecutionListToScriptForm()) },
+        updateScriptFormCommentElement: (index, comment) => { dispatch(updateScriptFormCommentElement(index, comment)) },
         setScriptFormData: (title, header, elementList) => { dispatch(setScriptFormData(title, header, elementList)) },
         deleteScriptFormData: () => { dispatch(deleteScriptFormData()) },
         updateScriptFormTitle: title => { dispatch(updateScriptFormTitle(title)) },
-        updateScriptFormHeader: header => { dispatch(updateScriptFormHeader(header)) }
-
+        updateScriptFormHeader: header => { dispatch(updateScriptFormHeader(header)) },
+        addScriptFormCommentElementUnder: index => { dispatch(addScriptFormCommentElementUnder(index)) },
+        moveScriptFormElementFromTo: (from, to) => { dispatch(moveScriptFormElementFromTo(from, to)) },
+        startMovingScriptFormElementFrom: index => { dispatch(startMovingScriptFormElementFrom(index)) }
     }
 }
+
+let triedOnce = false;
 
 const DisconnectedHistory = ({
     executionList,
@@ -72,20 +81,31 @@ const DisconnectedHistory = ({
     unSelectAllExecutions,
     updateExecutionComments,
     setExecutionListToScriptForm,
+    updateScriptFormCommentElement,
     setScriptFormData,
     deleteScriptFormData,
     updateScriptFormTitle,
-    updateScriptFormHeader
+    updateScriptFormHeader,
+    addScriptFormCommentElementUnder,
+    moveScriptFormElementFromTo,
+    startMovingScriptFormElementFrom
 }) => {
     const setScriptFormBtn = () => {
-        setScriptFormData("", "", executionList.filter(item => item.selected))
+        setScriptFormData("", "",
+            executionList
+                .filter(item => item.selected)
+                .map(item => {
+                    return {execution: item}
+                })
+        )
         setExecutionListToScriptForm()
         unSelectAllExecutions()
     }
-    if (executionList.length ===0) {
+    if (executionList.length === 0 && !triedOnce) {
         getExecutionList()
+        triedOnce = true
     }
-    if ( historyMode === "REPORT_FORM" ) {
+    if ( historyMode === "SCRIPT_FORM" ) {
         return (
             <div className="col-md-12">
                 <ExecutionListButtons
@@ -102,6 +122,11 @@ const DisconnectedHistory = ({
                     header={scriptForm.header}
                     updateHeader={updateScriptFormHeader}
                     elementList={scriptForm.elementList}
+                    updateCommentText={updateScriptFormCommentElement}
+                    movingIndex={scriptForm.movingIndex}
+                    moveFromTo={moveScriptFormElementFromTo}
+                    moveFrom={startMovingScriptFormElementFrom}
+                    addCommentUnder={addScriptFormCommentElementUnder}
                 />
             </div>
         )

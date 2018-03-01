@@ -1,6 +1,32 @@
 import React from 'react'
 import Editor from './../editor/Editor'
 import ResultTable from './../resultTable/ResultTable'
+import './../execution/Execution.css'
+
+export const ScriptFormExecution = ({ date, query, comments, resultTableData }) => {
+    return (
+        <div className="row scriptFormExecution">
+            <div className="col-md-12 execution-date">
+                { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
+            </div>
+            <div className="col-md-12 query">
+                { query }
+            </div>
+            <div className="col-md-12 comments">
+                { comments }
+            </div>
+            {resultTableData && resultTableData.columns && resultTableData.columns.length > 0 &&
+                <div>
+                    <div className="col-md-12 above-result-table"/>
+                    <ResultTable
+                        columns={resultTableData.columns}
+                        rows={resultTableData.rows}
+                    />
+                </div>
+            }
+        </div>
+    )
+}
 
 export const EditingExecution = ({date, query, comments, updateExecComments, stopEdit}) => {
     return (

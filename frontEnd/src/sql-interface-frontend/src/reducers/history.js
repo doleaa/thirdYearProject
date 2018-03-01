@@ -64,6 +64,57 @@ const history = ( state = initialState, action ) => {
                 }
             })
 
+        case "MOVE_SCRIPT_FORM_ELEMENT_FROM_TO":
+            const scriptFormElementList = state.scriptForm.elementList
+            const elementCopy = scriptFormElementList[action.from]
+            scriptFormElementList.splice(action.from, 1)
+            scriptFormElementList.splice(action.to, 0, elementCopy)
+            return Object.assign({}, state, {
+               scriptForm: {
+                   title: state.scriptForm.title,
+                   header: state.scriptForm.header,
+                   elementList: scriptFormElementList
+               }
+            })
+
+        case "START_MOVING_SCRIPT_FORM_ELEMENT_FROM":
+            return Object.assign({}, state, {
+              scriptForm: {
+                  title: state.scriptForm.title,
+                  header: state.scriptForm.header,
+                  elementList: state.scriptForm.elementList,
+                  movingIndex: action.index
+              }
+           })
+
+        case "ADD_SCRIPT_FORM_COMMENT_ELEMENT_UNDER":
+            const currentScriptFormElementList = state.scriptForm.elementList
+            const newCommentElement = {comment: {text: ""}}
+            currentScriptFormElementList.splice(action.under+1, 0, newCommentElement)
+            return Object.assign({}, state, {
+               scriptForm: {
+                   title: state.scriptForm.title,
+                   header: state.scriptForm.header,
+                   elementList: currentScriptFormElementList
+               }
+            })
+
+        case "UPDATE_SCRIPT_FORM_COMMENT_ELEMENT_TEXT":
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: state.scriptForm.title,
+                    header: state.scriptForm.header,
+                    elementList: state.scriptForm.elementList.map((item, index) => {
+                        if (index === action.index) {
+                            item.comment.text = action.text
+                            return item
+                        }
+                        return item
+                    })
+                }
+            })
+
+
         case "START_EXECUTION_LOADING":
             return Object.assign({}, state, {
                 executionsList:
