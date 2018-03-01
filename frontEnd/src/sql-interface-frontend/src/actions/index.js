@@ -163,6 +163,13 @@ export const updateScriptFormCommentElement = (index, comment) => {
     }
 }
 
+export const removeScriptFormElement = index => {
+    return {
+        type: "REMOVE_SCRIPT_FORM_ELEMENT",
+        index
+    }
+}
+
 export const startEditingScriptFormCommentElement = index => {
     return {
         type: "START_EDITING_SCRIPT_FORM_COMMENT_ELEMENT_TEXT",

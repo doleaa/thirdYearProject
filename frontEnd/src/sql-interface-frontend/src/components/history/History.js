@@ -27,7 +27,8 @@ import {
     updateScriptFormHeader,
     moveScriptFormElementFromTo,
     startMovingScriptFormElementFrom,
-    addScriptFormCommentElementUnder
+    addScriptFormCommentElementUnder,
+    removeScriptFormElement
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -61,7 +62,8 @@ const mapDispatchToProps = dispatch => {
         updateScriptFormHeader: header => { dispatch(updateScriptFormHeader(header)) },
         addScriptFormCommentElementUnder: index => { dispatch(addScriptFormCommentElementUnder(index)) },
         moveScriptFormElementFromTo: (from, to) => { dispatch(moveScriptFormElementFromTo(from, to)) },
-        startMovingScriptFormElementFrom: index => { dispatch(startMovingScriptFormElementFrom(index)) }
+        startMovingScriptFormElementFrom: index => { dispatch(startMovingScriptFormElementFrom(index)) },
+        removeScriptFormElement: index => { dispatch(removeScriptFormElement(index)) }
     }
 }
 
@@ -94,7 +96,8 @@ const DisconnectedHistory = ({
     updateScriptFormHeader,
     addScriptFormCommentElementUnder,
     moveScriptFormElementFromTo,
-    startMovingScriptFormElementFrom
+    startMovingScriptFormElementFrom,
+    removeScriptFormElement
 }) => {
     const setScriptFormBtn = () => {
         setScriptFormData("", "",
@@ -135,6 +138,7 @@ const DisconnectedHistory = ({
                     addCommentUnder={addScriptFormCommentElementUnder}
                     stopEdit={stopEditingScriptFormCommentElement}
                     startEdit={startEditingScriptFormCommentElement}
+                    removeScriptFormElement={removeScriptFormElement}
                 />
             </div>
         )

@@ -115,6 +115,18 @@ const history = ( state = initialState, action ) => {
             })
 
 
+        case "REMOVE_SCRIPT_FORM_ELEMENT":
+                const list = state.scriptForm.elementList
+                list.splice(action.index, 1)
+            return Object.assign({}, state, {
+                scriptForm: {
+                    title: state.scriptForm.title,
+                    header: state.scriptForm.header,
+                    elementList: list
+                }
+            })
+
+
         case "START_EDITING_SCRIPT_FORM_COMMENT_ELEMENT_TEXT":
             return Object.assign({}, state, {
                 scriptForm: {

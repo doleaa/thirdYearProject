@@ -18,8 +18,9 @@ const ScriptForm = ({
         moveFromTo,
         moveFrom,
         addCommentUnder,
+        stopEdit,
         startEdit,
-        stopEdit}) => {
+        removeScriptFormElement}) => {
     const updateScriptTitle = event => {
         updateTitle(event.target.value)
     }
@@ -84,16 +85,13 @@ const ScriptForm = ({
                                         <ScriptFormElementButtons
                                             moveFrom={() => {moveFrom(index)}}
                                             addCommentUnder={() => {addCommentUnder(index)}}
+                                            remove={() => {removeScriptFormElement(index)}}
                                         />
                                     }
                                     {!movingIndex && index === 0 &&
                                         <ScriptFormElementButtons
                                             addCommentUnder={() => {addCommentUnder(index)}}
-                                        />
-                                    }
-                                    {!movingIndex && elementList.length === 1 &&
-                                        <ScriptFormElementButtons
-                                            addCommentUnder={() => {addCommentUnder(index)}}
+                                            remove={() => {removeScriptFormElement(index)}}
                                         />
                                     }
                                 </div>
