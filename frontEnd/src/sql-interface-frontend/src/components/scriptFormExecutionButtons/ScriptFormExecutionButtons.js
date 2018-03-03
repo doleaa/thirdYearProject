@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './ScriptFormExecutionButtons.css'
 
-const ScriptFormExecutionButtons = ({execute, name}) => (
-    <div className="col-md-12">
+const ScriptFormExecutionButtons = ({execute, name, size}) => (
+    <div className={`col-md-${size}`}>
         <button
             type="button"
-            className="btn btn-primary pull-left"
+            className="btn btn-primary"
             onClick={execute}
         >
             { name }
