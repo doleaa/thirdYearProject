@@ -2,6 +2,8 @@ package com.dolea.backEnd.db.dao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.util.TablesNamesFinder;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,13 +12,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+
 @RequiredArgsConstructor
 public class Executor {
     private final Connection connection;
 
     @SneakyThrows
     public List<Map<String, String>> runCommand(String sql) {
+
+        try {
+            List<String> tableNames = new TablesNamesFinder().getTableList(CCJSqlParserUtil.parse(sql));
+        } catch (Exception e) {}
+
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
             boolean resultSetAvailable = ps.execute();
 
             if (resultSetAvailable) {

@@ -25,6 +25,7 @@
         <assertj.version>3.8.0</assertj.version>
         <h2.version>1.4.196</h2.version>
         <reflections.version>0.9.10</reflections.version>
+        <jsqlparser.version>1.1</jsqlparser.version>
     </properties>
 
     <build>
@@ -48,6 +49,11 @@
         <!-- ### DEPENDENCIES ### -->
         <dependencies>
 
+            <dependency>
+                <groupId>com.github.jsqlparser</groupId>
+                <artifactId>jsqlparser</artifactId>
+                <version>${jsqlparser.version}</version>
+            </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-core</artifactId>
