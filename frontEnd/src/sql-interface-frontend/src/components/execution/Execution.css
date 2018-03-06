@@ -12,6 +12,10 @@
     overflow: hidden;
 }
 
+.movingScriptFormExecution {
+    background-color: #c825f0;
+}
+
 .executionSpinner {
     width: 50%;
     padding: 9px;

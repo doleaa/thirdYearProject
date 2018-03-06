@@ -3,9 +3,16 @@ import Editor from './../editor/Editor'
 import ResultTable from './../resultTable/ResultTable'
 import './../execution/Execution.css'
 
-export const ScriptFormExecution = ({ query, comments, resultTableData }) => {
+export const ScriptFormExecution = ({ query, comments, resultTableData, isMoving, isMovable, moveFrom, moveTo }) => {
     return (
-        <div className="row scriptFormExecution">
+        <div className={
+            isMoving ?
+                "row scriptFormExecution movingScriptFormExecution" :
+                "row scriptFormExecution mousable"
+            }
+            onDoubleClick = { isMovable ? moveFrom : () => {}}
+            onClick = { !(isMovable || isMoving) ? moveTo : () => {} }
+        >
             <div className="col-md-12 script-form-query">
                 { query }
             </div>

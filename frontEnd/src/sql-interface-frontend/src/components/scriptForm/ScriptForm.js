@@ -60,6 +60,10 @@ const ScriptForm = ({
                                             resultTableData = {
                                                 item.execution.result ? JSON.parse(item.execution.result.resultString) : {columns: [], rows: []}
                                             }
+                                            isMoving = { movingIndex !== undefined && movingIndex === index }
+                                            isMovable = { movingIndex === undefined }
+                                            moveFrom = {() => {moveFrom(index)}}
+                                            moveTo = {() => {moveFromTo(movingIndex, index)}}
                                         />
                                     }
                                     {item.comment && item.comment.editing &&
@@ -74,14 +78,14 @@ const ScriptForm = ({
                                     {item.comment && !item.comment.editing &&
                                         <ExecutionLikeComment comments={item.comment.text} startEdit={() => {startEdit(index)}}/>
                                     }
-                                </div>
+                                </div>{/*}
                                 <div className="col-md-1">
-                                    {movingIndex && movingIndex !== index &&
+                                    {movingIndex === undefined && movingIndex !== index &&
                                         <ScriptFormElementButtons
                                             moveFromTo={() => {moveFromTo(movingIndex, index)}}
                                         />
                                     }
-                                    {!movingIndex && index !== 0 &&
+                                    {/*!movingIndex && index !== 0 &&
                                         <ScriptFormElementButtons
                                             moveFrom={() => {moveFrom(index)}}
                                             addCommentUnder={() => {addCommentUnder(index)}}
@@ -93,8 +97,8 @@ const ScriptForm = ({
                                             addCommentUnder={() => {addCommentUnder(index)}}
                                             remove={() => {removeScriptFormElement(index)}}
                                         />
-                                    }
                                 </div>
+                                    */}
                             </div>
                         )
                     })
