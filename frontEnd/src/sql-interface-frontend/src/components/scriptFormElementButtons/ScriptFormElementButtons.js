@@ -2,12 +2,12 @@ import React from 'react'
 import ScriptFormExecutionButtons from './../scriptFormExecutionButtons/ScriptFormExecutionButtons'
 import './ScriptFormElementButtons.css'
 
-const ScriptFormElementButtons = ({moveFrom, moveFromTo, addCommentUnder, remove}) => (
-    <div className="row">
-        { moveFrom && <ScriptFormExecutionButtons execute={moveFrom} size={6} name="move"/>}
-        { moveFromTo && <ScriptFormExecutionButtons execute={moveFromTo} size={6} name="here"/>}
-        { addCommentUnder && <ScriptFormExecutionButtons execute={addCommentUnder} size={3} name="+"/>}
-        { remove && <ScriptFormExecutionButtons execute={remove} size={3} name="x"/>}
+const ScriptFormElementButtons = ({addCommentUnder, remove, isComment, editing, startEdit, stopEdit}) => (
+    <div className="row elementButtons">
+        { isComment && editing && <ScriptFormExecutionButtons execute={stopEdit} size={6} name="Save"/> }
+        { isComment && !editing && <ScriptFormExecutionButtons execute={startEdit} size={6} name="Edit"/> }
+        <ScriptFormExecutionButtons execute={addCommentUnder} size={3} name="+"/>
+        <ScriptFormExecutionButtons execute={remove} size={3} name="x"/>
     </div>
 )
 

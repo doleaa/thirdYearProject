@@ -68,37 +68,43 @@ const ScriptForm = ({
                                     }
                                     {item.comment && item.comment.editing &&
                                         <div className="row">
-                                            <EditingEditor
-                                                item={item}
-                                                updateComment={updateComment}
-                                                stopEdit={() => {stopEdit(index)}}
+                                            <Editor
+                                                rows={3}
+                                                initialValue={item.comment.text}
+                                                updateValue={updateComment}
+                                                placeholder="Comment"
                                             />
                                         </div>
                                     }
                                     {item.comment && !item.comment.editing &&
-                                        <ExecutionLikeComment comments={item.comment.text} startEdit={() => {startEdit(index)}}/>
-                                    }
-                                </div>{/*}
-                                <div className="col-md-1">
-                                    {movingIndex === undefined && movingIndex !== index &&
-                                        <ScriptFormElementButtons
-                                            moveFromTo={() => {moveFromTo(movingIndex, index)}}
+                                        <ExecutionLikeComment
+                                            comments={item.comment.text}
+                                            isMoving = { movingIndex !== undefined && movingIndex === index }
+                                            isMovable = { movingIndex === undefined }
+                                            moveFrom = {() => {moveFrom(index)}}
+                                            moveTo = {() => {moveFromTo(movingIndex, index)}}
                                         />
                                     }
-                                    {/*!movingIndex && index !== 0 &&
-                                        <ScriptFormElementButtons
-                                            moveFrom={() => {moveFrom(index)}}
-                                            addCommentUnder={() => {addCommentUnder(index)}}
-                                            remove={() => {removeScriptFormElement(index)}}
-                                        />
-                                    }
-                                    {!movingIndex && index === 0 &&
-                                        <ScriptFormElementButtons
-                                            addCommentUnder={() => {addCommentUnder(index)}}
-                                            remove={() => {removeScriptFormElement(index)}}
-                                        />
                                 </div>
-                                    */}
+                                <div className="col-md-1">
+                                    {movingIndex === undefined && item.comment &&
+                                        <ScriptFormElementButtons
+                                            addCommentUnder = {() => {addCommentUnder(index)}}
+                                            remove = {() => {removeScriptFormElement(index)}}
+                                            isComment = { true }
+                                            editing = {item.comment.editing}
+                                            startEdit = {() => {startEdit(index)}}
+                                            stopEdit = {() => {stopEdit(index)}}
+                                        />
+                                    }
+                                    {movingIndex === undefined && !item.comment &&
+                                        <ScriptFormElementButtons
+                                            addCommentUnder = {() => {addCommentUnder(index)}}
+                                            remove = {() => {removeScriptFormElement(index)}}
+                                            isComment = { false }
+                                        />
+                                    }
+                                </div>
                             </div>
                         )
                     })
@@ -107,17 +113,5 @@ const ScriptForm = ({
         </div>
     )
 }
-
-const EditingEditor = ({item, updateComment, stopEdit}) => (
-    <div className="row">
-        <Editor
-            rows={3}
-            initialValue={item.comment.text}
-            updateValue={updateComment}
-            placeholder="Comment"
-        />
-        <ExecutionButtons execute={stopEdit} name="Save"/>
-    </div>
-)
 
 export default ScriptForm

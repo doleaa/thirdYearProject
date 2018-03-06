@@ -32,9 +32,16 @@ export const ScriptFormExecution = ({ query, comments, resultTableData, isMoving
     )
 }
 
-export const ExecutionLikeComment = ({ comments, startEdit }) => {
+export const ExecutionLikeComment = ({ comments, isMoving, isMovable, moveFrom, moveTo }) => {
     return (
-        <div className="row scriptFormExecution" onDoubleClick = {startEdit}>
+        <div className={
+            isMoving ?
+               "row scriptFormExecution movingScriptFormExecution" :
+               "row scriptFormExecution mousable"
+            }
+            onDoubleClick = { isMovable ? moveFrom : () => {}}
+            onClick = { !(isMovable || isMoving) ? moveTo : () => {} }
+        >
             <div className="col-md-12 script-form-query">
                 { comments }
             </div>
