@@ -1,10 +1,10 @@
 package com.dolea.backEnd.db.util;
 
-import com.dolea.backEnd.db.dao.CommentDao;
-import com.dolea.backEnd.db.dao.ExecutionDao;
-import com.dolea.backEnd.db.dao.Executor;
+import com.dolea.backEnd.db.dao.*;
 import com.dolea.backEnd.db.repositories.CommentRepository;
 import com.dolea.backEnd.db.repositories.ExecutionRepository;
+import com.dolea.backEnd.db.repositories.ScriptElementRepository;
+import com.dolea.backEnd.db.repositories.ScriptRepository;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
@@ -24,6 +24,26 @@ import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRIN
 
 @UtilityClass
 public class DBConnectionsUtil {
+
+    public static ScriptDao getScriptDao(Map<String, String> givenMap) {
+        return new ScriptDao(getEntityManager(givenMap));
+    }
+
+    public static ScriptRepository getScriptRepository(EntityManager entityManager) {
+        JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
+
+        return factory.getRepository(ScriptRepository.class);
+    }
+
+    public static ScriptElementDao getScriptElementDao(Map<String, String> givenMap) {
+        return new ScriptElementDao(getEntityManager(givenMap));
+    }
+
+    public static ScriptElementRepository getScriptElementRepository(EntityManager entityManager) {
+        JpaRepositoryFactory factory = new JpaRepositoryFactory(entityManager);
+
+        return factory.getRepository(ScriptElementRepository.class);
+    }
 
     public static Executor getExecutor(Map<String, String> givenMap) {
         return getExecutor(getConnection(givenMap));

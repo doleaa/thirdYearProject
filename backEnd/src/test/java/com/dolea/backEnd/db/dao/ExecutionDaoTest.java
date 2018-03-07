@@ -1,22 +1,23 @@
 package com.dolea.backEnd.db.dao;
 
 
-import com.dolea.backEnd.db.entities.Comment;
-import com.dolea.backEnd.db.entities.Execution;
-import com.dolea.backEnd.db.entities.Result;
-import com.dolea.backEnd.db.entities.Statement;
+import com.dolea.backEnd.db.entities.*;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import lombok.SneakyThrows;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
-import static com.dolea.backEnd.db.util.DBConnectionsUtil.getCommentDao;
-import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutionDao;
+import static com.dolea.backEnd.db.util.DBConnectionsUtil.*;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_PASSWORD_STRING;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_URL_STRING;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
@@ -105,5 +106,80 @@ public class ExecutionDaoTest {
         List<Execution> allRemainingExecutions = underTest.findAll();
 
         assertThat(allRemainingExecutions).isEmpty();
+    }
+
+    @Test
+    public void scriptDao_whenCalledToPersist_thenPersistsAsExpected() {
+        Comment newComment = Comment.builder()
+                .text(COMMENT)
+                .createdBy(USERNAME)
+                .createdAt(DATE_TIME)
+                .build();
+
+        Statement newStatement = Statement.builder()
+                .sql("SELECT * FROM LIFE;")
+                .createdBy(USERNAME)
+                .createdAt(DATE_TIME)
+                .build();
+
+        ScriptElement firstElement = ScriptElement.builder()
+                .comment(newComment)
+                .createdAt(DATE_TIME)
+                .createdBy(USERNAME)
+                .position(1)
+                .build();
+
+        ScriptElement secondElement = ScriptElement.builder()
+                .statement(newStatement)
+                .createdAt(DATE_TIME)
+                .createdBy(USERNAME)
+                .position(2)
+                .build();
+
+        Script newScript = Script.builder()
+                .title("Some Title")
+                .header("Some Header....LOLZ")
+                .elements(Sets.newHashSet(firstElement, secondElement))
+                .createdAt(DATE_TIME)
+                .createdBy(USERNAME)
+                .build();
+
+        ScriptDao underTest = getScriptDao(givenMap);
+        ScriptElementDao underTestElement = getScriptElementDao(givenMap);
+
+        List<Script> allScripts = underTest.findAll();
+        allScripts.stream().forEach(script -> {
+            script.getElements().forEach(element -> underTestElement.delete(element));
+            underTest.delete(script);
+        });
+
+        Script persistedScript = underTest.persist(newScript);
+        allScripts = underTest.findAll();
+
+        assertThat(persistedScript).isNotNull();
+        assertThat(allScripts).isNotEmpty();
+        assertThat(allScripts.size()).isEqualTo(1);
+        assertThat(allScripts.get(0).getElements().contains(firstElement)).isTrue();
+        assertThat(allScripts.get(0).getElements().contains(secondElement)).isTrue();
+
+        Script editing = allScripts.get(0);
+        secondElement = editing.getElements().stream().collect(Collectors.toList()).get(0);
+        editing.setElements(null);
+
+        editing = underTest.persist(editing);
+        editing.setElements(Sets.newHashSet(secondElement));
+        editing.setElements(underTestElement.persistAllOf(editing).stream().collect(Collectors.toSet()));
+//        secondElement.setScript(editing);
+        persistedScript = underTest.findOne(editing.getId());
+
+        allScripts = underTest.findAll();
+
+        assertThat(persistedScript).isNotNull();
+        assertThat(allScripts).isNotEmpty();
+        assertThat(allScripts.size()).isEqualTo(1);
+        assertThat(persistedScript.getElements().size()).isEqualTo(1);
+        assertThat(allScripts.get(0).getElements().size()).isEqualTo(1);
+        assertThat(persistedScript.getElements().contains(secondElement)).isTrue();
+        assertThat(allScripts.get(0).getElements().contains(secondElement)).isTrue();
     }
 }
