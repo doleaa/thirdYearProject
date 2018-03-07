@@ -13,12 +13,13 @@ import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_PASSWORD_STRIN
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_URL_STRING;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 
-@Path("/executions")
+@Path("/")
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class GetResource extends BaseBackEndResource {
     private final DashboardService dashboardService;
 
     @GET
+    @Path("executions")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getExecutions(@HeaderParam(DB_URL_STRING) String dbUrl,
                                   @HeaderParam(DB_USERNAME_STRING) String username,

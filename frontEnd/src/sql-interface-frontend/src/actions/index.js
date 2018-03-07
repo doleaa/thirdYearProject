@@ -1,3 +1,5 @@
+const backEndHostName = "127.0.0.1"
+
 export const setQuery = query => {
     return {
         type: "SET_QUERY",
@@ -34,7 +36,7 @@ export const executeQuery = query => {
             "comments": ""
         }
 
-        const url = "http://127.0.0.1:8090/execution"
+        const url = `http://${backEndHostName}:8090/execution`
         const method = "POST"
 
         fetch(url, {
@@ -72,7 +74,7 @@ const mapResponseList = list => {
 
 export const getExecutionList = () => {
     return dispatch => {
-        const url = "http://127.0.0.1:8090/executions"
+        const url = `http://${backEndHostName}:8090/executions`
         const headers = new Headers(dbMap)
 
         const request = new Request(url, {
@@ -103,6 +105,48 @@ export const changePreviewState = id => {
         type: "CHANGE_EXECUTION_PREVIEW_STATE",
         executionId: id
     }
+}
+
+export const saveScript = scriptForm => {
+    return dispatch => {
+        scriptForm.elementList = scriptForm.elementList
+                .map((element, index) => {
+                    element.position = index + 1
+                    return element
+                })
+
+        const requestBody = {
+            "dbMap": dbMap,
+            "script": scriptForm
+        }
+
+        const url = `http://${backEndHostName}:8090/script`
+        const method = "POSt"
+
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                dispatch(setExecutionListToViewMode())
+                throw new Error(response.statusText)
+            }
+            return response.json()
+        })
+        .then(json => {
+            console.log(json)
+            dispatch(setExecutionListToViewMode())
+        })
+        .catch( error => console.log(error) )
+    }
+
+
+
 }
 
 export const setScriptFormData = (title, header, elementList) => {
@@ -207,7 +251,7 @@ export const saveExecutionComments = ( id, comments ) => {
             "newComment": comments
         }
 
-        const url = `http://127.0.0.1:8090/execution/${id}/comment`
+        const url = `http://${backEndHostName}:8090/execution/${id}/comment`
         const method = "PUT"
 
         fetch(url, {
@@ -290,7 +334,7 @@ export const setExecutionListToScriptForm = () => {
     }
 }
 
-export const setExecutionListToViewMode = mode => {
+export const setExecutionListToViewMode = () => {
     return {
         type: "SET_EXECUTION_LIST_MODE",
         mode: "VIEW"

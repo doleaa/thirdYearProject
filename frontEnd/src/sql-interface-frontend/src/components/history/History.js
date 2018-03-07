@@ -28,7 +28,8 @@ import {
     moveScriptFormElementFromTo,
     startMovingScriptFormElementFrom,
     addScriptFormCommentElementUnder,
-    removeScriptFormElement
+    removeScriptFormElement,
+    saveScript
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -63,7 +64,8 @@ const mapDispatchToProps = dispatch => {
         addScriptFormCommentElementUnder: index => { dispatch(addScriptFormCommentElementUnder(index)) },
         moveScriptFormElementFromTo: (from, to) => { dispatch(moveScriptFormElementFromTo(from, to)) },
         startMovingScriptFormElementFrom: index => { dispatch(startMovingScriptFormElementFrom(index)) },
-        removeScriptFormElement: index => { dispatch(removeScriptFormElement(index)) }
+        removeScriptFormElement: index => { dispatch(removeScriptFormElement(index)) },
+        saveScriptFormData: scriptForm => { dispatch(saveScript(scriptForm)) }
     }
 }
 
@@ -97,7 +99,8 @@ const DisconnectedHistory = ({
     addScriptFormCommentElementUnder,
     moveScriptFormElementFromTo,
     startMovingScriptFormElementFrom,
-    removeScriptFormElement
+    removeScriptFormElement,
+    saveScriptFormData
 }) => {
     const setScriptFormBtn = () => {
         setScriptFormData("", "",
@@ -124,6 +127,7 @@ const DisconnectedHistory = ({
                         setScriptForm = { setScriptFormBtn }
                         setSelect = { setListSelectMode }
                         deleteScriptFormData = { deleteScriptFormData }
+                        saveScriptFormData = {() => { saveScriptFormData(scriptForm) }}
                     />
                 <ScriptForm
                     title={scriptForm.title}
@@ -152,6 +156,7 @@ const DisconnectedHistory = ({
                 setScriptForm = { setScriptFormBtn }
                 setSelect = { setListSelectMode }
                 deleteScriptFormData = { deleteScriptFormData }
+                saveScriptFormData = {() => { saveScriptFormData(scriptForm) }}
             />
             <ExecutionHistoryList
                 executionList = { executionList }

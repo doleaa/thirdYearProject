@@ -41,7 +41,7 @@ const ScriptForm = ({
                     rows={3}
                     initialValue={header}
                     updateValue={updateScriptHeader}
-                    placeholder="Header"
+                    placeholder="Abstract"
                 />
                 </div>
                 {elementList

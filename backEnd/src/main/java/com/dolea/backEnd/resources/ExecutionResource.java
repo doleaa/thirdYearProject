@@ -10,13 +10,13 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/")
+@Path("/execution/")
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
-public class PostResource extends BaseBackEndResource {
+public class ExecutionResource extends BaseBackEndResource {
     private final ActionManager actionManager;
 
     @POST
-    @Path("execution")
+    @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response runCommand(CommandDto commandDto) {
@@ -24,11 +24,10 @@ public class PostResource extends BaseBackEndResource {
     }
 
     @PUT
-    @Path("execution/{id}/comment")
+    @Path("{id}/comment")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response putComment(@PathParam("id") Integer executionId, CommentDto commentDto) {
         return Response.ok(actionManager.putComment(commentDto, executionId)).build();
     }
-
 }

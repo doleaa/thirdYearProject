@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect, deleteScriptFormData }) => {
+const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect, deleteScriptFormData, saveScriptFormData }) => {
     if ( mode === "VIEW") {
         return (
             <div className="row">
@@ -78,7 +78,7 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect
                         type="button"
                         className="btn btn-primary pull-right"
                         onClick={ () => {
-                            setView()
+                            saveScriptFormData()
                         } }
                     >
                         Save
