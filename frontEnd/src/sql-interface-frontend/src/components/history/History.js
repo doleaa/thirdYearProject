@@ -4,12 +4,15 @@ import { connect } from 'react-redux'
 import './History.css'
 import ScriptForm from './../scriptForm/ScriptForm'
 import ExecutionHistoryList from './../executionHistoryList/ExecutionHistoryList'
+import ScriptsList from './../scriptsList/ScriptsList'
 import ExecutionListButtons from './../executionListButtons/ExecutionListButtons'
 import {
     changePreviewState,
     getExecutionList,
+    getScriptsList,
     setExecutionListToEditMode,
     setExecutionListToViewMode,
+    setExecutionListToScriptList,
     setExecutionListToSelectMode,
     startEditingExecution,
     saveExecutionComments,
@@ -36,7 +39,8 @@ const mapStateToProps = state => {
     return {
         executionList: state.history.executionsList,
         historyMode: state.history.mode,
-        scriptForm: state.history.scriptForm
+        scriptForm: state.history.scriptForm,
+        scriptsList: state.history.scriptsList
     }
 }
 
@@ -44,8 +48,10 @@ const mapDispatchToProps = dispatch => {
     return {
         changeState: id => { dispatch(changePreviewState(id)) },
         getExecutionList: () => { dispatch(getExecutionList()) },
+        getScriptsList: () => { dispatch(getScriptsList()) },
         setListEditMode: () => { dispatch(setExecutionListToEditMode()) },
         setListViewMode: () => { dispatch(setExecutionListToViewMode()) },
+        setScriptListViewMode: () => { dispatch(setExecutionListToScriptList()) },
         setListSelectMode: () => { dispatch(setExecutionListToSelectMode()) },
         startEditingExecution: id => { dispatch(startEditingExecution(id)) },
         stopEditingExecution: ( id, comments ) => { dispatch(saveExecutionComments(id, comments)) },
@@ -70,15 +76,19 @@ const mapDispatchToProps = dispatch => {
 }
 
 let triedOnce = false;
+let triedScriptsOnce = false;
 
 const DisconnectedHistory = ({
     executionList,
     historyMode,
     scriptForm,
+    scriptsList,
     changeState,
     getExecutionList,
+    getScriptsList,
     setListEditMode,
     setListViewMode,
+    setScriptListViewMode,
     setListSelectMode,
     startEditingExecution,
     stopEditingExecution,
@@ -113,22 +123,27 @@ const DisconnectedHistory = ({
         setExecutionListToScriptForm()
         unSelectAllExecutions()
     }
-    if (executionList.length === 0 && !triedOnce) {
+    if (!triedOnce) {
         getExecutionList()
         triedOnce = true
+    }
+    if (!triedScriptsOnce) {
+        getScriptsList()
+        triedScriptsOnce = true
     }
     if ( historyMode === "SCRIPT_FORM" ) {
         return (
             <div className="col-md-12">
                 <ExecutionListButtons
-                        mode = { historyMode }
-                        setEdit = { setListEditMode }
-                        setView = { setListViewMode }
-                        setScriptForm = { setScriptFormBtn }
-                        setSelect = { setListSelectMode }
-                        deleteScriptFormData = { deleteScriptFormData }
-                        saveScriptFormData = {() => { saveScriptFormData(scriptForm) }}
-                    />
+                    mode = { historyMode }
+                    setEdit = { setListEditMode }
+                    setView = { setListViewMode }
+                    setScriptList = { setScriptListViewMode }
+                    setScriptForm = { setScriptFormBtn }
+                    setSelect = { setListSelectMode }
+                    deleteScriptFormData = { deleteScriptFormData }
+                    saveScriptFormData = {() => { saveScriptFormData(scriptForm) }}
+                />
                 <ScriptForm
                     title={scriptForm.title}
                     updateTitle={updateScriptFormTitle}
@@ -146,6 +161,24 @@ const DisconnectedHistory = ({
                 />
             </div>
         )
+    } else if ( historyMode === "SCRIPT_LIST" ) {
+        return (
+            <div className="col-md-12">
+                <ExecutionListButtons
+                    mode = { historyMode }
+                    setEdit = { setListEditMode }
+                    setView = { setListViewMode }
+                    setScriptList = { setScriptListViewMode }
+                    setScriptForm = { setScriptFormBtn }
+                    setSelect = { setListSelectMode }
+                    deleteScriptFormData = { deleteScriptFormData }
+                    saveScriptFormData = {() => { saveScriptFormData(scriptForm) }}
+                />
+                <ScriptsList
+                    list = { scriptsList }
+                />
+            </div>
+        )
     }
     return (
         <div className="col-md-12">
@@ -153,6 +186,7 @@ const DisconnectedHistory = ({
                 mode = { historyMode }
                 setEdit = { setListEditMode }
                 setView = { setListViewMode }
+                setScriptList = { setScriptListViewMode }
                 setScriptForm = { setScriptFormBtn }
                 setSelect = { setListSelectMode }
                 deleteScriptFormData = { deleteScriptFormData }

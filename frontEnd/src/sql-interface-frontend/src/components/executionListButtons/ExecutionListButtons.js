@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect, deleteScriptFormData, saveScriptFormData }) => {
+const ExecutionListButtons = ({ mode, setEdit, setView, setScriptList, setScriptForm, setSelect, deleteScriptFormData, saveScriptFormData }) => {
     if ( mode === "VIEW") {
         return (
             <div className="row">
@@ -9,7 +9,7 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect
                         <button
                             type="button"
                             className="btn btn-primary"
-                            onClick = { () => {} }
+                            onClick = { setScriptList }
                         >
                             Scripts
                         </button>
@@ -93,6 +93,22 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setScriptForm, setSelect
                     >
                         Cancel
                     </button>
+                </div>
+            </div>
+        )
+    } else if ( mode === "SCRIPT_LIST" ) {
+        return (
+            <div className="row">
+                <div className="col-md-12">
+                    <div className="pull-left">
+                        <button
+                            type="button"
+                            className="btn btn-primary"
+                            onClick = { setView }
+                        >
+                            Executions
+                        </button>
+                    </div>
                 </div>
             </div>
         )

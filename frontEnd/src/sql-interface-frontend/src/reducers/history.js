@@ -274,6 +274,11 @@ const history = ( state = initialState, action ) => {
                 executionsList: action.executionsList
             })
 
+        case "MAP_SCRIPTS_LIST":
+            return Object.assign({}, state, {
+                scriptsList: action.scriptsList
+            })
+
         default:
             return state
     }

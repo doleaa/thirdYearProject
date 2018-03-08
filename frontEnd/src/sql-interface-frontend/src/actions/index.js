@@ -72,6 +72,13 @@ const mapResponseList = list => {
     }
 }
 
+const mapScriptsList = list => {
+    return {
+        type: "MAP_SCRIPTS_LIST",
+        scriptsList: list
+    }
+}
+
 export const getExecutionList = () => {
     return dispatch => {
         const url = `http://${backEndHostName}:8090/executions`
@@ -95,6 +102,26 @@ export const getExecutionList = () => {
                     return item
                 })
             dispatch(mapResponseList(list))
+        })
+        .catch( error => console.log(error) )
+    }
+}
+
+export const getScriptsList = () => {
+    return dispatch => {
+        const url = `http://${backEndHostName}:8090/scripts`
+        const headers = new Headers(dbMap)
+
+        const request = new Request(url, {
+            headers
+        })
+
+        fetch(request)
+        .then(response => {
+            return response.json()
+        })
+        .then(json => {
+            dispatch(mapScriptsList(json))
         })
         .catch( error => console.log(error) )
     }
@@ -329,6 +356,13 @@ export const setExecutionListToScriptForm = () => {
     return {
         type: "SET_EXECUTION_LIST_MODE",
         mode: "SCRIPT_FORM"
+    }
+}
+
+export const setExecutionListToScriptList = () => {
+    return {
+        type: "SET_EXECUTION_LIST_MODE",
+        mode: "SCRIPT_LIST"
     }
 }
 

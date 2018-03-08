@@ -84,6 +84,10 @@ public class ScriptServiceImpl implements ScriptService {
     public List<Script> findByCreatedBy(Map<String, String> requestMap) {
         List<Script> list = getScriptDao(requestMap).findByCreatedBy(requestMap.get(DB_USERNAME_STRING));
         list.stream().forEach(script -> script.getElements().forEach(scriptElement -> scriptElement.setScript(null)));
-        return list;
+
+        return list.stream()
+                .sorted((a, b) ->
+                        b.getCreatedAt().compareTo(a.getCreatedAt())
+                ).collect(Collectors.toList());
     }
 }
