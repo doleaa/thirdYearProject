@@ -1,6 +1,7 @@
 package com.dolea.backEnd.resources;
 
 import com.dolea.backEnd.service.DashboardService;
+import com.dolea.backEnd.service.ScriptService;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRIN
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class GetResource extends BaseBackEndResource {
     private final DashboardService dashboardService;
+    private final ScriptService scriptService;
 
     @GET
     @Path("executions")
@@ -33,4 +35,18 @@ public class GetResource extends BaseBackEndResource {
         )).build();
     }
 
+    @GET
+    @Path("scripts")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getScripts(@HeaderParam(DB_URL_STRING) String dbUrl,
+                               @HeaderParam(DB_USERNAME_STRING) String username,
+                               @HeaderParam(DB_PASSWORD_STRING) String password) {
+        return Response.ok(scriptService.findByCreatedBy(
+                ImmutableMap.of(
+                        DB_URL_STRING, dbUrl,
+                        DB_USERNAME_STRING, username,
+                        DB_PASSWORD_STRING, password != null ? password : ""
+                )
+        )).build();
+    }
 }

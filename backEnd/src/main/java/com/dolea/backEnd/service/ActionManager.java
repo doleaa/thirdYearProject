@@ -2,15 +2,11 @@ package com.dolea.backEnd.service;
 
 import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.db.entities.Comment;
-import com.dolea.backEnd.dto.CommandDto;
-import com.dolea.backEnd.dto.CommentDto;
-import com.dolea.backEnd.dto.ExecutionInfo;
-import com.dolea.backEnd.dto.ExecutionResponse;
+import com.dolea.backEnd.db.entities.Script;
+import com.dolea.backEnd.dto.*;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutor;
@@ -19,6 +15,7 @@ import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRIN
 @RequiredArgsConstructor()
 public class ActionManager {
     private final AuditService auditService;
+    private final ScriptService scripService;
 
     public ExecutionResponse executeCommand(CommandDto commandDto) {
         Executor executor = getExecutor(commandDto.getDbMap());
@@ -45,5 +42,17 @@ public class ActionManager {
         return auditService.updateExecutionComment(
                 commentDto.getNewComment(), executionId, commentDto.getDbMap()
         );
+    }
+
+    public Script createScript(ScriptDto scriptDto) {
+        Script script = scripService
+                .createScript(
+                        ((LinkedHashMap) scriptDto.getScript()).get("title").toString(),
+                        ((LinkedHashMap) scriptDto.getScript()).get("header").toString(),
+                        ((ArrayList) ((LinkedHashMap) scriptDto.getScript()).get("elementList")),
+                        scriptDto.getDbMap()
+                );
+        script.getElements().forEach(scriptElement -> scriptElement.setScript(null));
+        return script;
     }
 }

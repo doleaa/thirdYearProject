@@ -19,8 +19,8 @@ public class SQLInterfaceBackEndModule extends AbstractModule {
 
     @Provides
     @Singleton
-    ActionManager getActionManager(AuditService auditService) {
-        return new ActionManager(auditService);
+    ActionManager getActionManager(AuditService auditService, ScriptService scripService) {
+        return new ActionManager(auditService, scripService);
     }
 
     @Provides
@@ -28,6 +28,10 @@ public class SQLInterfaceBackEndModule extends AbstractModule {
     AuditService getAuditService() {
         return new AuditServiceImpl();
     }
+
+    @Provides
+    @Singleton
+    ScriptService getScriptService() { return new ScriptServiceImpl(); }
 
     @Provides
     @Singleton

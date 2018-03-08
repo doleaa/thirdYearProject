@@ -133,16 +133,14 @@ export const saveScript = scriptForm => {
         })
         .then(response => {
             if (response.status !== 200) {
-                dispatch(setExecutionListToViewMode())
                 throw new Error(response.statusText)
             }
-            return response.json()
-        })
-        .then(json => {
-            console.log(json)
             dispatch(setExecutionListToViewMode())
         })
-        .catch( error => console.log(error) )
+        .catch(error => {
+            dispatch(setExecutionListToViewMode())
+            console.log(error)
+        })
     }
 
 
