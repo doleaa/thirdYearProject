@@ -169,7 +169,6 @@ public class ExecutionDaoTest {
         editing = underTest.persist(editing);
         editing.setElements(Sets.newHashSet(secondElement));
         editing.setElements(underTestElement.persistAllOf(editing).stream().collect(Collectors.toSet()));
-//        secondElement.setScript(editing);
         persistedScript = underTest.findOne(editing.getId());
 
         allScripts = underTest.findAll();

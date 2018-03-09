@@ -52,6 +52,7 @@ export const executeQuery = query => {
                 throw new Error(response.statusText)
             }
             dispatch(getExecutionList())
+            dispatch(getScriptsList())
             return response.json()
         })
         .then(json => {
@@ -121,7 +122,12 @@ export const getScriptsList = () => {
             return response.json()
         })
         .then(json => {
-            dispatch(mapScriptsList(json))
+            const list = json
+                .map(item => {
+                    item.updating = false
+                    return item
+                })
+            dispatch(mapScriptsList(list))
         })
         .catch( error => console.log(error) )
     }
@@ -264,6 +270,20 @@ const startExecutionLoading = id => {
     return {
         type: "START_EXECUTION_LOADING",
         executionId: id
+    }
+}
+
+export const startUpdatingScript = id => {
+    return {
+        type: "START_UPDATING_SCRIPT",
+        scriptId: id
+    }
+}
+
+export const stopUpdatingScript = id => {
+    return {
+        type: "STOP_UPDATING_SCRIPT",
+        scriptId: id
     }
 }
 

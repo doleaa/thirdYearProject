@@ -32,7 +32,9 @@ import {
     startMovingScriptFormElementFrom,
     addScriptFormCommentElementUnder,
     removeScriptFormElement,
-    saveScript
+    saveScript,
+    startUpdatingScript,
+    stopUpdatingScript
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -71,12 +73,14 @@ const mapDispatchToProps = dispatch => {
         moveScriptFormElementFromTo: (from, to) => { dispatch(moveScriptFormElementFromTo(from, to)) },
         startMovingScriptFormElementFrom: index => { dispatch(startMovingScriptFormElementFrom(index)) },
         removeScriptFormElement: index => { dispatch(removeScriptFormElement(index)) },
-        saveScriptFormData: scriptForm => { dispatch(saveScript(scriptForm)) }
+        saveScriptFormData: scriptForm => { dispatch(saveScript(scriptForm)) },
+        startUpdatingScript: id => { dispatch(startUpdatingScript(id)) },
+        stopUpdatingScript: id => { dispatch(stopUpdatingScript(id)) }
+
     }
 }
 
 let triedOnce = false;
-let triedScriptsOnce = false;
 
 const DisconnectedHistory = ({
     executionList,
@@ -110,7 +114,9 @@ const DisconnectedHistory = ({
     moveScriptFormElementFromTo,
     startMovingScriptFormElementFrom,
     removeScriptFormElement,
-    saveScriptFormData
+    saveScriptFormData,
+    startUpdatingScript,
+    stopUpdatingScript
 }) => {
     const setScriptFormBtn = () => {
         setScriptFormData("", "",
@@ -123,13 +129,22 @@ const DisconnectedHistory = ({
         setExecutionListToScriptForm()
         unSelectAllExecutions()
     }
+    const setScriptFormBtnFromExistingScript = script => {
+        setScriptFormData(script.title, script.header,
+            script.elements
+                .sort((a, b) => { return a.position - b.position })
+                .map(item => {
+                    if (item.statement) {
+                        item.execution = {statement: item.statement}
+                    }
+                    return item
+                })
+        )
+        startUpdatingScript(script.id)
+    }
     if (!triedOnce) {
         getExecutionList()
         triedOnce = true
-    }
-    if (!triedScriptsOnce) {
-        getScriptsList()
-        triedScriptsOnce = true
     }
     if ( historyMode === "SCRIPT_FORM" ) {
         return (
@@ -138,7 +153,10 @@ const DisconnectedHistory = ({
                     mode = { historyMode }
                     setEdit = { setListEditMode }
                     setView = { setListViewMode }
-                    setScriptList = { setScriptListViewMode }
+                    setScriptList = {() => {
+                        getScriptsList()
+                        setScriptListViewMode()
+                    }}
                     setScriptForm = { setScriptFormBtn }
                     setSelect = { setListSelectMode }
                     deleteScriptFormData = { deleteScriptFormData }
@@ -168,7 +186,10 @@ const DisconnectedHistory = ({
                     mode = { historyMode }
                     setEdit = { setListEditMode }
                     setView = { setListViewMode }
-                    setScriptList = { setScriptListViewMode }
+                    setScriptList = {() => {
+                        getScriptsList()
+                        setScriptListViewMode()
+                    }}
                     setScriptForm = { setScriptFormBtn }
                     setSelect = { setListSelectMode }
                     deleteScriptFormData = { deleteScriptFormData }
@@ -176,6 +197,22 @@ const DisconnectedHistory = ({
                 />
                 <ScriptsList
                     list = { scriptsList }
+                    startUpdate = { setScriptFormBtnFromExistingScript }
+                    cancelUpdate = { stopUpdatingScript }
+                    title={scriptForm.title}
+                    updateTitle={updateScriptFormTitle}
+                    header={scriptForm.header}
+                    updateHeader={updateScriptFormHeader}
+                    elementList={scriptForm.elementList}
+                    updateCommentText={updateScriptFormCommentElement}
+                    movingIndex={scriptForm.movingIndex}
+                    moveFromTo={moveScriptFormElementFromTo}
+                    moveFrom={startMovingScriptFormElementFrom}
+                    addCommentUnder={addScriptFormCommentElementUnder}
+                    stopEdit={stopEditingScriptFormCommentElement}
+                    startEdit={startEditingScriptFormCommentElement}
+                    removeScriptFormElement={removeScriptFormElement}
+                    deleteScriptFormData={deleteScriptFormData}
                 />
             </div>
         )
@@ -186,7 +223,10 @@ const DisconnectedHistory = ({
                 mode = { historyMode }
                 setEdit = { setListEditMode }
                 setView = { setListViewMode }
-                setScriptList = { setScriptListViewMode }
+                setScriptList = {() => {
+                    getScriptsList()
+                    setScriptListViewMode()
+                }}
                 setScriptForm = { setScriptFormBtn }
                 setSelect = { setListSelectMode }
                 deleteScriptFormData = { deleteScriptFormData }

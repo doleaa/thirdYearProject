@@ -198,6 +198,33 @@ const history = ( state = initialState, action ) => {
                     })
             })
 
+        case "START_UPDATING_SCRIPT":
+            return Object.assign({}, state, {
+                scriptsList:
+                    state.scriptsList.map((script) => {
+                        if (script.id === action.scriptId) {
+                            script.updating = true
+                            return script
+                        } else {
+                            script.updating = false
+                            return script
+                        }
+                    })
+            })
+
+        case "STOP_UPDATING_SCRIPT":
+            return Object.assign({}, state, {
+                scriptsList:
+                    state.scriptsList.map((script) => {
+                        if (script.id === action.scriptId) {
+                            script.updating = false
+                            return script
+                        } else {
+                            return script
+                        }
+                    })
+            })
+
         case "STOP_EDITING_EXECUTION":
             return Object.assign({}, state, {
                 executionsList:

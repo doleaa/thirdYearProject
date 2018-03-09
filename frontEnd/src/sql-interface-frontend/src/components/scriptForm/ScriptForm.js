@@ -55,11 +55,7 @@ const ScriptForm = ({
                                 <div className="col-md-11">
                                     {item.execution &&
                                         <ScriptFormExecution
-                                            comments = { item.execution.comment ? item.execution.comment.text : item.execution.comment }
                                             query = { item.execution.statement.sql }
-                                            resultTableData = {
-                                                item.execution.result ? JSON.parse(item.execution.result.resultString) : {columns: [], rows: []}
-                                            }
                                             isMoving = { movingIndex !== undefined && movingIndex === index }
                                             isMovable = { movingIndex === undefined }
                                             moveFrom = {() => {moveFrom(index)}}
