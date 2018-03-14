@@ -37,7 +37,7 @@ export const executeQuery = query => {
             "comments": ""
         }
 
-        const url = `https://${backEndHostName}/execution`
+        const url = `http://${backEndHostName}/execution`
         const method = "POST"
 
         fetch(url, {
@@ -83,7 +83,7 @@ const mapScriptsList = list => {
 
 export const getExecutionList = () => {
     return dispatch => {
-        const url = `https://${backEndHostName}/executions`
+        const url = `http://${backEndHostName}/executions`
         const headers = new Headers(dbMap)
 
         const request = new Request(url, {
@@ -111,7 +111,7 @@ export const getExecutionList = () => {
 
 export const getScriptsList = () => {
     return dispatch => {
-        const url = `https://${backEndHostName}/scripts`
+        const url = `http://${backEndHostName}/scripts`
         const headers = new Headers(dbMap)
 
         const request = new Request(url, {
@@ -155,7 +155,7 @@ export const saveScript = scriptForm => {
             "script": scriptForm
         }
 
-        const url = `https://${backEndHostName}/script`
+        const url = `http://${backEndHostName}/script`
         const method = "POST"
 
         fetch(url, {
@@ -192,7 +192,7 @@ export const updateScript = scriptForm => {
             "script": scriptForm
         }
 
-        const url = `https://${backEndHostName}/script`
+        const url = `http://${backEndHostName}/script`
         const method = "PUT"
 
         fetch(url, {
@@ -225,7 +225,7 @@ export const runScript = id => {
             "id": id
         }
 
-        const url = `https://${backEndHostName}/script/run`
+        const url = `http://${backEndHostName}/script/run`
         const method = "POST"
 
         fetch(url, {
@@ -391,7 +391,7 @@ export const saveExecutionComments = ( id, comments ) => {
             "newComment": comments
         }
 
-        const url = `https://${backEndHostName}/execution/${id}/comment`
+        const url = `http://${backEndHostName}/execution/${id}/comment`
         const method = "PUT"
 
         fetch(url, {
