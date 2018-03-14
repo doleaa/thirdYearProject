@@ -130,6 +130,11 @@ const DisconnectedHistory = ({
         setScriptFormData("", "",
             executionList
                 .filter(item => item.selected)
+                .sort((item1, item2) => {
+                        if (item1.ranAt < item2.ranAt) return 1;
+                        if (item1.ranAt > item2.ranAt) return -1;
+                        return 0;
+                      })
                 .map(item => {
                     return {execution: item}
                 })

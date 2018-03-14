@@ -5,12 +5,15 @@ import com.dolea.backEnd.db.entities.Comment;
 import com.dolea.backEnd.db.entities.Script;
 import com.dolea.backEnd.db.entities.ScriptElement;
 import com.dolea.backEnd.dto.*;
+import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutor;
+import static com.dolea.backEnd.util.SQLExtractUtil.extractColumntToTypeMapsFromTables;
+import static com.dolea.backEnd.util.SQLExtractUtil.extractTahleNames;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 
 @RequiredArgsConstructor()
@@ -47,6 +50,15 @@ public class ActionManager {
 
     public List<ExecutionResponse> runScript(RunScriptDto runScriptDto) {
         Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
+
+        List<String> tableNames = extractTahleNames(script.getElements().stream()
+                .filter(scriptElement -> scriptElement.getStatement() != null)
+                .sorted(Comparator.comparing(ScriptElement::getPosition))
+                .map(scriptElement -> scriptElement.getStatement())
+                .collect(Collectors.toList()));
+
+        Map<String, Map<String, String>> mapsOfColumnsToTypes =
+                extractColumntToTypeMapsFromTables(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
 
         return script.getElements().stream()
             .filter(scriptElement -> scriptElement.getStatement() != null)
