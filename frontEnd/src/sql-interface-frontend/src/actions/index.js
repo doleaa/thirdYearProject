@@ -248,6 +248,7 @@ export const runScript = id => {
             dispatch(getExecutionList())
         })
         .catch(error => {
+            dispatch(stopLoadingScript(id))
             console.log(error)
         })
     }
