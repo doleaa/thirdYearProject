@@ -20,7 +20,8 @@ const ScriptsListScript = ({
     stopEdit,
     startEdit,
     removeScriptFormElement,
-    deleteScriptFormData
+    deleteScriptFormData,
+    updateScriptFormData
     }) => {
     if (data.updating) {
         return (
@@ -30,7 +31,10 @@ const ScriptsListScript = ({
                         mode = "SCRIPT_FORM_EDITING"
                         setView = {() => { cancelUpdate(data.id) }}
                         deleteScriptFormData = { deleteScriptFormData }
-                        saveScriptFormData = {() => { cancelUpdate(data.id) }}
+                        saveScriptFormData = {() => {
+                            updateScriptFormData()
+                            cancelUpdate(data.id)
+                        }}
                     />
                     <ScriptForm
                         title={title}

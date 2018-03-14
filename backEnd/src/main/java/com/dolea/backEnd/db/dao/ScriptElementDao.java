@@ -37,6 +37,13 @@ public class ScriptElementDao {
                 .collect(Collectors.toList());
     }
 
+    public void deleteAllOf(Script script) {
+        script.getElements().forEach(scriptElement -> scriptElement.setScript(script));
+
+        script.getElements()
+                .forEach(this::delete);
+    }
+
     public List<ScriptElement> findAll() { return repository.findAll(); }
 
     public List<ScriptElement> findAll(Iterable<Integer> ids) { return repository.findAll(ids); }

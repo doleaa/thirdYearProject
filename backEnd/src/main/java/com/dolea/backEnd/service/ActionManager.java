@@ -55,4 +55,17 @@ public class ActionManager {
         script.getElements().forEach(scriptElement -> scriptElement.setScript(null));
         return script;
     }
+
+    public Script updateScript(ScriptDto scriptDto) {
+        Script script = scripService
+                .updateScript(
+                        Integer.valueOf(((LinkedHashMap) scriptDto.getScript()).get("id").toString()),
+                        ((LinkedHashMap) scriptDto.getScript()).get("title").toString(),
+                        ((LinkedHashMap) scriptDto.getScript()).get("header").toString(),
+                        ((ArrayList) ((LinkedHashMap) scriptDto.getScript()).get("elementList")),
+                        scriptDto.getDbMap()
+                );
+        script.getElements().forEach(scriptElement -> scriptElement.setScript(null));
+        return script;
+    }
 }

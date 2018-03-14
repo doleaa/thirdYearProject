@@ -1,5 +1,7 @@
 package com.dolea.backEnd.service;
 
+import com.dolea.backEnd.db.dao.ScriptDao;
+import com.dolea.backEnd.db.dao.ScriptElementDao;
 import com.dolea.backEnd.db.entities.Comment;
 import com.dolea.backEnd.db.entities.Script;
 import com.dolea.backEnd.db.entities.ScriptElement;
@@ -73,6 +75,66 @@ public class ScriptServiceImpl implements ScriptService {
                 .stream().collect(Collectors.toSet()));
 
         return newScript;
+    }
+
+    @Override
+    public Script updateScript(Integer id, String title, String header, List<Object> elementList, Map<String, String> requestMap) {
+        Set<ScriptElement> scriptElements = elementList
+                .stream()
+                .map(element -> {
+                    if(((LinkedHashMap) element).get("execution") != null) {
+
+                        Statement statement = Statement.builder()
+                                .sql(((LinkedHashMap)((LinkedHashMap)((LinkedHashMap) element)
+                                        .get("execution")).get("statement")).get("sql").toString())
+                                .createdAt(LocalDateTime.now())
+                                .createdBy(requestMap.get(DB_USERNAME_STRING))
+                                .build();
+
+                        return ScriptElement.builder()
+                                .position(Integer.valueOf(((LinkedHashMap) element).get("position").toString()))
+                                .statement(statement)
+                                .createdBy(requestMap.get(DB_USERNAME_STRING))
+                                .createdAt(LocalDateTime.now())
+                                .build();
+
+                    } else {
+
+                        Comment comment = Comment.builder()
+                                .createdBy(requestMap.get(DB_USERNAME_STRING))
+                                .createdAt(LocalDateTime.now())
+                                .text(((LinkedHashMap) ((LinkedHashMap) element).get("comment")).get("text").toString())
+                                .build();
+
+                        return ScriptElement.builder()
+                                .position(Integer.valueOf(((LinkedHashMap) element).get("position").toString()))
+                                .comment(comment)
+                                .createdBy(requestMap.get(DB_USERNAME_STRING))
+                                .createdAt(LocalDateTime.now())
+                                .build();
+
+                    }
+                })
+                .collect(Collectors.toSet());
+
+        ScriptDao scriptDao = getScriptDao(requestMap);
+        ScriptElementDao scriptElementDao = getScriptElementDao(requestMap);
+
+        Script existingScript = scriptDao
+                .findOne(id);
+
+        existingScript.setTitle(title);
+        existingScript.setHeader(header);
+
+        scriptElementDao.deleteAllOf(existingScript);
+        existingScript.getElements().removeAll(existingScript.getElements());
+        existingScript = scriptDao.persist(existingScript);
+
+        existingScript.setElements(scriptElements);
+        existingScript.setElements(getScriptElementDao(requestMap).persistAllOf(existingScript)
+                .stream().collect(Collectors.toSet()));
+
+        return existingScript;
     }
 
     @Override

@@ -225,6 +225,48 @@ const history = ( state = initialState, action ) => {
                     })
             })
 
+        case "REPLACE_SCRIPT_IN_LIST":
+            return Object.assign({}, state, {
+                scriptsList:
+                    state.scriptsList.map((script) => {
+                        if (script.id === action.newScript.id) {
+                            script = action.newScript
+                            script.updating = false
+                            script.loading = false
+                            return script
+                        } else {
+                            return script
+                        }
+                    })
+            })
+
+        case "START_LOADING_SCRIPT":
+            return Object.assign({}, state, {
+                scriptsList:
+                    state.scriptsList.map((script) => {
+                        if (script.id === action.scriptId) {
+                            script.loading = true
+                            return script
+                        } else {
+                            script.loading = false
+                            return script
+                        }
+                    })
+            })
+
+        case "STOP_LOADING_SCRIPT":
+            return Object.assign({}, state, {
+                scriptsList:
+                    state.scriptsList.map((script) => {
+                        if (script.id === action.scriptId) {
+                            script.loading = false
+                            return script
+                        } else {
+                            return script
+                        }
+                    })
+            })
+
         case "STOP_EDITING_EXECUTION":
             return Object.assign({}, state, {
                 executionsList:

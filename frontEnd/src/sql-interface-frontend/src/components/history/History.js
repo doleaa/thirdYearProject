@@ -33,8 +33,10 @@ import {
     addScriptFormCommentElementUnder,
     removeScriptFormElement,
     saveScript,
+    updateScript,
     startUpdatingScript,
-    stopUpdatingScript
+    stopUpdatingScript,
+    startLoadingScript
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -74,9 +76,10 @@ const mapDispatchToProps = dispatch => {
         startMovingScriptFormElementFrom: index => { dispatch(startMovingScriptFormElementFrom(index)) },
         removeScriptFormElement: index => { dispatch(removeScriptFormElement(index)) },
         saveScriptFormData: scriptForm => { dispatch(saveScript(scriptForm)) },
+        updateScriptFormData: scriptForm => { dispatch(updateScript(scriptForm)) },
         startUpdatingScript: id => { dispatch(startUpdatingScript(id)) },
-        stopUpdatingScript: id => { dispatch(stopUpdatingScript(id)) }
-
+        stopUpdatingScript: id => { dispatch(stopUpdatingScript(id)) },
+        startLoadingScript: id => { dispatch(startLoadingScript(id)) }
     }
 }
 
@@ -115,8 +118,10 @@ const DisconnectedHistory = ({
     startMovingScriptFormElementFrom,
     removeScriptFormElement,
     saveScriptFormData,
+    updateScriptFormData,
     startUpdatingScript,
-    stopUpdatingScript
+    stopUpdatingScript,
+    startLoadingScript
 }) => {
     const setScriptFormBtn = () => {
         setScriptFormData("", "",
@@ -128,6 +133,12 @@ const DisconnectedHistory = ({
         )
         setExecutionListToScriptForm()
         unSelectAllExecutions()
+    }
+    const updateScriptData = (id, scriptForm) => {
+        scriptForm.id = id
+        startLoadingScript(id)
+        updateScriptFormData(scriptForm)
+        getScriptsList()
     }
     const setScriptFormBtnFromExistingScript = script => {
         setScriptFormData(script.title, script.header,
@@ -213,6 +224,7 @@ const DisconnectedHistory = ({
                     startEdit={startEditingScriptFormCommentElement}
                     removeScriptFormElement={removeScriptFormElement}
                     deleteScriptFormData={deleteScriptFormData}
+                    updateScriptFormData={(id) => {updateScriptData(id, scriptForm)}}
                 />
             </div>
         )

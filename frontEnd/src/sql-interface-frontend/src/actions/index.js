@@ -126,6 +126,7 @@ export const getScriptsList = () => {
             const list = json
                 .map(item => {
                     item.updating = false
+                    item.loading = false
                     return item
                 })
             dispatch(mapScriptsList(list))
@@ -155,7 +156,7 @@ export const saveScript = scriptForm => {
         }
 
         const url = `https://${backEndHostName}/script`
-        const method = "POSt"
+        const method = "POST"
 
         fetch(url, {
             method,
@@ -176,9 +177,52 @@ export const saveScript = scriptForm => {
             console.log(error)
         })
     }
+}
 
+export const updateScript = scriptForm => {
+    return dispatch => {
+        scriptForm.elementList = scriptForm.elementList
+                .map((element, index) => {
+                    element.position = index + 1
+                    return element
+                })
 
+        const requestBody = {
+            "dbMap": dbMap,
+            "script": scriptForm
+        }
 
+        const url = `https://${backEndHostName}/script`
+        const method = "PUT"
+
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json();
+        })
+        .then(json => {
+            dispatch(replaceScriptInList(json))
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+}
+
+export const replaceScriptInList = json => {
+    return {
+        type: "REPLACE_SCRIPT_IN_LIST",
+        newScript: json
+    }
 }
 
 export const setScriptFormData = (title, header, elementList) => {
@@ -277,6 +321,20 @@ const startExecutionLoading = id => {
 export const startUpdatingScript = id => {
     return {
         type: "START_UPDATING_SCRIPT",
+        scriptId: id
+    }
+}
+
+export const startLoadingScript = id => {
+    return {
+        type: "START_LOADING_SCRIPT",
+        scriptId: id
+    }
+}
+
+export const stopLoadingScript = id => {
+    return {
+        type: "STOP_LOADING_SCRIPT",
         scriptId: id
     }
 }

@@ -19,14 +19,14 @@ public class ScriptResource extends BaseBackEndResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createScript(ScriptDto scriptDto) {
-        return Response.ok(actionManager.createScript(scriptDto)).build();
+            return Response.ok(actionManager.createScript(scriptDto)).build();
     }
 
     @PUT
-    @Path("{id}")
+    @Path("")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updateScript() {
-        return Response.ok().build();
+    public Response updateScript(ScriptDto scriptDto) {
+        return Response.ok(actionManager.updateScript(scriptDto)).build();
     }
 }
