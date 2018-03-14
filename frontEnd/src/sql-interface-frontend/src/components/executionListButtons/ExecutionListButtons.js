@@ -96,6 +96,32 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setScriptList, setScript
                 </div>
             </div>
         )
+    } else if ( mode === "SCRIPT_FORM_EDITING" ) {
+        return (
+            <div className="row buttgr">
+                <div className="col-md-12">
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-right"
+                        onClick={ () => {
+                            saveScriptFormData()
+                        } }
+                    >
+                        Save
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-right"
+                        onClick={ () => {
+                            setView()
+                            deleteScriptFormData()
+                        } }
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        )
     } else if ( mode === "SCRIPT_LIST" ) {
         return (
             <div className="row">

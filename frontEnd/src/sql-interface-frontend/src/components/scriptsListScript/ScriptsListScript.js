@@ -27,7 +27,7 @@ const ScriptsListScript = ({
             <div className="row execution mousable">
                 <div className="col-md-12">
                     <ExecutionListButtons
-                        mode = "SCRIPT_FORM"
+                        mode = "SCRIPT_FORM_EDITING"
                         setView = {() => { cancelUpdate(data.id) }}
                         deleteScriptFormData = { deleteScriptFormData }
                         saveScriptFormData = {() => { cancelUpdate(data.id) }}
@@ -52,7 +52,7 @@ const ScriptsListScript = ({
         )
     } else {
         return (
-            <div className="row execution mousable" onDoubleClick = {() => {startUpdate(data)}}>
+            <div className="row execution mousable" onClick = {() => {startUpdate(data)}}>
                 <div className="col-md-4 execution-createdAt">
                      { data.createdAt.dayOfWeek }, { data.createdAt.dayOfMonth } { data.createdAt.month } { data.createdAt.year }, { data.createdAt.hour } : { data.createdAt.minute } : { data.createdAt.second }
                  </div>

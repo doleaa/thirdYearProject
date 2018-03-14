@@ -1,6 +1,7 @@
 import React from 'react'
 import Editor from './../editor/Editor'
 import ResultTable from './../resultTable/ResultTable'
+import ExecutionButtons from './../executionButtons/ExecutionButtons'
 import './../execution/Execution.css'
 
 export const ScriptFormExecution = ({ query, comments, resultTableData, isMoving, isMovable, moveFrom, moveTo }) => {
@@ -10,8 +11,7 @@ export const ScriptFormExecution = ({ query, comments, resultTableData, isMoving
                 "row scriptFormExecution movingScriptFormExecution" :
                 "row scriptFormExecution mousable"
             }
-            onDoubleClick = { isMovable ? moveFrom : () => {}}
-            onClick = { !(isMovable || isMoving) ? moveTo : () => {} }
+            onClick = { isMovable ? moveFrom : moveTo}
         >
             <div className="col-md-12 script-form-query">
                 { query }
@@ -39,8 +39,7 @@ export const ExecutionLikeComment = ({ comments, isMoving, isMovable, moveFrom, 
                "row scriptFormExecution movingScriptFormExecution" :
                "row scriptFormExecution mousable"
             }
-            onDoubleClick = { isMovable ? moveFrom : () => {}}
-            onClick = { !(isMovable || isMoving) ? moveTo : () => {} }
+            onClick = { isMovable ? moveFrom : moveTo}
         >
             <div className="col-md-12 script-form-query">
                 { comments }
@@ -53,9 +52,14 @@ export const EditingExecution = ({date, query, comments, updateExecComments, sto
     return (
         <div
         className="row execution mousable"
-        onDoubleClick = {stopEdit}
         >
             <div className="col-md-12 execution-date">
+                <div
+                    className="pull-right stopExecutionEditButton"
+                    onClick={stopEdit}
+                >
+                    Save
+                </div>
                 { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
             </div>
             <div className="col-md-12 query">
@@ -75,7 +79,7 @@ export const EditableExecution = ({date, query, comments, startEdit}) => {
     return (
         <div
         className="row execution mousable"
-        onDoubleClick = {() => startEdit()}
+        onClick = {() => startEdit()}
         >
             <div className="col-md-12 execution-date">
                 { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
@@ -94,7 +98,7 @@ export const PreviewExecution = ({date, query, changePreviewState}) => {
     return (
         <div
         className="row execution mousable"
-        onDoubleClick = {() => changePreviewState()}
+        onClick = {() => changePreviewState()}
         >
             <div className="col-md-4 execution-date">
                 { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }
@@ -110,7 +114,7 @@ export const NormalViewExecution = ({date, query, comments, changePreviewState, 
     return (
         <div
         className="row execution mousable"
-        onDoubleClick = {() => changePreviewState()}
+        onClick = {() => changePreviewState()}
         >
             <div className="col-md-12 execution-date">
                 { date.dayOfWeek }, { date.dayOfMonth } { date.month } { date.year }, { date.hour } : { date.minute } : { date.second }

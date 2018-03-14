@@ -1,4 +1,5 @@
-const backEndHostName = "127.0.0.1"
+//const backEndHostName = "127.0.0.1:8090"
+const backEndHostName = "4f73fe34.ngrok.io"
 
 export const setQuery = query => {
     return {
@@ -36,7 +37,7 @@ export const executeQuery = query => {
             "comments": ""
         }
 
-        const url = `http://${backEndHostName}:8090/execution`
+        const url = `https://${backEndHostName}/execution`
         const method = "POST"
 
         fetch(url, {
@@ -82,7 +83,7 @@ const mapScriptsList = list => {
 
 export const getExecutionList = () => {
     return dispatch => {
-        const url = `http://${backEndHostName}:8090/executions`
+        const url = `https://${backEndHostName}/executions`
         const headers = new Headers(dbMap)
 
         const request = new Request(url, {
@@ -110,7 +111,7 @@ export const getExecutionList = () => {
 
 export const getScriptsList = () => {
     return dispatch => {
-        const url = `http://${backEndHostName}:8090/scripts`
+        const url = `https://${backEndHostName}/scripts`
         const headers = new Headers(dbMap)
 
         const request = new Request(url, {
@@ -153,7 +154,7 @@ export const saveScript = scriptForm => {
             "script": scriptForm
         }
 
-        const url = `http://${backEndHostName}:8090/script`
+        const url = `https://${backEndHostName}/script`
         const method = "POSt"
 
         fetch(url, {
@@ -296,7 +297,7 @@ export const saveExecutionComments = ( id, comments ) => {
             "newComment": comments
         }
 
-        const url = `http://${backEndHostName}:8090/execution/${id}/comment`
+        const url = `https://${backEndHostName}/execution/${id}/comment`
         const method = "PUT"
 
         fetch(url, {
