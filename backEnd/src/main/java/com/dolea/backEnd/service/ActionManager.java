@@ -12,8 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutor;
-import static com.dolea.backEnd.util.SQLExtractUtil.extractColumntToTypeMapsFromTables;
-import static com.dolea.backEnd.util.SQLExtractUtil.extractTahleNames;
+import static com.dolea.backEnd.util.SQLExtractUtil.*;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 
 @RequiredArgsConstructor()
@@ -59,6 +58,11 @@ public class ActionManager {
 
         Map<String, Map<String, String>> mapsOfColumnsToTypes =
                 extractColumntToTypeMapsFromTables(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
+
+        List<String> createStatements =
+                extractCreateStatements(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
+        List<String> droptStatements =
+                extractDropStatements(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
 
         return script.getElements().stream()
             .filter(scriptElement -> scriptElement.getStatement() != null)
