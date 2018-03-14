@@ -1,6 +1,16 @@
 import React from 'react'
 
-const ExecutionListButtons = ({ mode, setEdit, setView, setScriptList, setScriptForm, setSelect, deleteScriptFormData, saveScriptFormData }) => {
+const ExecutionListButtons = ({
+        mode,
+        setEdit,
+        setView,
+        setScriptList,
+        setScriptForm,
+        setSelect,
+        deleteScriptFormData,
+        saveScriptFormData,
+        runScript
+    }) => {
     if ( mode === "VIEW") {
         return (
             <div className="row">
@@ -118,6 +128,13 @@ const ExecutionListButtons = ({ mode, setEdit, setView, setScriptList, setScript
                         } }
                     >
                         Close
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-left"
+                        onClick={ () => { runScript() } }
+                    >
+                        Run
                     </button>
                 </div>
             </div>

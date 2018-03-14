@@ -36,7 +36,8 @@ import {
     updateScript,
     startUpdatingScript,
     stopUpdatingScript,
-    startLoadingScript
+    startLoadingScript,
+    runScript
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -78,6 +79,7 @@ const mapDispatchToProps = dispatch => {
         saveScriptFormData: scriptForm => { dispatch(saveScript(scriptForm)) },
         updateScriptFormData: scriptForm => { dispatch(updateScript(scriptForm)) },
         startUpdatingScript: id => { dispatch(startUpdatingScript(id)) },
+        runScript: id => { dispatch(runScript(id)) },
         stopUpdatingScript: id => { dispatch(stopUpdatingScript(id)) },
         startLoadingScript: id => { dispatch(startLoadingScript(id)) }
     }
@@ -120,6 +122,7 @@ const DisconnectedHistory = ({
     saveScriptFormData,
     updateScriptFormData,
     startUpdatingScript,
+    runScript,
     stopUpdatingScript,
     startLoadingScript
 }) => {
@@ -225,6 +228,10 @@ const DisconnectedHistory = ({
                     removeScriptFormElement={removeScriptFormElement}
                     deleteScriptFormData={deleteScriptFormData}
                     updateScriptFormData={(id) => {updateScriptData(id, scriptForm)}}
+                    runScript={(id) => {
+                        startLoadingScript(id)
+                        runScript(id)
+                    }}
                 />
             </div>
         )

@@ -3,6 +3,7 @@ package com.dolea.backEnd.service;
 import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.db.entities.Comment;
 import com.dolea.backEnd.db.entities.Script;
+import com.dolea.backEnd.db.entities.ScriptElement;
 import com.dolea.backEnd.dto.*;
 import lombok.RequiredArgsConstructor;
 
@@ -42,6 +43,21 @@ public class ActionManager {
         return auditService.updateExecutionComment(
                 commentDto.getNewComment(), executionId, commentDto.getDbMap()
         );
+    }
+
+    public List<ExecutionResponse> runScript(RunScriptDto runScriptDto) {
+        Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
+
+        return script.getElements().stream()
+            .filter(scriptElement -> scriptElement.getStatement() != null)
+            .sorted(Comparator.comparing(ScriptElement::getPosition))
+            .map(scriptElement ->
+                executeCommand(CommandDto.builder()
+                .sqlCommand(scriptElement.getStatement().getSql())
+                .dbMap(runScriptDto.getDbMap())
+                .build())
+            )
+            .collect(Collectors.toList());
     }
 
     public Script createScript(ScriptDto scriptDto) {

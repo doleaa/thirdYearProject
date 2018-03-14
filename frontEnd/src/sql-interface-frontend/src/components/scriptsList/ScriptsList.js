@@ -21,7 +21,8 @@ const ScriptsList = ({
     startEdit,
     removeScriptFormElement,
     deleteScriptFormData,
-    updateScriptFormData
+    updateScriptFormData,
+    runScript
     }) => (
     <div className="row">
         <div className="col-md-12">
@@ -57,6 +58,7 @@ const ScriptsList = ({
                             removeScriptFormElement={removeScriptFormElement}
                             deleteScriptFormData={deleteScriptFormData}
                             updateScriptFormData={() => {updateScriptFormData(item.id)}}
+                            runScript={() => {runScript(item.id)}}
                         />
                     )}
                 }

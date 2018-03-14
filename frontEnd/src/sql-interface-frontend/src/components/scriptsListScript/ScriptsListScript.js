@@ -21,7 +21,8 @@ const ScriptsListScript = ({
     startEdit,
     removeScriptFormElement,
     deleteScriptFormData,
-    updateScriptFormData
+    updateScriptFormData,
+    runScript
     }) => {
     if (data.updating) {
         return (
@@ -35,6 +36,7 @@ const ScriptsListScript = ({
                             updateScriptFormData()
                             cancelUpdate(data.id)
                         }}
+                        runScript={runScript}
                     />
                     <ScriptForm
                         title={title}

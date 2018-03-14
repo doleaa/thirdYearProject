@@ -13,4 +13,6 @@ public interface ScriptService {
     List<Script> findAllScripts(Map<String, String> requestMap);
 
     List<Script> findByCreatedBy(Map<String, String> requestMap);
+
+    Script getScript(Integer id, Map<String, String> requestMap);
 }

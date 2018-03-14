@@ -1,5 +1,6 @@
 package com.dolea.backEnd.resources;
 
+import com.dolea.backEnd.dto.RunScriptDto;
 import com.dolea.backEnd.dto.ScriptDto;
 import com.dolea.backEnd.service.ActionManager;
 import com.google.inject.Inject;
@@ -28,5 +29,13 @@ public class ScriptResource extends BaseBackEndResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateScript(ScriptDto scriptDto) {
         return Response.ok(actionManager.updateScript(scriptDto)).build();
+    }
+
+    @POST
+    @Path("run")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response runScript(RunScriptDto runScriptDto) {
+        return Response.ok(actionManager.runScript(runScriptDto)).build();
     }
 }

@@ -218,6 +218,41 @@ export const updateScript = scriptForm => {
     }
 }
 
+export const runScript = id => {
+    return dispatch => {
+        const requestBody = {
+            "dbMap": dbMap,
+            "id": id
+        }
+
+        const url = `https://${backEndHostName}/script/run`
+        const method = "POST"
+
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json();
+        })
+        .then(json => {
+            console.log(json)
+            dispatch(stopLoadingScript(id))
+            dispatch(getExecutionList())
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+}
+
 export const replaceScriptInList = json => {
     return {
         type: "REPLACE_SCRIPT_IN_LIST",

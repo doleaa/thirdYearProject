@@ -152,4 +152,9 @@ public class ScriptServiceImpl implements ScriptService {
                         b.getCreatedAt().compareTo(a.getCreatedAt())
                 ).collect(Collectors.toList());
     }
+
+    @Override
+    public Script getScript(Integer id, Map<String, String> requestMap) {
+        return getScriptDao(requestMap).findOne(id);
+    }
 }
