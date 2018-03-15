@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.dolea.backEnd.db.util.DBConnectionsUtil.getExecutor;
-import static com.dolea.backEnd.util.SQLExtractUtil.*;
+import static com.dolea.backEnd.db.util.SQLExtractUtil.*;
 import static com.dolea.backEnd.util.ThirdYearProjectConstants.DB_USERNAME_STRING;
 
 @RequiredArgsConstructor()
@@ -61,8 +61,36 @@ public class ActionManager {
 
         List<String> createStatements =
                 extractCreateStatements(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
+        List<String> insertStatements =
+                extractInsertStatenents(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
+        List<String> selectStatements = extractSelectStatements(Sets.newHashSet(tableNames));
         List<String> droptStatements =
                 extractDropStatements(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
+
+        List<ExecutionResponse> createResponse = createStatements.stream()
+                .map(statemenet -> executeCommand(CommandDto.builder()
+                        .dbMap(runScriptDto.getDbMap())
+                        .sqlCommand(statemenet)
+                        .build()))
+                .collect(Collectors.toList());
+        List<ExecutionResponse> insertResponse = insertStatements.stream()
+                .map(statemenet -> executeCommand(CommandDto.builder()
+                        .dbMap(runScriptDto.getDbMap())
+                        .sqlCommand(statemenet)
+                        .build()))
+                .collect(Collectors.toList());
+        List<ExecutionResponse> selectResponse = selectStatements.stream()
+                .map(statemenet -> executeCommand(CommandDto.builder()
+                        .dbMap(runScriptDto.getDbMap())
+                        .sqlCommand(statemenet)
+                        .build()))
+                .collect(Collectors.toList());
+        List<ExecutionResponse> dropResponse = droptStatements.stream()
+                .map(statemenet -> executeCommand(CommandDto.builder()
+                        .dbMap(runScriptDto.getDbMap())
+                        .sqlCommand(statemenet)
+                        .build()))
+                .collect(Collectors.toList());
 
         return script.getElements().stream()
             .filter(scriptElement -> scriptElement.getStatement() != null)

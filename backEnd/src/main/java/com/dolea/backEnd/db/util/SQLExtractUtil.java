@@ -1,4 +1,4 @@
-package com.dolea.backEnd.util;
+package com.dolea.backEnd.db.util;
 
 import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.db.entities.Statement;
@@ -29,7 +29,7 @@ public class SQLExtractUtil {
 
         return columnToTypeMaps.keySet().stream()
                 .map(tableName -> {
-                    String statement = String.format("CREATE TABLE %s(", tableName);
+                    String statement = String.format("CREATE TABLE %s(", tableName+"_sample");
                     for(Map.Entry<String, String> entry : columnToTypeMaps.get(tableName).entrySet()) {
                         statement += String.format("%s %s, ", entry.getKey(), entry.getValue());
                     }
@@ -41,11 +41,74 @@ public class SQLExtractUtil {
                 .collect(Collectors.toList());
     }
 
+    public static List<String> extractInsertStatenents(Set<String> tableNames, Executor executor) {
+        Map<String, Map<String, String>> columnToTypeMaps = extractColumntToTypeMapsFromTables(tableNames, executor);
+
+        return columnToTypeMaps.keySet().stream()
+                .map(tableName -> {
+                    String statement = String.format("INSERT INTO %s(", tableName+"_sample");
+                    for(Map.Entry<String, String> entry : columnToTypeMaps.get(tableName).entrySet()) {
+                        statement += String.format("%s, ", entry.getKey());
+                    }
+                    statement = statement.substring(0, statement.length() - 2);
+                    statement += ") VALUES ";
+
+                    statement += extractInsertValuesString(
+                            tableName,
+                            columnToTypeMaps.get(tableName),
+                            executor.runCommand(String.format("select * from %s limit 5;", tableName)));
+
+                    statement += ";";
+
+                    return statement;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public static List<String> extractSelectStatements(Set<String> tableNames) {
+        return tableNames.stream()
+                .map(tableName -> String.format("SELECT * FROM %s;", tableName+"_sample"))
+                .collect(Collectors.toList());
+    }
+
+    public static String extractInsertValuesString(
+            String tableName, Map<String, String> columnsMap, List<Map<String, String>> translatedShowColResultSet) {
+
+        List<String> valueStrings = translatedShowColResultSet.stream()
+                .map(row -> {
+                    String valueString = "(";
+
+                    for(Map.Entry<String, String> entry : columnsMap.entrySet()) {
+                        if(entry.getValue() != null && entry.getValue().contains("VARCHAR")) {
+                            valueString += String.format("\'%s\', ", row.get(entry.getKey()));
+                        } else if(entry.getValue() != null && entry.getValue().contains("DATE")) {
+                            valueString += String.format("\'%s\', ", row.get(entry.getKey()));
+                        } else {
+                            valueString += String.format("%s, ", row.get(entry.getKey()));
+                        }
+                    }
+
+                    valueString = valueString.substring(0, valueString.length() -2);
+                    valueString += ")";
+
+                    return valueString;
+                })
+                .collect(Collectors.toList());
+
+        String insertValueStrings = valueStrings.get(0);
+
+        for (int index = 1; index < valueStrings.size(); index++) {
+            insertValueStrings += String.format(", %s", valueStrings.get(index));
+        }
+
+        return insertValueStrings;
+    }
+
     public static List<String> extractDropStatements(Set<String> tableNames, Executor executor) {
         Map<String, Map<String, String>> columnToTypeMaps = extractColumntToTypeMapsFromTables(tableNames, executor);
 
         return columnToTypeMaps.keySet().stream()
-                .map(tableName -> String.format("DROP TABLE %s;", tableName))
+                .map(tableName -> String.format("DROP TABLE %s;", tableName+"_sample"))
                 .collect(Collectors.toList());
     }
 
