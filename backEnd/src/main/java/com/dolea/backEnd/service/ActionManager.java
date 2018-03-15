@@ -2,12 +2,17 @@ package com.dolea.backEnd.service;
 
 import com.dolea.backEnd.db.dao.Executor;
 import com.dolea.backEnd.db.entities.Comment;
+import com.dolea.backEnd.db.entities.Sample;
 import com.dolea.backEnd.db.entities.Script;
 import com.dolea.backEnd.db.entities.ScriptElement;
 import com.dolea.backEnd.dto.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -47,7 +52,8 @@ public class ActionManager {
         );
     }
 
-    public List<ExecutionResponse> runScript(RunScriptDto runScriptDto) {
+    @SneakyThrows
+    public Script createSampleForScript(RunScriptDto runScriptDto) {
         Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
 
         List<String> tableNames = extractTahleNames(script.getElements().stream()
@@ -56,9 +62,6 @@ public class ActionManager {
                 .map(scriptElement -> scriptElement.getStatement())
                 .collect(Collectors.toList()));
 
-        Map<String, Map<String, String>> mapsOfColumnsToTypes =
-                extractColumntToTypeMapsFromTables(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
-
         List<String> createStatements =
                 extractCreateStatements(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
         List<String> insertStatements =
@@ -66,6 +69,30 @@ public class ActionManager {
         List<String> selectStatements = extractSelectStatements(Sets.newHashSet(tableNames));
         List<String> droptStatements =
                 extractDropStatements(Sets.newHashSet(tableNames), getExecutor(runScriptDto.getDbMap()));
+
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        script.setSample(Sample.builder()
+                .tables(mapper.writeValueAsString(tableNames))
+                .createStatements(mapper.writeValueAsString(createStatements))
+                .insertStatement(mapper.writeValueAsString(insertStatements))
+                .dropStatements(mapper.writeValueAsString(droptStatements))
+                .createdAt(LocalDateTime.now())
+                .createdBy(runScriptDto.getDbMap().get(DB_USERNAME_STRING))
+                .build());
+
+        return scripService.persistScript(script, runScriptDto.getDbMap());
+    }
+
+    @SneakyThrows
+    public List<ExecutionResponse> runScriptAgainstSample(RunScriptDto runScriptDto) {
+        Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> tables = mapper.readValue(script.getSample().getTables(), new TypeReference<List<String>>(){});
+        List<String> createStatements = mapper.readValue(script.getSample().getCreateStatements(), new TypeReference<List<String>>(){});
+        List<String> insertStatements = mapper.readValue(script.getSample().getInsertStatement(), new TypeReference<List<String>>(){});
+        List<String> dropStatements = mapper.readValue(script.getSample().getDropStatements(), new TypeReference<List<String>>(){});
 
         List<ExecutionResponse> createResponse = createStatements.stream()
                 .map(statemenet -> executeCommand(CommandDto.builder()
@@ -79,18 +106,33 @@ public class ActionManager {
                         .sqlCommand(statemenet)
                         .build()))
                 .collect(Collectors.toList());
-        List<ExecutionResponse> selectResponse = selectStatements.stream()
+
+        List<ExecutionResponse> scriptSampleResponse = script.getElements().stream()
+                .filter(scriptElement -> scriptElement.getStatement() != null)
+                .sorted(Comparator.comparing(ScriptElement::getPosition))
+                .map(scriptElement -> {
+                    String sqlStatement = scriptElement.getStatement().getSql();
+                    tables.forEach(tableName -> sqlStatement.replace(tableName, tableName+"_sample"));
+
+                    return executeCommand(CommandDto.builder()
+                            .sqlCommand(sqlStatement)
+                            .dbMap(runScriptDto.getDbMap())
+                            .build());
+                })
+                .collect(Collectors.toList());
+
+        List<ExecutionResponse> dropResponse = dropStatements.stream()
                 .map(statemenet -> executeCommand(CommandDto.builder()
                         .dbMap(runScriptDto.getDbMap())
                         .sqlCommand(statemenet)
                         .build()))
                 .collect(Collectors.toList());
-        List<ExecutionResponse> dropResponse = droptStatements.stream()
-                .map(statemenet -> executeCommand(CommandDto.builder()
-                        .dbMap(runScriptDto.getDbMap())
-                        .sqlCommand(statemenet)
-                        .build()))
-                .collect(Collectors.toList());
+
+        return scriptSampleResponse;
+    }
+
+    public List<ExecutionResponse> runScript(RunScriptDto runScriptDto) {
+        Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
 
         return script.getElements().stream()
             .filter(scriptElement -> scriptElement.getStatement() != null)

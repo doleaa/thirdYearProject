@@ -78,6 +78,11 @@ public class ScriptServiceImpl implements ScriptService {
     }
 
     @Override
+    public Script persistScript(Script script, Map<String, String> requestMap) {
+        return getScriptDao(requestMap).persist(script);
+    }
+
+    @Override
     public Script updateScript(Integer id, String title, String header, List<Object> elementList, Map<String, String> requestMap) {
         Set<ScriptElement> scriptElements = elementList
                 .stream()

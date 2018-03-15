@@ -1,10 +1,9 @@
 package com.dolea.backEnd.db.entities;
 
 import lombok.*;
-import org.joda.time.LocalDateTime;
-import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @Getter
@@ -18,8 +17,8 @@ public class Sample {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "columns")
-    String columns;
+    @Column(name = "tables")
+    String tables;
 
     @Column(name = "create_statements")
     String createStatements;

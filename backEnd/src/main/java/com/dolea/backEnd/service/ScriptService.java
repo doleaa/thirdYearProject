@@ -8,6 +8,8 @@ import java.util.Map;
 public interface ScriptService {
     Script createScript(String title, String header, List<Object> elementList, Map<String, String> requestMap);
 
+    Script persistScript(Script script, Map<String, String> requestMap);
+
     Script updateScript(Integer id, String title, String header, List<Object> elementList, Map<String, String> requestMap);
 
     List<Script> findAllScripts(Map<String, String> requestMap);
