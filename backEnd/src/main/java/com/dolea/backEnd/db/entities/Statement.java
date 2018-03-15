@@ -18,7 +18,7 @@ public class Statement implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "sql")
+    @Column(name = "sql", columnDefinition = "TEXT")
     String sql;
 
     @Column(name = "created_at")

@@ -112,10 +112,13 @@ public class ActionManager {
                 .sorted(Comparator.comparing(ScriptElement::getPosition))
                 .map(scriptElement -> {
                     String sqlStatement = scriptElement.getStatement().getSql();
-                    tables.forEach(tableName -> sqlStatement.replace(tableName, tableName+"_sample"));
+                    Set<String> tablesSet = Sets.newHashSet(tables);
+                    for(String tableName : tablesSet) {
+                        sqlStatement = sqlStatement.replace(tableName, tableName+"_sample");
+                    }
 
                     return executeCommand(CommandDto.builder()
-                            .sqlCommand(sqlStatement)
+                            .sqlCommand(sqlStatement.replace("_sample_sample", "_sample"))
                             .dbMap(runScriptDto.getDbMap())
                             .build());
                 })
@@ -132,7 +135,12 @@ public class ActionManager {
     }
 
     public List<ExecutionResponse> runScript(RunScriptDto runScriptDto) {
-        Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
+
+        Script script = createSampleForScript(runScriptDto);
+
+        List<ExecutionResponse> runAgainstSample = runScriptAgainstSample(runScriptDto);
+
+//        Script script = scripService.getScript(runScriptDto.getId(), runScriptDto.getDbMap());
 
         return script.getElements().stream()
             .filter(scriptElement -> scriptElement.getStatement() != null)

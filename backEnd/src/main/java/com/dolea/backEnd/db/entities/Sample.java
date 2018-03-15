@@ -17,16 +17,16 @@ public class Sample {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "tables")
+    @Column(name = "tables", columnDefinition = "TEXT")
     String tables;
 
-    @Column(name = "create_statements")
+    @Column(name = "create_statements", columnDefinition = "TEXT")
     String createStatements;
 
-    @Column(name = "insert_statements")
+    @Column(name = "insert_statements", columnDefinition = "TEXT")
     String insertStatement;
 
-    @Column(name = "drop_statements")
+    @Column(name = "drop_statements", columnDefinition = "TEXT")
     String dropStatements;
 
     @Column(name = "created_at")
