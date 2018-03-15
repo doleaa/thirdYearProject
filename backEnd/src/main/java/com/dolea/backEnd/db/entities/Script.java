@@ -31,6 +31,9 @@ public class Script implements Serializable {
     @Column(name = "created_by")
     String createdBy;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    Sample sample;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "script")
     Set<ScriptElement> elements;
 
