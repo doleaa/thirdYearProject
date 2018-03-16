@@ -144,7 +144,7 @@ const ExecutionListButtons = ({
                         className="btn btn-primary pull-left"
                         onClick={ () => { createSampleForScript() } }
                     >
-                        Create Sample
+                        {sample === null ? "Create Sample": "Recreate Sample"}
                     </button>
                     { runScriptAgainstSampleBtn(sample, runScriptAgainstSample) }
                 </div>
@@ -181,7 +181,7 @@ const runScriptAgainstSampleBtn = (sample, runScriptAgainstSample) => {
             </button>
         )
     }
-     return null;
+    return null
 }
 
 export default ExecutionListButtons
