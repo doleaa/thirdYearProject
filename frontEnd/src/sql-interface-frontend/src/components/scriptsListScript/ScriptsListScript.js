@@ -22,7 +22,10 @@ const ScriptsListScript = ({
     removeScriptFormElement,
     deleteScriptFormData,
     updateScriptFormData,
-    runScript
+    runScript,
+    createSampleForScript,
+    runScriptAgainstSample,
+    sample
     }) => {
     if (data.updating) {
         return (
@@ -37,6 +40,9 @@ const ScriptsListScript = ({
                             cancelUpdate(data.id)
                         }}
                         runScript={runScript}
+                        createSampleForScript={createSampleForScript}
+                        runScriptAgainstSample={runScriptAgainstSample}
+                        sample={sample}
                     />
                     <ScriptForm
                         title={title}

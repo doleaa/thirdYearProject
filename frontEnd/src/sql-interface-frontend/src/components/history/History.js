@@ -37,7 +37,9 @@ import {
     startUpdatingScript,
     stopUpdatingScript,
     startLoadingScript,
-    runScript
+    runScript,
+    createSampleForScript,
+    runScriptAgainstSample
 } from './../../actions'
 
 const mapStateToProps = state => {
@@ -80,6 +82,8 @@ const mapDispatchToProps = dispatch => {
         updateScriptFormData: scriptForm => { dispatch(updateScript(scriptForm)) },
         startUpdatingScript: id => { dispatch(startUpdatingScript(id)) },
         runScript: id => { dispatch(runScript(id)) },
+        createSampleForScript: id => { dispatch(createSampleForScript(id)) },
+        runScriptAgainstSample: id => { dispatch(runScriptAgainstSample(id)) },
         stopUpdatingScript: id => { dispatch(stopUpdatingScript(id)) },
         startLoadingScript: id => { dispatch(startLoadingScript(id)) }
     }
@@ -123,6 +127,8 @@ const DisconnectedHistory = ({
     updateScriptFormData,
     startUpdatingScript,
     runScript,
+    createSampleForScript,
+    runScriptAgainstSample,
     stopUpdatingScript,
     startLoadingScript
 }) => {
@@ -142,6 +148,12 @@ const DisconnectedHistory = ({
         scriptForm.id = id
         startLoadingScript(id)
         updateScriptFormData(scriptForm)
+        getScriptsList()
+    }
+
+    const createScriptSample = id => {
+        startLoadingScript(id)
+        createSampleForScript(id)
         getScriptsList()
     }
     const setScriptFormBtnFromExistingScript = script => {
@@ -232,6 +244,13 @@ const DisconnectedHistory = ({
                     runScript={(id) => {
                         startLoadingScript(id)
                         runScript(id)
+                    }}
+                    createSampleForScript={(id) => {
+                        createScriptSample(id)
+                    }}
+                    runScriptAgainstSample={(id) => {
+                        startLoadingScript(id)
+                        runScriptAgainstSample(id)
                     }}
                 />
             </div>

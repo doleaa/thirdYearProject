@@ -26,6 +26,9 @@ public class Sample {
     @Column(name = "insert_statements", columnDefinition = "TEXT")
     String insertStatement;
 
+    @Column(name = "select_statements", columnDefinition = "TEXT")
+    String selectStatements;
+
     @Column(name = "drop_statements", columnDefinition = "TEXT")
     String dropStatements;
 

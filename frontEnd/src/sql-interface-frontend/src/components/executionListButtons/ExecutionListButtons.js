@@ -9,7 +9,10 @@ const ExecutionListButtons = ({
         setSelect,
         deleteScriptFormData,
         saveScriptFormData,
-        runScript
+        runScript,
+        createSampleForScript,
+        runScriptAgainstSample,
+        sample
     }) => {
     if ( mode === "VIEW") {
         return (
@@ -136,6 +139,14 @@ const ExecutionListButtons = ({
                     >
                         Run
                     </button>
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-left"
+                        onClick={ () => { createSampleForScript() } }
+                    >
+                        Create Sample
+                    </button>
+                    { runScriptAgainstSampleBtn(sample, runScriptAgainstSample) }
                 </div>
             </div>
         )
@@ -156,6 +167,21 @@ const ExecutionListButtons = ({
             </div>
         )
     }
+}
+
+const runScriptAgainstSampleBtn = (sample, runScriptAgainstSample) => {
+    if ( sample !== null ) {
+        return(
+            <button
+              type="button"
+              className="btn btn-primary pull-left"
+              onClick={ () => { runScriptAgainstSample() } }
+            >
+              Run Against Sample
+            </button>
+        )
+    }
+     return null;
 }
 
 export default ExecutionListButtons

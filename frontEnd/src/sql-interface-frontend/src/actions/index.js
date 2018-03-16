@@ -254,6 +254,75 @@ export const runScript = id => {
     }
 }
 
+export const createSampleForScript = id => {
+    return dispatch => {
+        const requestBody = {
+            "dbMap": dbMap,
+            "id": id
+        }
+
+        const url = `http://${backEndHostName}/script/createSample`
+        const method = "POST"
+
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json();
+        })
+        .then(json => {
+            dispatch(replaceScriptInList(json))
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    }
+}
+
+export const runScriptAgainstSample = id => {
+    return dispatch => {
+        const requestBody = {
+            "dbMap": dbMap,
+            "id": id
+        }
+
+        const url = `http://${backEndHostName}/script/runAgainstSample`
+        const method = "POST"
+
+        fetch(url, {
+            method,
+            mode: 'cors',
+            body: JSON.stringify(requestBody),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        })
+        .then(response => {
+            if (response.status !== 200) {
+                throw new Error(response.statusText)
+            }
+            return response.json();
+        })
+        .then(json => {
+            console.log(json)
+            dispatch(stopLoadingScript(id))
+            dispatch(getExecutionList())
+        })
+        .catch(error => {
+            dispatch(stopLoadingScript(id))
+            console.log(error)
+        })
+    }
+}
+
 export const replaceScriptInList = json => {
     return {
         type: "REPLACE_SCRIPT_IN_LIST",

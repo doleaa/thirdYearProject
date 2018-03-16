@@ -38,4 +38,20 @@ public class ScriptResource extends BaseBackEndResource {
     public Response runScript(RunScriptDto runScriptDto) {
         return Response.ok(actionManager.runScript(runScriptDto)).build();
     }
+
+    @POST
+    @Path("createSample")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createSampleForScript(RunScriptDto runScriptDto) {
+        return Response.ok(actionManager.createSampleForScript(runScriptDto)).build();
+    }
+
+    @POST
+    @Path("runAgainstSample")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response runScriptAgainstSample(RunScriptDto runScriptDto) {
+        return Response.ok(actionManager.runScriptAgainstSample(runScriptDto)).build();
+    }
 }

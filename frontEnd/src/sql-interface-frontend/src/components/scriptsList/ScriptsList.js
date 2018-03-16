@@ -22,7 +22,9 @@ const ScriptsList = ({
     removeScriptFormElement,
     deleteScriptFormData,
     updateScriptFormData,
-    runScript
+    runScript,
+    createSampleForScript,
+    runScriptAgainstSample
     }) => (
     <div className="row">
         <div className="col-md-12">
@@ -59,6 +61,9 @@ const ScriptsList = ({
                             deleteScriptFormData={deleteScriptFormData}
                             updateScriptFormData={() => {updateScriptFormData(item.id)}}
                             runScript={() => {runScript(item.id)}}
+                            createSampleForScript={() => {createSampleForScript(item.id)}}
+                            runScriptAgainstSample={() => {runScriptAgainstSample(item.id)}}
+                            sample = {item.sample}
                         />
                     )}
                 }
