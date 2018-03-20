@@ -12,7 +12,8 @@ const ExecutionListButtons = ({
         runScript,
         createSampleForScript,
         runScriptAgainstSample,
-        sample
+        sample,
+        exportScript
     }) => {
     if ( mode === "VIEW") {
         return (
@@ -147,6 +148,13 @@ const ExecutionListButtons = ({
                         {sample === null ? "Create Sample": "Recreate Sample"}
                     </button>
                     { runScriptAgainstSampleBtn(sample, runScriptAgainstSample) }
+                    <button
+                        type="button"
+                        className="btn btn-primary pull-left"
+                        onClick={ () => { exportScript() } }
+                    >
+                        Export
+                    </button>
                 </div>
             </div>
         )

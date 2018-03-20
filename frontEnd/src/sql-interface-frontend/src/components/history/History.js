@@ -6,6 +6,7 @@ import ScriptForm from './../scriptForm/ScriptForm'
 import ExecutionHistoryList from './../executionHistoryList/ExecutionHistoryList'
 import ScriptsList from './../scriptsList/ScriptsList'
 import ExecutionListButtons from './../executionListButtons/ExecutionListButtons'
+import FileSaver from 'file-saver'
 import {
     changePreviewState,
     getExecutionList,
@@ -132,6 +133,20 @@ const DisconnectedHistory = ({
     stopUpdatingScript,
     startLoadingScript
 }) => {
+    const exportScript = scriptForm => {
+        const blob = new Blob(
+            [scriptForm.elementList.map(element => {
+                if (element.statement) {
+                    return element.statement.sql
+                } else {
+                    return "/* " + element.comment.text + " */"
+                }
+            }).join('\n')],
+            {type: "text/plain;charset=utf-8"}
+        )
+        FileSaver.saveAs(blob, scriptForm.title+".sql")
+    }
+
     const setScriptFormBtn = () => {
         setScriptFormData("", "",
             executionList
@@ -241,6 +256,7 @@ const DisconnectedHistory = ({
                     removeScriptFormElement={removeScriptFormElement}
                     deleteScriptFormData={deleteScriptFormData}
                     updateScriptFormData={(id) => {updateScriptData(id, scriptForm)}}
+                    exportScript={() => exportScript(scriptForm)}
                     runScript={(id) => {
                         startLoadingScript(id)
                         runScript(id)

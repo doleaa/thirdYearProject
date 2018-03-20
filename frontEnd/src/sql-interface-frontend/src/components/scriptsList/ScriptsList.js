@@ -22,6 +22,7 @@ const ScriptsList = ({
     removeScriptFormElement,
     deleteScriptFormData,
     updateScriptFormData,
+    exportScript,
     runScript,
     createSampleForScript,
     runScriptAgainstSample
@@ -60,6 +61,7 @@ const ScriptsList = ({
                             removeScriptFormElement={removeScriptFormElement}
                             deleteScriptFormData={deleteScriptFormData}
                             updateScriptFormData={() => {updateScriptFormData(item.id)}}
+                            exportScript={() => {exportScript()}}
                             runScript={() => {runScript(item.id)}}
                             createSampleForScript={() => {createSampleForScript(item.id)}}
                             runScriptAgainstSample={() => {runScriptAgainstSample(item.id)}}

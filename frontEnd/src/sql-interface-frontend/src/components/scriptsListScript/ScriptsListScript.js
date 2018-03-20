@@ -22,6 +22,7 @@ const ScriptsListScript = ({
     removeScriptFormElement,
     deleteScriptFormData,
     updateScriptFormData,
+    exportScript,
     runScript,
     createSampleForScript,
     runScriptAgainstSample,
@@ -43,6 +44,7 @@ const ScriptsListScript = ({
                         createSampleForScript={createSampleForScript}
                         runScriptAgainstSample={runScriptAgainstSample}
                         sample={sample}
+                        exportScript={exportScript}
                     />
                     <ScriptForm
                         title={title}

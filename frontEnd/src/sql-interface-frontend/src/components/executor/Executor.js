@@ -1,6 +1,5 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import FileSaver from 'file-saver'
 import Editor from './../editor/Editor'
 import ExecutionButtons from './../executionButtons/ExecutionButtons'
 import ResultTable from './../resultTable/ResultTable'
@@ -41,11 +40,6 @@ const DisconnectedExecutor = ({query, loading, result, setSqlString, executeSql,
         {sql: "CREATE TABLE george;", createdBy: "george"},
         {sql: "DROP TABLE george;", createdBy: "george"}
     ]
-
-    const saveSqlScript = () => {
-        var blob = new Blob([statementsList.map(statement => statement.sql).join('\n')], {type: "text/plain;charset=utf-8"});
-        FileSaver.saveAs(blob, "TestScript.sql");
-    }
 
     const executeQuery = () => {
         executeSql(query)
