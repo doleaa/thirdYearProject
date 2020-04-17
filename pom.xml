@@ -17,7 +17,7 @@
         <guava.version>21.0</guava.version>
         <guice.version>4.1.0</guice.version>
         <dropwizard.version>0.9.2</dropwizard.version>
-        <lombok.version>1.16.6</lombok.version>
+        <lombok.version>1.18.12</lombok.version>
         <maven.compiler.version>3.3</maven.compiler.version>
         <spring.data.version>1.9.0.RELEASE</spring.data.version>
         <hibernate.core.version>5.2.11.FINAL</hibernate.core.version>
