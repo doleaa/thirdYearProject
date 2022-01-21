@@ -23,7 +23,7 @@
         <hibernate.core.version>5.2.11.FINAL</hibernate.core.version>
         <junit.version>4.12</junit.version>
         <assertj.version>3.8.0</assertj.version>
-        <h2.version>1.4.196</h2.version>
+        <h2.version>2.1.210</h2.version>
         <reflections.version>0.9.10</reflections.version>
         <jsqlparser.version>1.1</jsqlparser.version>
     </properties>
